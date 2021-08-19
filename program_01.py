@@ -30,7 +30,7 @@ while len(volunteer_list) < 50 :
     volunteer = team_members[volunteer_index]
     volunteer_list.append(volunteer)
 
-if len(volunteer_list) == 50:
+else:
     print(volunteer_list)
 
 '''
@@ -41,5 +41,6 @@ pulling volunteers. Or, make it append to a list of volunteers and get it to sto
 While the length of this volunteer list is less than 50, we want it to keep producing volunteers via the previous function and adding it to the list. So I need to append this
 new volunteer each time to the list, then it needs to check the number of volunteers and repeat until it reaches 50 in length
 How do I get it to create a new value for volunteer each time it runs? I just moved volunteer_index and the other parts down into the while loop in order to get it to produce
-a new volunteer each time. Deleted print(volunteer_index) and print(volunteer) to make it neater in the terminal
+a new volunteer each time. Deleted print(volunteer_index) and print(volunteer) to make it neater in the terminal.
+
 '''
