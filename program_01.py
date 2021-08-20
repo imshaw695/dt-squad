@@ -24,15 +24,40 @@ number_of_team_members = len(team_members) # the len function counts the amount 
 print(number_of_team_members) # you can then print out this amount
 
 volunteer_list = []
+team_counters = []
 
-while len(volunteer_list) < 50 :
+for team_member in team_members:
+    team_counters.append(0)
+
+number_of_volunteers = 50
+
+while len(volunteer_list) < number_of_volunteers :
     volunteer_index = int(random.random() * len(team_members)) # int will turn a float into an integer by dropping the decimals, it does not round up or down
     volunteer = team_members[volunteer_index]
+    team_counters[volunteer_index] = team_counters[volunteer_index] + 1
     volunteer_list.append(volunteer)
 
-else:
-    print(volunteer_list)
+print(volunteer_list)
+member_index = 0
+for team_member in team_members:
+    print(f'{team_member} : {team_counters[member_index]}')
+    member_index = member_index + 1
 
+
+
+# Now solve using a different method
+
+team_counters = {}
+for team_member in team_members:
+    team_counters[team_member] = 0
+
+number_of_volunteers = 50
+volunteer_list = []
+while len(volunteer_list) < number_of_volunteers :
+    volunteer_index = int(random.random() * len(team_members)) # int will turn a float into an integer by dropping the decimals, it does not round up or down
+    volunteer = team_members[volunteer_index]
+    team_counters[volunteer] = team_counters[volunteer] + 1
+    volunteer_list.append(volunteer)
 '''
 Homework: Learn how to do while loops and create a printed out list showing the volunteers that will be selected for the next 50 missions
 Use comments on todays code to remind me how it works etc
