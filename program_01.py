@@ -58,6 +58,10 @@ while len(volunteer_list) < number_of_volunteers :
     volunteer = team_members[volunteer_index]
     team_counters[volunteer] = team_counters[volunteer] + 1
     volunteer_list.append(volunteer)
+
+
+for team_member in team_counters:
+    print(f'team member {team_member} was selected {team_counters[team_member]} times')
 '''
 Homework: Learn how to do while loops and create a printed out list showing the volunteers that will be selected for the next 50 missions
 Use comments on todays code to remind me how it works etc
@@ -67,5 +71,5 @@ While the length of this volunteer list is less than 50, we want it to keep prod
 new volunteer each time to the list, then it needs to check the number of volunteers and repeat until it reaches 50 in length
 How do I get it to create a new value for volunteer each time it runs? I just moved volunteer_index and the other parts down into the while loop in order to get it to produce
 a new volunteer each time. Deleted print(volunteer_index) and print(volunteer) to make it neater in the terminal.
-
+ look into jHub hangman module, google python input, higher number or correct game (inputs + loops)
 '''
