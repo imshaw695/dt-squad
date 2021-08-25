@@ -66,5 +66,13 @@ print(submission_counters)
 
 string = "hello"
 
-if 'h' in string:
-    print('Correct')
+string = list(string)
+
+string[3] = 4
+
+print(string)
+
+if 'j' in string:
+    print('yes')
+else: 
+    print('no')
