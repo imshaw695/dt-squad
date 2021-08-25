@@ -63,3 +63,8 @@ while len(submission_method) < victories:
     print(submission)
 
 print(submission_counters)
+
+string = "hello"
+
+if 'h' in string:
+    print('Correct')
