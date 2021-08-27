@@ -14,6 +14,7 @@ A type of forum for members where there are sections with different questions fo
 
 Link with other team members to compare notes/mat times etc
 
+Dropdown with positions, more dropdowns for submissions, escapes, sweeps - think about classifications
 '''
 bjj_submissions = []
 bjj_submissions.append('Collar Choke')
