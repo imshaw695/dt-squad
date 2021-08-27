@@ -1,7 +1,9 @@
+# PROBLEM: Does not work for words with duplicate letters
+
 import random  
 from underscore_function import underscore_function # importing the function that creates the underscores out of a word choice
 
-word_bank = ['picture', 'boat','house', 'building', 'microwave'] # a simple word bank
+word_bank = ['granny','heckington','turkey','takeaway'] # a simple word bank
 
 word_choice_index = int(random.random() * len(word_bank)) # chooses a random index
 word_choice = word_bank[word_choice_index] # chooses a word from the word bank with the index
