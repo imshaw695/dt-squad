@@ -58,7 +58,7 @@ def play_game():
             break
         # tell the player their life count, show the word, and previous attempts
         print(
-            f"You have {lives} chances to guess correctly. You have attempted: {guess_attempts}\n{secret_word}"
+            f"You have {lives} chances to guess correctly. You have attempted: {guess_attempts}"
         )
         guess = get_guess(guess_attempts, secret_word)
         # if it is from the alphabet
