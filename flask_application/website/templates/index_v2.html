@@ -1,0 +1,71 @@
+{% set title = 'Index v2' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+    <div class = "container">
+    <h1>This is the Index Page of Flask Application Structure V2</h1>
+    <h1>Brazilian Jiu-Jitsu</h1>
+    <h2>Full Guard</h2>
+    <h3>About</h3>
+    <p>Full Guard in BJJ is where the player on the bottom has their legs
+        wrapped around their opponent and the objective generally is to sweep or submit.
+    </p>
+    <h3>Passes (Top)</h3>
+    <h3>Sweeps (Bottom)</h3>
+    <h3>Submissions (Bottom)</h3>
+    <h3>Submissions (Top)</h3>
+    <h2>Half-Guard</h2>
+    <h3>About</h3>
+    <p>
+        In Half-Guard, the player on the bottom will have a triangle over one of their
+        opponents legs.
+    </p>
+    <h3>Passes (Top)</h3>
+    <h3>Sweeps (Bottom)</h3>
+    <h3>Submissions (Bottom)</h3>
+    <h3>Submissions (Top)</h3>
+    <h2>Side Control</h2> 
+    <h3>About</h3> 
+    <p>
+        In side control, the player on top will be in the dominant position over
+        the bottom player to their side, without having fully mounted.
+    </p>
+    <h3>Escapes (Bottom)</h3>
+    <h3>Submissions (Top)</h3>
+    <h2>Full Mount</h2>
+    <h3>About</h3> 
+    <p>
+        In Full Mount, the player on top is in the dominant position, where
+        they will attempt to submit and the bottom will generally attempt to escape.
+    </p>
+    <h3>Escapes (Bottom)</h3>
+    <h3>Submissions (Top)</h3>
+    <h3>Submissions (Bottom)</h3>
+    <h2>X-Guard</h2>
+    <h3>About</h3> 
+    <h3>Passes (Top)</h3>
+    <h3>Sweeps (Bottom)</h3>
+    <h3>Submissions (Bottom)</h3>
+    <h2>De La Riva Guard</h2>
+    <h3>About</h3>
+    <h3>Passes (Top)</h3> 
+    <h3>Sweeps (Bottom)</h3>
+    <h3>Submissions (Bottom)</h3>
+    <h2>Open and Butterfly Guards</h2>
+    <h3>About</h3>
+    <h3>Passes (Top)</h3> 
+    <h3>Sweeps (Bottom)</h3>
+    <h3>Submissions (Bottom)</h3>
+    <h2>Turtle</h2>
+    <h3>About</h3>
+    <h3>Passes (Top)</h3>
+    <h3>Submissions (Top)</h3>
+    <h3>Escapes (Bottom)</h3>
+</div>
+{% block content %}
+    {{ super() }}
+    {{results}}
+{% endblock content %}
+{% endblock body %}

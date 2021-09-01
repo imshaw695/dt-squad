@@ -8,13 +8,13 @@
 <body>
     <h1>Our first page</h1>
     <a href="/second_page">Visit our second page....</a>
-    <form action="" method="post">
+    <form action="" name='only_form' method="post">
         <label for="first_name">First name:</label><br>
         <input type="text" id="first_name" name="first_name" value="Peter"><br>
         <input type="submit" value="Submit">
     </form>
-    {{ form_package }}
-    {{ url_arguments }}
+    {{ form_package }} <br>
+    {{ url_arguments }} 
 </body>
 </html>
 
