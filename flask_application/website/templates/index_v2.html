@@ -5,65 +5,54 @@
         {% include '/includes/_navbar.html' %}
     {% endblock navbar %}
     <div class = "container">
-    <h1>This is the Index Page of Flask Application Structure V2</h1>
-    <h1>Brazilian Jiu-Jitsu</h1>
-    <h2>Full Guard</h2>
-    <h3>About</h3>
-    <p>Full Guard in BJJ is where the player on the bottom has their legs
-        wrapped around their opponent and the objective generally is to sweep or submit.
-    </p>
-    <h3>Passes (Top)</h3>
-    <h3>Sweeps (Bottom)</h3>
-    <h3>Submissions (Bottom)</h3>
-    <h3>Submissions (Top)</h3>
-    <h2>Half-Guard</h2>
-    <h3>About</h3>
-    <p>
-        In Half-Guard, the player on the bottom will have a triangle over one of their
-        opponents legs.
-    </p>
-    <h3>Passes (Top)</h3>
-    <h3>Sweeps (Bottom)</h3>
-    <h3>Submissions (Bottom)</h3>
-    <h3>Submissions (Top)</h3>
-    <h2>Side Control</h2> 
-    <h3>About</h3> 
-    <p>
-        In side control, the player on top will be in the dominant position over
-        the bottom player to their side, without having fully mounted.
-    </p>
-    <h3>Escapes (Bottom)</h3>
-    <h3>Submissions (Top)</h3>
-    <h2>Full Mount</h2>
-    <h3>About</h3> 
-    <p>
-        In Full Mount, the player on top is in the dominant position, where
-        they will attempt to submit and the bottom will generally attempt to escape.
-    </p>
-    <h3>Escapes (Bottom)</h3>
-    <h3>Submissions (Top)</h3>
-    <h3>Submissions (Bottom)</h3>
-    <h2>X-Guard</h2>
-    <h3>About</h3> 
-    <h3>Passes (Top)</h3>
-    <h3>Sweeps (Bottom)</h3>
-    <h3>Submissions (Bottom)</h3>
-    <h2>De La Riva Guard</h2>
-    <h3>About</h3>
-    <h3>Passes (Top)</h3> 
-    <h3>Sweeps (Bottom)</h3>
-    <h3>Submissions (Bottom)</h3>
-    <h2>Open and Butterfly Guards</h2>
-    <h3>About</h3>
-    <h3>Passes (Top)</h3> 
-    <h3>Sweeps (Bottom)</h3>
-    <h3>Submissions (Bottom)</h3>
-    <h2>Turtle</h2>
-    <h3>About</h3>
-    <h3>Passes (Top)</h3>
-    <h3>Submissions (Top)</h3>
-    <h3>Escapes (Bottom)</h3>
+<h2>Basic Jinja Print</h2>
+    {{ moves }} <br>
+    {{ positions }} <br>
+    {{ grips }} <br>
+<h2>Using a for loop</h2>
+{% for position in positions  %}
+{{ positions[position] }} <br>
+{% endfor  %}
+
+<h2>Again</h2>
+<ul>
+    {% for move_type in moves  %}
+    <h3>{{ move_type }}</h3>
+    {% for move in moves[move_type]  %}
+    <li>{{ moves[move_type][move].name }}: {{ moves[move_type][move].description }}</li>
+    <ul>
+        {% for position in moves[move_type][move]['positions']  %}
+        <li>
+            {{ position.name }}: {{ position.description }}  
+        </li>
+        {% endfor  %}
+
+        {% for grip in moves[move_type][move]['grips'] %}
+        <li>
+            {{ grip.name }}: {{ grip.description }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% endfor  %}
+    {% endfor  %}
+</ul>
 </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="https://staging.aecor.tn/web/image/product.template/5991/image_256/Venum%20Contender%202.0%20BJJ%20Gi?unique=21d2988" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">Gi's in stock!</h5>
+                <p class="card-text">Check out our latest additions from Reorg including Tactical Black and more! </p>
+                <a href="#" class="btn btn-primary">Visit Out Store</a>
+            </div>
+        </div>
+    </div>        
+</div>
+
+
 {% block content %}
     {{ super() }}
     {{results}}

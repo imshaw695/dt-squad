@@ -38,14 +38,11 @@ def get_guess(guess_attempts, secret_word):
     return guess
 
 
-def play_game(cheat=False):
+def play_game():
     word_bank = get_word_list()
     word_choice_index = int(random.random() * len(word_bank))  # chooses a random index
     # chooses a word from the word bank with the index
     word_choice = word_bank[word_choice_index]
-
-    if cheat:
-        print(f'You are cheating and the word choice is: {word_choice}')
 
     # creates a pool of lives relative to the length of the word
     lives = 7

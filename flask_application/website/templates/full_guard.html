@@ -1,0 +1,19 @@
+{% set title = 'Index v2' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+
+    <div class = "container">
+        <h1>Closed/Full Guard</h1>
+    </div>
+
+
+{% block content %}
+    {{ super() }}
+    {{results}}
+{% endblock content %}
+{% endblock body %}
+    

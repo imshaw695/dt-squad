@@ -1,0 +1,38 @@
+{% set title = 'New Content' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+<div class = "container">
+    <h2>Add New Content</h2>    
+    <form method="post" action='new_content'>
+        <label>Move type: </label>
+        <select id="move_type" name="move_type">
+            <option value="submission">Submission</option>
+            <option value="sweep">Sweep</option>
+            <option value="pass">Pass</option>
+            <option value="escape">Escape</option>
+          </select> <br>
+        <label>Position: </label>
+        <select id="position" name="position">
+            <option value="full_guard">Full Guard</option>
+            <option value="full_mount">Full Mount</option>
+            <option value="side_control">Side Control</option>
+            <option value="x_guard">X-Guard</option>
+          </select><br>
+        <label>Name: </label>
+        <input type="text" id="name" name="name"/> <br>
+        <label>Description: </label>
+        <input type="text" id="description" name="description"/> <br>        
+        <input type="submit" value="submit" />
+    </form>
+
+
+</div>
+    {% block content %}
+        {{ super() }}
+        {{results}}
+    {% endblock content %}
+    {% endblock body %}
+    
