@@ -1,0 +1,32 @@
+{% set title = 'Login Page' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<form action="#" method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username"> <br>
+    <label for="password">Password</label>
+    <input type="password" name="password"> <br>
+    <input type="submit" name="submit">
+
+
+</form>
+
+
+
+    {% block content %}
+    {{ super() }}
+    {{results}}
+{% endblock content %}
+{% endblock body %}
