@@ -4,9 +4,10 @@
     {% block navbar %}
         {% include '/includes/_navbar.html' %}
     {% endblock navbar %}
+
     <div class = "container">
 <h2>Basic Jinja Print</h2>
-    {{ moves }} <br>
+    {{ move_types }} <br>
     {{ positions }} <br>
     {{ grips }} <br>
 <h2>Using a for loop</h2>
@@ -16,18 +17,18 @@
 
 <h2>Again</h2>
 <ul>
-    {% for move_type in moves  %}
+    {% for move_type in move_types  %}
     <h3>{{ move_type }}</h3>
-    {% for move in moves[move_type]  %}
-    <li>{{ moves[move_type][move].name }}: {{ moves[move_type][move].description }}</li>
+    {% for move in move_types[move_type]  %}
+    <li>{{ move_types[move_type][move].name }}: {{ move_types[move_type][move].description }}</li>
     <ul>
-        {% for position in moves[move_type][move]['positions']  %}
+        {% for position in move_types[move_type][move]['positions']  %}
         <li>
             {{ position.name }}: {{ position.description }}  
         </li>
         {% endfor  %}
 
-        {% for grip in moves[move_type][move]['grips'] %}
+        {% for grip in move_types[move_type][move]['grips'] %}
         <li>
             {{ grip.name }}: {{ grip.description }}
         </li>

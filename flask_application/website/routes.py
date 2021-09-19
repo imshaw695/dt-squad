@@ -12,7 +12,7 @@ app.permanent_session_lifetime = timedelta(minutes=15)
 # Define our first route (the last part of the url for our website application)
 # We can define what urls should land in this function. Let's say / and /index
 # We can also define the legitimate methods for this page of GET and POST
-@app.route("/", methods=["GET", "POST"])
+
 @app.route("/index", methods=["GET", "POST"])
 # Now comes the actual function definition for processing this page
 def index():
@@ -41,6 +41,8 @@ def index():
     return render_template ('index.html',
                             form_package = form_package,
                             url_arguments = url_arguments) 
+
+@app.route("/", methods=["GET", "POST"])
 @app.route("/index_v2", methods=["GET", "POST"])
 # Now comes the actual function definition for processing this page
 
@@ -135,22 +137,27 @@ def full_guard():
 def new_content():
 
     if request.method == "POST":
-    # I would like the data submitted in the form to be added to the bjj_data moves dictionary  
-    # Somehow I need to append it to the dictionary and identify the move_type to put it all under
-    # instead of below, just make a new dictionary called new_content or something and populate that
+        # I would like the data submitted in the form to be added to the bjj_data moves dictionary  
+        # Somehow I need to append it to the dictionary and identify the move_type to put it all under
+        # instead of below, just make a new dictionary called new_content or something and populate that
+        # pull the form fields into a dictionary for ease 
+        form_package = request.form.to_dict(flat=False)
         new_content = request.form
         
-        move_type = new_content["move_type"]
-        position = new_content["position"]
-        name = new_content["name"]
-        description = new_content["description"]
+        move_type = form_package["move_type"][0]
+        position = form_package["position"][0]
+        grip = form_package["grip"][0]
+        name = form_package["name"][0]
+        description = form_package["description"][0]
 
         new_move = {}
-
-        new_move["move_type"] = move_type
-        new_move["position"] = position
         new_move["name"] = name
         new_move["description"] = description
+        new_move["positions"] = [positions[position]]
+        new_move["grips"] = [grips[grip]]
+
+        new_move["move_type"] = move_type
+        move_types[move_type][name] = new_move
 
         print(new_content, new_move)
 
@@ -158,8 +165,8 @@ def new_content():
             # have it added to the dictionary in bjj_data?
             
         #else:
-
-        return "<p>Your content was submitted to the moderator team for review</p>"
+        flash('Your addition has been sent to the moderation team for approval.', category='success')
+        return redirect(url_for('index_v2'))
 
 
     return render_template ('new_content.html',

@@ -1,0 +1,122 @@
+{
+    "positions": {
+        "full_guard": {
+            "name": "full_guard",
+            "description": "On your back with legs wrapped around opponent."
+        },
+        "full_mount": {
+            "name": "full_mount",
+            "description": "Dominant position past your opponents guard."
+        },
+        "side_control": {
+            "name": "side_control",
+            "description": "Dominant position past your opponents guard but to their side."
+        },
+        "half_guard": {
+            "name": "half_guard",
+            "description": "Player on their back has one leg of their opponent entangled."
+        },
+        "x_guard": {
+            "name": "x_guard",
+            "description": "From the bottom, the player has one leg around the opponents with the other hooked around the opposite."
+        },
+        "open_guard": {
+            "name": "open_guard",
+            "description": "Player has not had their legs passed, but does not have any legs entangled."
+        }
+    },
+    "move_types": {
+        "sweeps": {
+            "scissor_sweep": {
+                "name": "scissor_sweep",
+                "description": "From guard/half-guard, leg across midsection with opposite leg blocking post",
+                "positions": [
+                    "full_guard",
+                    "half_guard"
+                ],
+                "grips": [
+                    "cross_collar_grip",
+                    "sleeve_grip"
+                ]
+            },
+            "hip_bump": {
+                "name": "hip_bump",
+                "description": "From guard, lift hips and use them to push opponent over who has posture too far back.",
+                "positions": [
+                    "full_guard"
+                ]
+            },
+            "pendulum_sweep": {
+                "name": "pendulum_sweep",
+                "description": "From guard, lift hips and use them to push opponent over who has posture too far back.",
+                "positions": [
+                    "full_guard"
+                ]
+            }
+        },
+        "submissions": {
+            "ezekiel_choke": {
+                "name": "ezekiel_choke",
+                "description": "Using your own sleeve to submit from a variety of positions.",
+                "positions": [
+                    "full_mount",
+                    "full_guard"
+                ]
+            },
+            "cross_collar_choke": {
+                "name": "cross_collar_choke",
+                "description": "Deep cross-collar grip then get a cross-collar on opposite trap and squeeze.",
+                "positions": [
+                    "full_mount",
+                    "full_guard"
+                ],
+                "grips": [
+                    "cross_collar_grip"
+                ]
+            }
+        },
+        "escapes": {
+            "upa_escape": {
+                "name": "upa_escape",
+                "description": "Pin one arm and block their leg on the same side before bridging to knock them over.",
+                "positions": [
+                    "full_mount"
+                ]
+            },
+            "sliding_hip_escape": {
+                "name": "sliding_hip_escape",
+                "description": "With both arms, frame against opponents hips, get up on elbow, and shrimp to create space to establish guard.",
+                "positions": [
+                    "full_mount"
+                ]
+            }
+        },
+        "passes": {
+            "toreando_pass": {
+                "name": "toreando_pass",
+                "description": "Grab both pant legs, extend arms while passing to opposite side.",
+                "positions": [
+                    "open_guard"
+                ]
+            }
+        }
+    },
+    "grips": {
+        "collar_grip": {
+            "name": "collar_grip",
+            "description": "Grab the lapel on the same side, thumb out."
+        },
+        "cross_collar_grip": {
+            "name": "cross_collar_grip",
+            "description": "Grab the lapel on the opposite side, thumb out."
+        },
+        "sleeve_grip": {
+            "name": "sleeve_grip",
+            "description": "Grab the sleeve on the same side."
+        },
+        "pant_grip": {
+            "name": "pant_grip",
+            "description": "Grap the pant leg on the same side."
+        }
+    }
+}
