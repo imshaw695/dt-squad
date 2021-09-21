@@ -152,35 +152,75 @@ def put_persisted_data(data_to_be_persisted):
         file.write(json.dumps(data_to_be_persisted, indent=4))
     return 
 
+path_to_json_file = os.path.join(this_directory, 'persisted_data.json')
+# why is this false?? the file exists
+print(os.path.isfile(path_to_json_file))
+print(os.path.exists(path_to_json_file))
 
-all_data = create_data_from_scratch()
+if os.path.isfile(path_to_json_file):
+
+    with open(path_to_json_file) as file:
+        all_data = json.load(file)
+
+else:
+    all_data = create_data_from_scratch()
+    put_persisted_data(all_data)
 
 positions = all_data['positions']
 move_types = all_data['move_types']
 grips = all_data['grips']
 
+def make_id_human_readable(id):
+    # replace underscore with a space ' '
+    # capitalize first letter of each word
+    name = id.replace("_", " ").title()
+
+    return name
+
+
 if __name__ == '__main__':
+    id = 'foot_lock'
+    name = make_id_human_readable(id)
+    correct_answer = 'Foot Lock'
 
-    if os.path.isfile('persisted_data.json'):
-
-        with open('persisted_data.json') as f:
-            data = json.load(f)
+    if name == correct_answer:
+        print(f'[PASSED] test 1 worked correctly. {id} transformed to {name}')
 
     else:
-        put_persisted_data(all_data)
+        print(f'[FAILED] test 1 did not work correctly. {id} transformed to {name}')
+    
+    # loop over every entry in move_types['submissions'],move_types['escapes'], move_types['passes'], move_types['escapes'] grips, positions
+    # changing 'name' to 'id'
+    # create new key 'name' equal to make_id_human_readable(id)
 
-    # Try to do again 2 and put it into a card
-    # move_types['sweeps']['scissor_sweep'] 
-    print()
-    print()
-    print()
-    print()
-    print()
-    # for sweep_name in move_types['sweeps']:
-    sweep_name = 'scissor_sweep'
-    sweep = move_types['sweeps'][sweep_name]
-    sweep_positions = sweep['positions']
-    for position_name in sweep_positions:
+    for grip_name in grips:
+        print(grip_name)
+        grip = grips[grip_name]
+        print(grip['name'])
+        
+        grip['id'] = grip_name
+
+        grip['name'] = make_id_human_readable(grip_name)
+
+        print(grip)
+
+    for position_name in positions:
+        print(position_name)
         position = positions[position_name]
-        description = position['description']
-        print(f'{sweep_name} {sweep["description"]} {position_name} {position["description"]} {sweep["grips"]}')
+        print(position['name'])
+        position['id'] = position_name
+        position['name'] = make_id_human_readable(position_name)
+        print(position)
+
+    for move_type_name in move_types:
+        move_type = move_types[move_type_name]
+        for move_name in move_type:
+            move = move_type[move_name]
+            print(move)
+            move['id'] = move_name
+            move['name'] = make_id_human_readable(move_name)
+            print(move)
+    
+    put_persisted_data(all_data)
+
+

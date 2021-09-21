@@ -7,7 +7,29 @@
 
 
     <div class = "container">
-        <h1>Closed/Full Guard</h1>
+        <h2>Again</h2>
+        <ul>
+            {% for move_type in move_types  %}
+            <h3>{{ move_type }}</h3>
+            {% for move in move_types[move_type]  %}
+            <li>{{ move_types[move_type][move].name }}: {{ move_types[move_type][move].description }}</li>
+            <ul>
+                {% for position in move_types[move_type][move]['positions']  %}
+                <li>
+                    {{ position.name }}: {{ position.description }}  
+                </li>
+                {% endfor  %}
+
+                {% for grip in move_types[move_type][move]['grips'] %}
+                <li>
+                    {{ grip.name }}: {{ grip.description }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            {% endfor  %}
+            {% endfor  %}
+        </ul>
     </div>
 
 

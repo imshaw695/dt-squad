@@ -1,34 +1,40 @@
 {
     "positions": {
         "full_guard": {
-            "name": "full_guard",
-            "description": "On your back with legs wrapped around opponent."
+            "name": "Full Guard",
+            "description": "On your back with legs wrapped around opponent.",
+            "id": "full_guard"
         },
         "full_mount": {
-            "name": "full_mount",
-            "description": "Dominant position past your opponents guard."
+            "name": "Full Mount",
+            "description": "Dominant position past your opponents guard.",
+            "id": "full_mount"
         },
         "side_control": {
-            "name": "side_control",
-            "description": "Dominant position past your opponents guard but to their side."
+            "name": "Side Control",
+            "description": "Dominant position past your opponents guard but to their side.",
+            "id": "side_control"
         },
         "half_guard": {
-            "name": "half_guard",
-            "description": "Player on their back has one leg of their opponent entangled."
+            "name": "Half Guard",
+            "description": "Player on their back has one leg of their opponent entangled.",
+            "id": "half_guard"
         },
         "x_guard": {
-            "name": "x_guard",
-            "description": "From the bottom, the player has one leg around the opponents with the other hooked around the opposite."
+            "name": "X Guard",
+            "description": "From the bottom, the player has one leg around the opponents with the other hooked around the opposite.",
+            "id": "x_guard"
         },
         "open_guard": {
-            "name": "open_guard",
-            "description": "Player has not had their legs passed, but does not have any legs entangled."
+            "name": "Open Guard",
+            "description": "Player has not had their legs passed, but does not have any legs entangled.",
+            "id": "open_guard"
         }
     },
     "move_types": {
         "sweeps": {
             "scissor_sweep": {
-                "name": "scissor_sweep",
+                "name": "Scissor Sweep",
                 "description": "From guard/half-guard, leg across midsection with opposite leg blocking post",
                 "positions": [
                     "full_guard",
@@ -37,34 +43,38 @@
                 "grips": [
                     "cross_collar_grip",
                     "sleeve_grip"
-                ]
+                ],
+                "id": "scissor_sweep"
             },
             "hip_bump": {
-                "name": "hip_bump",
+                "name": "Hip Bump",
                 "description": "From guard, lift hips and use them to push opponent over who has posture too far back.",
                 "positions": [
                     "full_guard"
-                ]
+                ],
+                "id": "hip_bump"
             },
             "pendulum_sweep": {
-                "name": "pendulum_sweep",
+                "name": "Pendulum Sweep",
                 "description": "From guard, lift hips and use them to push opponent over who has posture too far back.",
                 "positions": [
                     "full_guard"
-                ]
+                ],
+                "id": "pendulum_sweep"
             }
         },
         "submissions": {
             "ezekiel_choke": {
-                "name": "ezekiel_choke",
+                "name": "Ezekiel Choke",
                 "description": "Using your own sleeve to submit from a variety of positions.",
                 "positions": [
                     "full_mount",
                     "full_guard"
-                ]
+                ],
+                "id": "ezekiel_choke"
             },
             "cross_collar_choke": {
-                "name": "cross_collar_choke",
+                "name": "Cross Collar Choke",
                 "description": "Deep cross-collar grip then get a cross-collar on opposite trap and squeeze.",
                 "positions": [
                     "full_mount",
@@ -72,51 +82,82 @@
                 ],
                 "grips": [
                     "cross_collar_grip"
-                ]
+                ],
+                "id": "cross_collar_choke"
+            },
+            "delete": {
+                "name": "Delete",
+                "description": "new move test to be deleted",
+                "positions": [
+                    "x_guard"
+                ],
+                "grips": [
+                    "pant_grip"
+                ],
+                "move_type": "submissions",
+                "id": "delete"
+            },
+            "armbar": {
+                "name": "armbar",
+                "description": "Arm lock from various positions",
+                "positions": [
+                    "full_guard"
+                ],
+                "grips": [
+                    "cross_collar_grip"
+                ],
+                "move_type": "submissions"
             }
         },
         "escapes": {
             "upa_escape": {
-                "name": "upa_escape",
+                "name": "Upa Escape",
                 "description": "Pin one arm and block their leg on the same side before bridging to knock them over.",
                 "positions": [
                     "full_mount"
-                ]
+                ],
+                "id": "upa_escape"
             },
             "sliding_hip_escape": {
-                "name": "sliding_hip_escape",
+                "name": "Sliding Hip Escape",
                 "description": "With both arms, frame against opponents hips, get up on elbow, and shrimp to create space to establish guard.",
                 "positions": [
                     "full_mount"
-                ]
+                ],
+                "id": "sliding_hip_escape"
             }
         },
         "passes": {
             "toreando_pass": {
-                "name": "toreando_pass",
+                "name": "Toreando Pass",
                 "description": "Grab both pant legs, extend arms while passing to opposite side.",
                 "positions": [
                     "open_guard"
-                ]
+                ],
+                "id": "toreando_pass"
             }
         }
     },
     "grips": {
         "collar_grip": {
-            "name": "collar_grip",
-            "description": "Grab the lapel on the same side, thumb out."
+            "name": "Collar Grip",
+            "description": "Grab the lapel on the same side, thumb out.",
+            "id": "collar_grip"
         },
         "cross_collar_grip": {
-            "name": "cross_collar_grip",
-            "description": "Grab the lapel on the opposite side, thumb out."
+            "name": "Cross Collar Grip",
+            "description": "Grab the lapel on the opposite side, thumb out.",
+            "id": "cross_collar_grip"
         },
         "sleeve_grip": {
-            "name": "sleeve_grip",
-            "description": "Grab the sleeve on the same side."
+            "name": "Sleeve Grip",
+            "description": "Grab the sleeve on the same side.",
+            "id": "sleeve_grip"
         },
         "pant_grip": {
-            "name": "pant_grip",
-            "description": "Grap the pant leg on the same side."
+            "name": "Pant Grip",
+            "description": "Grap the pant leg on the same side.",
+            "id": "pant_grip"
         }
     }
 }

@@ -22,14 +22,22 @@
     {% for move in move_types[move_type]  %}
     <li>{{ move_types[move_type][move].name }}: {{ move_types[move_type][move].description }}</li>
     <ul>
-        {% for position in move_types[move_type][move]['positions']  %}
+        {% for position_name in move_types[move_type][move]['positions']  %}
+        {% set position=positions[position_name] %}
         <li>
+            {% if administrator %}
+            <a href="delete_entry?position_id={{position.id}}">Delete</a> <a href="update_entry?position_id={{position.id}}">Update</a>
+            {% endif %}
             {{ position.name }}: {{ position.description }}  
         </li>
         {% endfor  %}
 
-        {% for grip in move_types[move_type][move]['grips'] %}
+        {% for grip_name in move_types[move_type][move]['grips'] %}
+        {% set grip=grips[grip_name]  %}
         <li>
+            {% if administrator %}
+            <a href="delete_entry?grip_id={{grip.id}}">Delete</a> <a href="update_entry?grip_id={{grip.id}}">Update</a>
+            {% endif %}
             {{ grip.name }}: {{ grip.description }}
         </li>
         {% endfor %}
