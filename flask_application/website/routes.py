@@ -122,7 +122,7 @@ def update_entry():
             grips[updated_entry['id']]['name'] = new_name
             grips[updated_entry['id']]['description'] = new_description
             print(grips[updated_entry['id']])
-            put_persisted_data(all_data)
+            put_persisted_data(all_data) # started to fail after this line was put in.
 
         # print the form fields to trhe console so we can see it was submitted 
         print(f"\nThe form was submitted. The data is:\n{form_package}\n")
