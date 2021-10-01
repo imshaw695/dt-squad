@@ -1,0 +1,31 @@
+{% set title = 'Modify Positions' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+
+    <div class = "container">
+        <h2>Positions</h2>
+        {% if administrator %}
+        <a href="new_content?position_id">Add new position</a>
+        {% endif %}
+        <ul>
+        {% for position in positions  %}
+        <li>
+            {% if administrator %}
+            <a href="delete_entry?position_id={{positions[position].id}}">Delete</a> <a href="update_entry_02?position_id={{positions[position].id}}">Update</a>
+            {% endif %}
+            {{ positions[position].name }} : {{ positions[position].description }}
+        </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+    {% block content %}
+        {{ super() }}
+        {{results}}
+    {% endblock content %}
+{% endblock body %}

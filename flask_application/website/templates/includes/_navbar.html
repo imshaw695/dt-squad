@@ -29,6 +29,9 @@
               <li><a class="dropdown-item" href="#">Open Guard</a></li>
               <li><a class="dropdown-item" href="#">Butterfly Guard</a></li>
               <li><a class="dropdown-item" href="#">Turtle</a></li>
+              <li><a class="dropdown-item" href="modify_grips">Manage Grips</a></li>
+              <li><a class="dropdown-item" href="modify_positions">Manage Positions</a></li>
+              <li><a class="dropdown-item" href="modify_moves">Manage Moves</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">BJJ News</a></li>
               <li><a class="dropdown-item" href="login">Login</a></li>
@@ -48,5 +51,16 @@
     </div>
   </nav>
   
+  <div class="row">
+    <div class="col-md-8">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+  </div>
   
   

@@ -1,0 +1,46 @@
+{% set title = 'Update Entry' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+    <div class = "container">
+        <h2>Update Entry - {{entry.name}}</h2>
+        <form method="post" action="">
+            {% if move_id %}
+            <label>Move type: </label>
+            <select id="move_type" name="move_type">
+                {% for move_type in move_types %}
+                <option value="{{ move_type }}">{{ move_types[move_type].name }}</option>
+                {% endfor %}
+            </select> <br>
+            <label>Position: </label>
+            <select id="position" name="position">
+                {% for position in positions %}
+                <option value="{{ position }}">{{ positions[position].name }}</option>
+                {% endfor %}
+            </select><br>
+            <label>Grip: </label>
+            <select id="grip" name="grip">
+                {% for grip in grips %}
+                <option value="{{ grip }}">{{ grips[grip].name }}</option>
+                {% endfor %}
+                </select><br>
+            {% endif %}
+            <label>New Name: </label>
+            <input type="text" id="name" name="new_name" value="{{ entry.name }}"/> <br>
+            <label>New Description: </label>
+            <input type="text" id="description" name="new_description" value="{{ entry.description }}"/> <br>
+            <input type="submit" value="submit"/>
+            <input type="hidden" id="grip_id" name="grip_id" value="{{ grip_id }}">
+            <input type="hidden" id="position_id" name="position_id" value="{{ position_id }}">
+            <input type="hidden" id="move_id" name="move_id" value="{{ move_id }}">
+        </form>
+    </div>
+
+{% block content %}
+    {{ super() }}
+    {{results}}
+{% endblock content %}
+{% endblock body %}

@@ -5,36 +5,37 @@
         {% include '/includes/_navbar.html' %}
     {% endblock navbar %}
 <div class = "container">
-    <h2>Add New Content</h2>    
+    <h2>{{ entry }}</h2>    
     <form method="post" action='new_content'>
+        {% if entry == "Enter a new move:" %}
         <label>Move type: </label>
         <select id="move_type" name="move_type">
-            <option value="submissions">Submission</option>
-            <option value="sweeps">Sweep</option>
-            <option value="passes">Pass</option>
-            <option value="escapes">Escape</option>
-          </select> <br>
+            {% for move_type in move_types %}
+            <option value="{{ move_types[move_type].name }}">{{ move_types[move_type].name }}</option>
+            {% endfor %}
+        </select> <br>
         <label>Position: </label>
         <select id="position" name="position">
-            <option value="full_guard">Full Guard</option>
-            <option value="full_mount">Full Mount</option>
-            <option value="side_control">Side Control</option>
-            <option value="x_guard">X-Guard</option>
-          </select><br>
+            {% for position in positions %}
+            <option value="{{ position }}">{{ positions[position].name }}</option>
+            {% endfor %}
+        </select><br>
         <label>Grip: </label>
         <select id="grip" name="grip">
-            <option value="cross_collar_grip">Cross-collar</option>
-            <option value="sleeve_grip">Sleeve</option>
-            <option value="pant_grip">Pant</option>
-            <option value="collar_grip">Collar</option>
-          </select><br>
+            {% for grip in grips %}
+            <option value="{{ grip }}">{{ grips[grip].name }}</option>
+            {% endfor %}
+            </select><br>
+        {% endif %}
         <label>Name: </label>
         <input type="text" id="name" name="name"/> <br>
         <label>Description: </label>
         <input type="text" id="description" name="description"/> <br>        
         <input type="submit" value="submit" />
+        <input type="hidden" id="grip_id" name="grip_id" value="{{ grip_id }}">
+        <input type="hidden" id="position_id" name="position_id" value="{{ position_id }}">
+        <input type="hidden" id="move_id" name="move_id" value="{{ move_id }}">
     </form>
-
 
 </div>
     {% block content %}

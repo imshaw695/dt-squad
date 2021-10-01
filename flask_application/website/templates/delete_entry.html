@@ -1,0 +1,22 @@
+{% set title = 'Delete Entry' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+    <div class = "container">
+        <h2>Are you sure you want to delete {{entry.name}}?</h2>
+        <form method="post" action="">
+            <input type="submit" value="confirm"/>
+            <input type="hidden" id="grip_id" name="grip_id" value="{{ grip_id }}">
+            <input type="hidden" id="position_id" name="position_id" value="{{ position_id }}">
+            <input type="hidden" id="move_id" name="move_id" value="{{ move_id }}">
+        </form>
+    </div>
+
+{% block content %}
+    {{ super() }}
+    {{results}}
+{% endblock content %}
+{% endblock body %}

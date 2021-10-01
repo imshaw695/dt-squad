@@ -1,0 +1,31 @@
+{% set title = 'Modify Moves' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+
+    <div class = "container">
+        <h2>Moves</h2>
+        {% if administrator %}
+        <a href="new_content?move_id">Add new move</a>
+        {% endif %}
+        <ul>
+        {% for move in moves  %}
+        <li>
+            {% if administrator %}
+            <a href="delete_entry?move_id={{moves[move].id}}">Delete</a> <a href="update_entry_02?move_id={{moves[move].id}}">Update</a>
+            {% endif %}
+            {{ moves[move].name }} : {{ moves[move].description }}
+        </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+    {% block content %}
+        {{ super() }}
+        {{results}}
+    {% endblock content %}
+{% endblock body %}

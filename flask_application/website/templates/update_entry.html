@@ -8,11 +8,17 @@
     <div class = "container">
         <h2>Update Entry - {{entry.name}}</h2>
         <form method="post" action="update_entry">
-            <label>Name: </label>
-            <input type="text" id="name" name="name" value="{{ entry.name }}"/> <br>
-            <label>Description: </label>
-            <input type="text" id="description" name="description" value="{{ entry.description }}"/> <br>
+            <label>Original Name: </label>
+            <input type="text" id="name" name="original_name" value="{{ entry.name }}" readonly/> <br>
+            <label>New Name: </label>
+            <input type="text" id="name" name="new_name" value="{{ entry.name }}"/> <br>
+            <label>Original Description: </label>
+            <input type="text" id="description" name="original_description" value="{{ entry.description }}" readonly/> <br>
+            <label>New Description: </label>
+            <input type="text" id="description" name="new_description" value="{{ entry.description }}"/> <br>
             <input type="submit" value="submit"/>
+            <input type="hidden" id="grip_id" name="grip_id" value="{{ grip_id }}">
+            <input type="hidden" id="position_id" name="position_id" value="{{ position_id }}">
         </form>
     </div>
 

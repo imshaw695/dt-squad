@@ -7,9 +7,10 @@
 
     <div class = "container">
 <h2>Basic Jinja Print</h2>
-    {{ move_types }} <br>
+    {{ moves }} <br>
     {{ positions }} <br>
     {{ grips }} <br>
+    {{ move_types }}
 <h2>Using a for loop</h2>
 {% for position in positions  %}
 {{ positions[position] }} <br>
@@ -17,34 +18,17 @@
 
 <h2>Again</h2>
 <ul>
-    {% for move_type in move_types  %}
-    <h3>{{ move_type }}</h3>
-    {% for move in move_types[move_type]  %}
-    <li>{{ move_types[move_type][move].name }}: {{ move_types[move_type][move].description }}</li>
-    <ul>
-        {% for position_name in move_types[move_type][move]['positions']  %}
-        {% set position=positions[position_name] %}
-        <li>
-            {% if administrator %}
-            <a href="delete_entry?position_id={{position.id}}">Delete</a> <a href="update_entry?position_id={{position.id}}">Update</a>
-            {% endif %}
-            {{ position.name }}: {{ position.description }}  
-        </li>
-        {% endfor  %}
+    
+    {% for move_id in moves %}
+    <h3>{{ moves[move_id].name }} : {{ moves[move_id].description }}</h3>
+    {% endfor %}
+    {% for position_id in positions %}
+    <h3>{{ positions[position_id].name }} : {{ positions[position_id].description }}</h3>
+    {% endfor %}
+    {% for grip_id in grips %}
+    <h3>{{ grips[grip_id].name }} : {{ grips[grip_id].description }}</h3>
+    {% endfor %}
 
-        {% for grip_name in move_types[move_type][move]['grips'] %}
-        {% set grip=grips[grip_name]  %}
-        <li>
-            {% if administrator %}
-            <a href="delete_entry?grip_id={{grip.id}}">Delete</a> <a href="update_entry?grip_id={{grip.id}}">Update</a>
-            {% endif %}
-            {{ grip.name }}: {{ grip.description }}
-        </li>
-        {% endfor %}
-    </ul>
-
-    {% endfor  %}
-    {% endfor  %}
 </ul>
 </div>
 <div class="container">

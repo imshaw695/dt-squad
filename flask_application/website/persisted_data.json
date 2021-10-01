@@ -1,163 +1,101 @@
 {
     "positions": {
-        "full_guard": {
+        "SodDJNAwKZVfpA": {
             "name": "Full Guard",
-            "description": "On your back with legs wrapped around opponent.",
-            "id": "full_guard"
+            "description": "On back with legs wrapped around opponent.",
+            "id": "SodDJNAwKZVfpA"
         },
-        "full_mount": {
-            "name": "Full Mount",
-            "description": "Dominant position past your opponents guard.",
-            "id": "full_mount"
-        },
-        "side_control": {
-            "name": "Side Control",
-            "description": "Dominant position past your opponents guard but to their side.",
-            "id": "side_control"
-        },
-        "half_guard": {
+        "L1cckS8rlLt5Tw": {
             "name": "Half Guard",
             "description": "Player on their back has one leg of their opponent entangled.",
-            "id": "half_guard"
+            "id": "L1cckS8rlLt5Tw"
         },
-        "x_guard": {
-            "name": "X Guard",
-            "description": "From the bottom, the player has one leg around the opponents with the other hooked around the opposite.",
-            "id": "x_guard"
-        },
-        "open_guard": {
-            "name": "Open Guard",
-            "description": "Player has not had their legs passed, but does not have any legs entangled.",
-            "id": "open_guard"
-        }
-    },
-    "move_types": {
-        "sweeps": {
-            "scissor_sweep": {
-                "name": "Scissor Sweep",
-                "description": "From guard/half-guard, leg across midsection with opposite leg blocking post",
-                "positions": [
-                    "full_guard",
-                    "half_guard"
-                ],
-                "grips": [
-                    "cross_collar_grip",
-                    "sleeve_grip"
-                ],
-                "id": "scissor_sweep"
-            },
-            "hip_bump": {
-                "name": "Hip Bump",
-                "description": "From guard, lift hips and use them to push opponent over who has posture too far back.",
-                "positions": [
-                    "full_guard"
-                ],
-                "id": "hip_bump"
-            },
-            "pendulum_sweep": {
-                "name": "Pendulum Sweep",
-                "description": "From guard, lift hips and use them to push opponent over who has posture too far back.",
-                "positions": [
-                    "full_guard"
-                ],
-                "id": "pendulum_sweep"
-            }
-        },
-        "submissions": {
-            "ezekiel_choke": {
-                "name": "Ezekiel Choke",
-                "description": "Using your own sleeve to submit from a variety of positions.",
-                "positions": [
-                    "full_mount",
-                    "full_guard"
-                ],
-                "id": "ezekiel_choke"
-            },
-            "cross_collar_choke": {
-                "name": "Cross Collar Choke",
-                "description": "Deep cross-collar grip then get a cross-collar on opposite trap and squeeze.",
-                "positions": [
-                    "full_mount",
-                    "full_guard"
-                ],
-                "grips": [
-                    "cross_collar_grip"
-                ],
-                "id": "cross_collar_choke"
-            },
-            "delete": {
-                "name": "Delete",
-                "description": "new move test to be deleted",
-                "positions": [
-                    "x_guard"
-                ],
-                "grips": [
-                    "pant_grip"
-                ],
-                "move_type": "submissions",
-                "id": "delete"
-            },
-            "armbar": {
-                "name": "armbar",
-                "description": "Arm lock from various positions",
-                "positions": [
-                    "full_guard"
-                ],
-                "grips": [
-                    "cross_collar_grip"
-                ],
-                "move_type": "submissions"
-            }
-        },
-        "escapes": {
-            "upa_escape": {
-                "name": "Upa Escape",
-                "description": "Pin one arm and block their leg on the same side before bridging to knock them over.",
-                "positions": [
-                    "full_mount"
-                ],
-                "id": "upa_escape"
-            },
-            "sliding_hip_escape": {
-                "name": "Sliding Hip Escape",
-                "description": "With both arms, frame against opponents hips, get up on elbow, and shrimp to create space to establish guard.",
-                "positions": [
-                    "full_mount"
-                ],
-                "id": "sliding_hip_escape"
-            }
-        },
-        "passes": {
-            "toreando_pass": {
-                "name": "Toreando Pass",
-                "description": "Grab both pant legs, extend arms while passing to opposite side.",
-                "positions": [
-                    "open_guard"
-                ],
-                "id": "toreando_pass"
-            }
+        "MxoTdsGk3yxziQ": {
+            "name": "Full Mount",
+            "description": "Dominant position past your opponents guard.",
+            "id": "MxoTdsGk3yxziQ"
         }
     },
     "grips": {
-        "collar_grip": {
-            "name": "Collar Grip",
-            "description": "Grab the lapel on the same side, thumb out.",
-            "id": "collar_grip"
+        "sDV9V9Cu7fTqmA": {
+            "name": "Sleeve Grip",
+            "description": "Grabbing sleeve on same side.",
+            "id": "sDV9V9Cu7fTqmA"
         },
-        "cross_collar_grip": {
+        "ag7CaNFYtfZatw": {
+            "name": "Pant Grip",
+            "description": "Grabbing pant leg on same side.",
+            "id": "ag7CaNFYtfZatw"
+        },
+        "yPnyDhN0RdlWuQ": {
             "name": "Cross Collar Grip",
             "description": "Grab the lapel on the opposite side, thumb out.",
-            "id": "cross_collar_grip"
+            "id": "yPnyDhN0RdlWuQ"
         },
-        "sleeve_grip": {
-            "name": "Sleeve Grip",
-            "description": "Grab the sleeve on the same side.",
-            "id": "sleeve_grip"
+        "Jknu1J6N24FqlQ": {
+            "name": "Collar Grip",
+            "description": "Grab the lapel on the same side, thumb out.",
+            "id": "Jknu1J6N24FqlQ"
+        }
+    },
+    "moves": {
+        "0CrMuP5fsTJSHg": {
+            "name": "Triangle Choke",
+            "description": "One arm in one out, legs triangled around head for head and arm choke.",
+            "id": "0CrMuP5fsTJSHg",
+            "move_type_id": "tKzSw058gKO08Q"
         },
-        "pant_grip": {
-            "name": "Pant Grip",
-            "description": "Grap the pant leg on the same side.",
-            "id": "pant_grip"
+        "CzZ0b6QQk9jn0Q": {
+            "name": "Upa Escape",
+            "description": "Pin one arm and block their leg on the same side before bridging to knock them over.",
+            "id": "CzZ0b6QQk9jn0Q",
+            "move_type_id": "jubIovlDa2YnzQ"
+        },
+        "eyNKQNYY7SAlnA": {
+            "name": "Toreando Pass",
+            "description": "Grab both pant legs, extend arms while passing to opposite side.",
+            "id": "eyNKQNYY7SAlnA",
+            "move_type_id": "02KBtmHnIDkW2w"
+        },
+        "_mSCcM7tAe1Oxw": {
+            "name": "Scissor Sweep",
+            "description": "From guard/half-guard, leg across midsection with opposite leg blocking post",
+            "id": "_mSCcM7tAe1Oxw",
+            "move_type_id": "0vBAeOx_6exv3g"
+        }
+    },
+    "moves_positions": {
+        "0CrMuP5fsTJSHg,SodDJNAwKZVfpA": {
+            "move_id": "0CrMuP5fsTJSHg",
+            "position_id": "SodDJNAwKZVfpA"
+        }
+    },
+    "moves_grips": {
+        "0CrMuP5fsTJSHg,sDV9V9Cu7fTqmA": {
+            "move_id": "0CrMuP5fsTJSHg",
+            "grip_id": "sDV9V9Cu7fTqmA"
+        },
+        "0CrMuP5fsTJSHg,ag7CaNFYtfZatw": {
+            "move_id": "0CrMuP5fsTJSHg",
+            "grip_id": "ag7CaNFYtfZatw"
+        }
+    },
+    "move_types": {
+        "0vBAeOx_6exv3g": {
+            "id": "0vBAeOx_6exv3g",
+            "name": "sweep"
+        },
+        "tKzSw058gKO08Q": {
+            "id": "tKzSw058gKO08Q",
+            "name": "submission"
+        },
+        "jubIovlDa2YnzQ": {
+            "id": "jubIovlDa2YnzQ",
+            "name": "escape"
+        },
+        "02KBtmHnIDkW2w": {
+            "id": "02KBtmHnIDkW2w",
+            "name": "pass"
         }
     }
 }

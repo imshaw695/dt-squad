@@ -1,0 +1,33 @@
+{% set title = ' Modify Grips' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+
+    <div class = "container">
+        <h2>Grips</h2>
+        {% if administrator %}
+        <a href="new_content?grip_id">Add new grip</a>
+        {% endif %}
+        <ul>
+        {% for grip in grips  %}
+        <li>
+            {% if administrator %}
+            <a href="delete_entry?grip_id={{grips[grip].id}}">Delete</a> <a href="update_entry_02?grip_id={{grips[grip].id}}">Update</a>
+            {% endif %}
+            {{ grips[grip].name }} : {{ grips[grip].description }}
+        </li>
+        {% endfor %}
+        </ul>
+
+    </div>
+
+
+    {% block content %}
+        {{ super() }}
+        {{results}}
+    {% endblock content %}
+{% endblock body %}
+        
