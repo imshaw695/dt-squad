@@ -7,23 +7,23 @@
 <div class = "container">
     <h2>{{ entry }}</h2>    
     <form method="post" action='new_content'>
-        {% if entry == "Enter a new move:" %}
+        {% if move_id %}
         <label>Move type: </label>
         <select id="move_type" name="move_type">
             {% for move_type in move_types %}
-            <option value="{{ move_types[move_type].name }}">{{ move_types[move_type].name }}</option>
+            <option value="{{ move_type }}">{{ move_types[move_type].name }}</option>
             {% endfor %}
         </select> <br>
-        <label>Position: </label>
-        <select id="position" name="position">
-            {% for position in positions %}
-            <option value="{{ position }}">{{ positions[position].name }}</option>
+        <label>Position: </label><br>
+            {% for position_id in positions %}
+            <input type="checkbox" id="{{ position_id }}" name="position_ids" value="{{ position_id }}" {{ checked }}>
+            <label for="{{ position_id }}">{{ positions[position_id].name }}</label><br>
             {% endfor %}
         </select><br>
-        <label>Grip: </label>
-        <select id="grip" name="grip">
-            {% for grip in grips %}
-            <option value="{{ grip }}">{{ grips[grip].name }}</option>
+        <label>Grip: </label><br>
+            {% for grip_id in grips %}
+            <input type="checkbox" id="{{ grip_id }}" name="grip_ids" value="{{ grip_id }}">
+            <label for="{{ grip_id }}">{{ grips[grip_id].name }}</label><br>
             {% endfor %}
             </select><br>
         {% endif %}

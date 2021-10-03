@@ -1,4 +1,4 @@
-{% set title = ' Modify Grips' %}
+{% set title = 'Submissions' %}
 {% extends "base_layout.html" %}
 {% block body %}
     {% block navbar %}
@@ -7,16 +7,10 @@
 
 
     <div class = "container">
-        <h2>Grips</h2>
-        {% if administrator %}
-        <a href="new_content?grip_id">Add new grip</a>
-        {% endif %}
+        <h2>Submissions</h2>
         <ul>
-        {% for grip in grips  %}
+        {% for move in moves  %}
         <li>
-            {% if administrator %}
-            <a href="delete_entry?grip_id={{grips[grip].id}}">Delete</a> <a href="update_entry?grip_id={{grips[grip].id}}">Update</a>
-            {% endif %}
             {{ grips[grip].name }} : {{ grips[grip].description }}
         </li>
         {% endfor %}

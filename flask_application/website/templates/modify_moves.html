@@ -15,7 +15,7 @@
         {% for move in moves  %}
         <li>
             {% if administrator %}
-            <a href="delete_entry?move_id={{moves[move].id}}">Delete</a> <a href="update_entry_02?move_id={{moves[move].id}}">Update</a>
+            <a href="delete_entry?move_id={{moves[move].id}}">Delete</a> <a href="update_entry?move_id={{moves[move].id}}">Update</a>
             {% endif %}
             {{ moves[move].name }} : {{ moves[move].description }}
         </li>

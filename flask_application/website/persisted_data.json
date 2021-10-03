@@ -1,100 +1,100 @@
 {
     "positions": {
-        "SodDJNAwKZVfpA": {
+        "wx3ktKTcrcNw1g": {
             "name": "Full Guard",
             "description": "On back with legs wrapped around opponent.",
-            "id": "SodDJNAwKZVfpA"
+            "id": "wx3ktKTcrcNw1g"
         },
-        "L1cckS8rlLt5Tw": {
+        "WctFj5VM_ep3Cw": {
             "name": "Half Guard",
             "description": "Player on their back has one leg of their opponent entangled.",
-            "id": "L1cckS8rlLt5Tw"
+            "id": "WctFj5VM_ep3Cw"
         },
-        "MxoTdsGk3yxziQ": {
+        "kEKDq6XQZI4-KA": {
             "name": "Full Mount",
             "description": "Dominant position past your opponents guard.",
-            "id": "MxoTdsGk3yxziQ"
+            "id": "kEKDq6XQZI4-KA"
         }
     },
     "grips": {
-        "sDV9V9Cu7fTqmA": {
+        "Eu2putCDdN42BQ": {
             "name": "Sleeve Grip",
             "description": "Grabbing sleeve on same side.",
-            "id": "sDV9V9Cu7fTqmA"
+            "id": "Eu2putCDdN42BQ"
         },
-        "ag7CaNFYtfZatw": {
+        "2BV7AZK-bccPoA": {
             "name": "Pant Grip",
             "description": "Grabbing pant leg on same side.",
-            "id": "ag7CaNFYtfZatw"
+            "id": "2BV7AZK-bccPoA"
         },
-        "yPnyDhN0RdlWuQ": {
+        "yyQE7MQ30Ya4gA": {
             "name": "Cross Collar Grip",
             "description": "Grab the lapel on the opposite side, thumb out.",
-            "id": "yPnyDhN0RdlWuQ"
+            "id": "yyQE7MQ30Ya4gA"
         },
-        "Jknu1J6N24FqlQ": {
+        "_t0aQxjR63ToMA": {
             "name": "Collar Grip",
             "description": "Grab the lapel on the same side, thumb out.",
-            "id": "Jknu1J6N24FqlQ"
+            "id": "_t0aQxjR63ToMA"
         }
     },
     "moves": {
-        "0CrMuP5fsTJSHg": {
+        "KUTE_HYdwYzH6A": {
             "name": "Triangle Choke",
             "description": "One arm in one out, legs triangled around head for head and arm choke.",
-            "id": "0CrMuP5fsTJSHg",
-            "move_type_id": "tKzSw058gKO08Q"
+            "id": "KUTE_HYdwYzH6A",
+            "move_type_id": "-J74rec3oEhKpA"
         },
-        "CzZ0b6QQk9jn0Q": {
+        "_VXLgAASh0TLcw": {
             "name": "Upa Escape",
             "description": "Pin one arm and block their leg on the same side before bridging to knock them over.",
-            "id": "CzZ0b6QQk9jn0Q",
-            "move_type_id": "jubIovlDa2YnzQ"
+            "id": "_VXLgAASh0TLcw",
+            "move_type_id": "F12upvvUNG0RTw"
         },
-        "eyNKQNYY7SAlnA": {
-            "name": "Toreando Pass",
+        "D4IhpikhkvZpHQ": {
+            "name": "Toerando Pass",
             "description": "Grab both pant legs, extend arms while passing to opposite side.",
-            "id": "eyNKQNYY7SAlnA",
-            "move_type_id": "02KBtmHnIDkW2w"
+            "id": "D4IhpikhkvZpHQ",
+            "move_type_id": "I23Pg8TyAfv7pQ"
         },
-        "_mSCcM7tAe1Oxw": {
+        "3uq2aw1ytj4VvQ": {
             "name": "Scissor Sweep",
             "description": "From guard/half-guard, leg across midsection with opposite leg blocking post",
-            "id": "_mSCcM7tAe1Oxw",
-            "move_type_id": "0vBAeOx_6exv3g"
+            "id": "3uq2aw1ytj4VvQ",
+            "move_type_id": "3HJ0qNs8uwwIeQ"
         }
     },
     "moves_positions": {
-        "0CrMuP5fsTJSHg,SodDJNAwKZVfpA": {
-            "move_id": "0CrMuP5fsTJSHg",
-            "position_id": "SodDJNAwKZVfpA"
+        "KUTE_HYdwYzH6A,wx3ktKTcrcNw1g": {
+            "move_id": "KUTE_HYdwYzH6A",
+            "position_id": "wx3ktKTcrcNw1g"
         }
     },
     "moves_grips": {
-        "0CrMuP5fsTJSHg,sDV9V9Cu7fTqmA": {
-            "move_id": "0CrMuP5fsTJSHg",
-            "grip_id": "sDV9V9Cu7fTqmA"
+        "KUTE_HYdwYzH6A,Eu2putCDdN42BQ": {
+            "move_id": "KUTE_HYdwYzH6A",
+            "grip_id": "Eu2putCDdN42BQ"
         },
-        "0CrMuP5fsTJSHg,ag7CaNFYtfZatw": {
-            "move_id": "0CrMuP5fsTJSHg",
-            "grip_id": "ag7CaNFYtfZatw"
+        "KUTE_HYdwYzH6A,2BV7AZK-bccPoA": {
+            "move_id": "KUTE_HYdwYzH6A",
+            "grip_id": "2BV7AZK-bccPoA"
         }
     },
     "move_types": {
-        "0vBAeOx_6exv3g": {
-            "id": "0vBAeOx_6exv3g",
+        "3HJ0qNs8uwwIeQ": {
+            "id": "3HJ0qNs8uwwIeQ",
             "name": "sweep"
         },
-        "tKzSw058gKO08Q": {
-            "id": "tKzSw058gKO08Q",
+        "-J74rec3oEhKpA": {
+            "id": "-J74rec3oEhKpA",
             "name": "submission"
         },
-        "jubIovlDa2YnzQ": {
-            "id": "jubIovlDa2YnzQ",
+        "F12upvvUNG0RTw": {
+            "id": "F12upvvUNG0RTw",
             "name": "escape"
         },
-        "02KBtmHnIDkW2w": {
-            "id": "02KBtmHnIDkW2w",
+        "I23Pg8TyAfv7pQ": {
+            "id": "I23Pg8TyAfv7pQ",
             "name": "pass"
         }
     }
