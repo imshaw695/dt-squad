@@ -250,6 +250,190 @@ def modify_moves():
         moves=moves,
     )
 
+@app.route("/submissions", methods=["GET", "POST"])
+# Now comes the actual function definition for processing this page
+def submissions():
+
+    # Url arguments can be added to the url like this ?name=Peter&age=57
+    # Get the url arguments if there are any
+    url_arguments = request.args.to_dict(flat=False)
+
+    # if there are any url arguments, print them to the console here
+    if len(url_arguments) > 0:
+        print(f"\nThere were some url arguments and they were:\n{url_arguments}\n")
+
+    # Make a list of keys for moves that are submissions
+    submission_ids = []
+    for move_type in move_types:
+        if 'submission' in move_types[move_type].values():
+            submission_id = move_types[move_type]['id']
+
+    for move in moves:
+        if moves[move]['move_type_id'] == submission_id:
+            submission_ids.append(moves[move]['id'])
+
+    # When pages contain a form, we can access the variables in this function
+    # if the form was submitted
+    # Create a default form_package in case the form not submitted
+    form_package = {}
+    # And now check to see if the form was actually submitted
+    if request.method == "POST":
+
+        # pull the form fields into a dictionary for ease
+        form_package = request.form.to_dict(flat=False)
+
+        # print the form fields to trhe console so we can see it was submitted
+        print(f"\nThe form was submitted. The data is:\n{form_package}\n")
+
+    return render_template(
+        "submissions.html",
+        form_package=form_package,
+        url_arguments=url_arguments,
+        moves=moves,
+        grips=grips,
+        positions=positions,
+        move_types=move_types,
+        submission_ids=submission_ids
+    )
+
+@app.route("/sweeps", methods=["GET", "POST"])
+# Now comes the actual function definition for processing this page
+def sweeps():
+
+    # Url arguments can be added to the url like this ?name=Peter&age=57
+    # Get the url arguments if there are any
+    url_arguments = request.args.to_dict(flat=False)
+
+    # if there are any url arguments, print them to the console here
+    if len(url_arguments) > 0:
+        print(f"\nThere were some url arguments and they were:\n{url_arguments}\n")
+
+    # Make a list of keys for moves that are submissions
+    sweep_ids = []
+    for move_type in move_types:
+        if 'sweep' in move_types[move_type].values():
+            sweep_id = move_types[move_type]['id']
+
+    for move in moves:
+        if moves[move]['move_type_id'] == sweep_id:
+            sweep_ids.append(moves[move]['id'])
+
+    # When pages contain a form, we can access the variables in this function
+    # if the form was submitted
+    # Create a default form_package in case the form not submitted
+    form_package = {}
+    # And now check to see if the form was actually submitted
+    if request.method == "POST":
+
+        # pull the form fields into a dictionary for ease
+        form_package = request.form.to_dict(flat=False)
+
+        # print the form fields to trhe console so we can see it was submitted
+        print(f"\nThe form was submitted. The data is:\n{form_package}\n")
+
+    return render_template(
+        "sweeps.html",
+        form_package=form_package,
+        url_arguments=url_arguments,
+        moves=moves,
+        grips=grips,
+        positions=positions,
+        move_types=move_types,
+        sweep_ids=sweep_ids
+    )
+
+@app.route("/escapes", methods=["GET", "POST"])
+# Now comes the actual function definition for processing this page
+def escapes():
+
+    # Url arguments can be added to the url like this ?name=Peter&age=57
+    # Get the url arguments if there are any
+    url_arguments = request.args.to_dict(flat=False)
+
+    # if there are any url arguments, print them to the console here
+    if len(url_arguments) > 0:
+        print(f"\nThere were some url arguments and they were:\n{url_arguments}\n")
+
+    # Make a list of keys for moves that are submissions
+    escape_ids = []
+    for move_type in move_types:
+        if 'escape' in move_types[move_type].values():
+            escape_id = move_types[move_type]['id']
+
+    for move in moves:
+        if moves[move]['move_type_id'] == escape_id:
+            escape_ids.append(moves[move]['id'])
+
+    # When pages contain a form, we can access the variables in this function
+    # if the form was submitted
+    # Create a default form_package in case the form not submitted
+    form_package = {}
+    # And now check to see if the form was actually submitted
+    if request.method == "POST":
+
+        # pull the form fields into a dictionary for ease
+        form_package = request.form.to_dict(flat=False)
+
+        # print the form fields to trhe console so we can see it was submitted
+        print(f"\nThe form was submitted. The data is:\n{form_package}\n")
+
+    return render_template(
+        "escapes.html",
+        form_package=form_package,
+        url_arguments=url_arguments,
+        moves=moves,
+        grips=grips,
+        positions=positions,
+        move_types=move_types,
+        escape_ids=escape_ids
+    )
+
+@app.route("/passes", methods=["GET", "POST"])
+# Now comes the actual function definition for processing this page
+def passes():
+
+    # Url arguments can be added to the url like this ?name=Peter&age=57
+    # Get the url arguments if there are any
+    url_arguments = request.args.to_dict(flat=False)
+
+    # if there are any url arguments, print them to the console here
+    if len(url_arguments) > 0:
+        print(f"\nThere were some url arguments and they were:\n{url_arguments}\n")
+
+    # Make a list of keys for moves that are submissions
+    pass_ids = []
+    for move_type in move_types:
+        if 'pass' in move_types[move_type].values():
+            pass_id = move_types[move_type]['id']
+
+    for move in moves:
+        if moves[move]['move_type_id'] == pass_id:
+            pass_ids.append(moves[move]['id'])
+
+    # When pages contain a form, we can access the variables in this function
+    # if the form was submitted
+    # Create a default form_package in case the form not submitted
+    form_package = {}
+    # And now check to see if the form was actually submitted
+    if request.method == "POST":
+
+        # pull the form fields into a dictionary for ease
+        form_package = request.form.to_dict(flat=False)
+
+        # print the form fields to trhe console so we can see it was submitted
+        print(f"\nThe form was submitted. The data is:\n{form_package}\n")
+
+    return render_template(
+        "passes.html",
+        form_package=form_package,
+        url_arguments=url_arguments,
+        moves=moves,
+        grips=grips,
+        positions=positions,
+        move_types=move_types,
+        pass_ids=pass_ids
+    )
+
 
 @app.route("/new_content", methods=["GET", "POST"])
 # Now comes the actual function definition for processing this page
@@ -289,7 +473,7 @@ def new_content():
             
             grip_ids = form_package['grip_ids']
             position_ids = form_package['position_ids']
-            move_type_id = get_entry_id(form_package['move_type'][0], move_types)
+            move_type_id = form_package['move_type'][0]
             move = get_new_entry(form_package['name'][0], form_package['description'][0], move_type_id)
             moves[move["id"]] = move
             move_id = get_entry_id(move['name'], moves)
@@ -359,7 +543,7 @@ def update_entry():
 
     # Url arguments can be added to the url like this ?name=Peter&age=57
     # Get the url arguments if there are any
-
+    full_guard = "wx3ktKTcrcNw1g"
     url_arguments = request.args.to_dict(flat=False)
 
     grip_id = None
@@ -377,6 +561,12 @@ def update_entry():
     if "move_id" in url_arguments:
         move_id = url_arguments["move_id"][0]
         entry = moves[move_id]
+        entry_moves_positions = []
+
+        for key in moves_positions:
+            if moves[move_id]['id'] in key:
+                entry_moves_positions.append(moves_positions[key]["position_id"])
+
 
     # if there are any url arguments, print them to the console here
     # create a form which prints out the name and description, edit them, and then take that
@@ -407,8 +597,10 @@ def update_entry():
         if not move_id == 'None':
             position_ids = form_package['position_ids']
             grip_ids = form_package['grip_ids']
+            move_type_id = form_package['move_type'][0]
             moves[move_id]['name'] = new_name
             moves[move_id]['description'] = new_description
+            moves[move_id]['move_type_id'] = move_type_id
             keys_to_delete = []
             # deletes all entries in moves_positions for the move, then creates new ones
             for move_position in moves_positions:
@@ -452,7 +644,10 @@ def update_entry():
         move_types = move_types,
         positions = positions,
         grips = grips,
-        moves = moves
+        moves = moves,
+        moves_positions = moves_positions,
+        full_guard = full_guard,
+        entry_moves_positions = entry_moves_positions
     )
 @app.route("/delete_entry", methods=["GET", "POST"])
 # Now comes the actual function definition for processing this page

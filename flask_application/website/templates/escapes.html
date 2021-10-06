@@ -1,4 +1,4 @@
-{% set title = 'Submissions' %}
+{% set title = 'Escapes' %}
 {% extends "base_layout.html" %}
 {% block body %}
 {% block navbar %}
@@ -7,10 +7,10 @@
 
 
 <div class="container">
-    <h2>Submissions</h2>
+    <h2>Escapes</h2>
     <ul>
         {% for move in moves %}
-        {% if moves[move]['id'] in submission_ids %}
+        {% if moves[move]['id'] in escape_ids %}
         <li>
             {{moves[move]['name']}}: {{moves[move]['description']}}
         </li>
@@ -19,11 +19,7 @@
     </ul>
 
 </div>
-<div class="container">
 
-
-
-</div>
 
 {% block content %}
 {{ super() }}
