@@ -16,18 +16,19 @@
         </select> <br>
         <label>Position: </label><br>
         {% for position_id in positions %}
-        <input type="checkbox" id="{{ position_id }}" name="position_ids" value="{{ position_id }}">
-        <label for="{{ position_id }}">{{ positions[position_id].name }}</label><br>
         {% if positions[position_id]['id'] in entry_moves_positions %}
-        <script>
-            document.getElementById("{{ position_id }}").checked = true;
-        </script>
+            {% set checked = "checked" %}
         {% endif %}
+        <input type="checkbox" id="{{ position_id }}" name="position_ids" value="{{ position_id }}" {{ checked }}>
+        <label for="{{ position_id }}">{{ positions[position_id].name }}</label><br>
         {% endfor %}
         </select><br>
         <label>Grip: </label><br>
         {% for grip_id in grips %}
-        <input type="checkbox" id="{{ grip_id }}" name="grip_ids" value="{{ grip_id }}">
+        {% if grips[grip_id]['id'] in entry_moves_grips %}
+        {% set checked = "checked" %}
+        {% endif %}
+        <input type="checkbox" id="{{ grip_id }}" name="grip_ids" value="{{ grip_id }}" {{ checked }}>
         <label for="{{ grip_id }}">{{ grips[grip_id].name }}</label><br>
         {% endfor %}
         </select><br>

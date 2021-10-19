@@ -69,21 +69,16 @@
             "move_id": "KUTE_HYdwYzH6A",
             "position_id": "wx3ktKTcrcNw1g"
         },
+        "KUTE_HYdwYzH6A,WctFj5VM_ep3Cw": {
+            "move_id": "KUTE_HYdwYzH6A",
+            "position_id": "WctFj5VM_ep3Cw"
+        },
         "KUTE_HYdwYzH6A,kEKDq6XQZI4-KA": {
             "move_id": "KUTE_HYdwYzH6A",
             "position_id": "kEKDq6XQZI4-KA"
         }
     },
-    "moves_grips": {
-        "KUTE_HYdwYzH6A,Eu2putCDdN42BQ": {
-            "move_id": "KUTE_HYdwYzH6A",
-            "grip_id": "Eu2putCDdN42BQ"
-        },
-        "KUTE_HYdwYzH6A,2BV7AZK-bccPoA": {
-            "move_id": "KUTE_HYdwYzH6A",
-            "grip_id": "2BV7AZK-bccPoA"
-        }
-    },
+    "moves_grips": {},
     "move_types": {
         "3HJ0qNs8uwwIeQ": {
             "id": "3HJ0qNs8uwwIeQ",

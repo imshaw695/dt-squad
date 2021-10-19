@@ -1,4 +1,4 @@
-{% set title = 'Index v2' %}
+{% set title = 'Homepage' %}
 {% extends "base_layout.html" %}
 {% block body %}
     {% block navbar %}
@@ -6,30 +6,9 @@
     {% endblock navbar %}
 
     <div class = "container">
-<h2>Basic Jinja Print</h2>
-    {{ moves }} <br>
-    {{ positions }} <br>
-    {{ grips }} <br>
-    {{ move_types }}
-<h2>Using a for loop</h2>
-{% for position in positions  %}
-{{ positions[position] }} <br>
-{% endfor  %}
 
-<h2>Again</h2>
-<ul>
-    
-    {% for move_id in moves %}
-    <h3>{{ moves[move_id].name }} : {{ moves[move_id].description }}</h3>
-    {% endfor %}
-    {% for position_id in positions %}
-    <h3>{{ positions[position_id].name }} : {{ positions[position_id].description }}</h3>
-    {% endfor %}
-    {% for grip_id in grips %}
-    <h3>{{ grips[grip_id].name }} : {{ grips[grip_id].description }}</h3>
-    {% endfor %}
-
-</ul>
+        <h1>Coming soon...</h1>
+<!--
 </div>
 <div class="container">
     <div class="row">
@@ -44,7 +23,7 @@
         </div>
     </div>        
 </div>
-
+-->
 
 {% block content %}
     {{ super() }}
