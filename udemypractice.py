@@ -1,8 +1,9 @@
-move_types = { '3HJ0qNs8uwwIeQ': {'id': "3HJ0qNs8uwwIeQ", 'name': "sweep"},
-            "-J74rec3oEhKpA": {"id": "-J74rec3oEhKpA","name": "submission"}}
+list = [1,2,3,4,5]
+new_list = []
+for item in list:
+    if item == 1:
+        new_list.append(6)
+    else:
+        new_list.append(item)
 
-d = {'poop':1, 'fart': 2}
-
-for move_type in move_types:
-    if 'submission' in move_types[move_type].values():
-        print(move_type)
+print(new_list)
