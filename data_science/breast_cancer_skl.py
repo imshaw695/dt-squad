@@ -10,6 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
+import tensorflow as tf
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 # Importing the dataset
@@ -29,7 +30,7 @@ ordinal = OrdinalEncoder()
 ordinal.fit(X_train)
 X_train_encoded = ordinal.transform(X_train)
 X_test_encoded = ordinal.transform(X_test)
-
+print(X_test_encoded)
 label_encoder = LabelEncoder()
 label_encoder.fit(y_train)
 y_train_encoded = label_encoder.transform(y_train)
@@ -37,7 +38,9 @@ y_test_encoded = label_encoder.transform(y_test)
 
 # define the  model
 model = Sequential()
+# should units be 9, not 10?
 model.add(Dense(10, input_dim=X_train_encoded.shape[1], activation='relu', kernel_initializer='he_normal'))
+model.add(tf.keras.layers.Dense(units=30, activation=tf.nn.relu))
 model.add(Dense(1, activation='sigmoid'))
 # compile the keras model
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
