@@ -1,0 +1,55 @@
+{% set title = 'Homepage' %}
+{% extends "base_layout.html" %}
+{% block body %}
+    {% block navbar %}
+        {% include '/includes/_navbar.html' %}
+    {% endblock navbar %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                <h1>Breast Cancer Form</h1>
+                <hr>
+
+                <form action="/form_data" method="POST">
+                    {% for input_variable in input_variables %}
+                    <div class="form-group">
+                        <label>{{ input_variable }} </label>
+                        <select id="{{ input_variable }}" name="{{ input_variable }}">
+                            {% for value in input_variables[input_variable] %}
+                            {% if value in form_package %}
+                            <option value="{{ value }}" selected>{{ value }}</option>
+                            {% else %}
+                            <option value="{{ value }}">{{ value }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select> <br>
+                    </div>
+                    {% endfor %}
+
+
+                    <br>
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h1>Results</h1>
+                <hr>
+                {% for item in form_package %}
+                {{ form_package[item][0] }}
+                {% endfor %}
+                <br>
+                {% for item in prediction %}
+                {{ item[0] }}
+                {% endfor %}
+                {{ prediction }}
+            </div>
+        </div>
+    </div>
+    {% block content %}
+    {{ super() }}
+    {{results}}
+{% endblock content %}
+{% endblock body %}

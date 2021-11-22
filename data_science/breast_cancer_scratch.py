@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from keras.layers import Dense
 import os
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
@@ -50,22 +51,23 @@ data_05 = np.array(data_04)
 
 X = data_05[:, :-2]
 y = data_05[:, -2:]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Flatten(input_shape=(1,43)))
+model.add(Dense(8, input_shape=(43,), activation="relu"))
 
 if True:
    
-    # This creates a hidden layer and sets the amount of neurons, 128, and the activation function, which is relu
-    model.add(tf.keras.layers.Dense(units=30, activation=tf.nn.relu))
+    # This creates a hidden layer and sets the amount of neurons, 30, and the activation function, which is relu
+    model.add(tf.keras.layers.Dense(units=100, activation=tf.nn.relu))
 
     # Finally, you create the output layer. softmax scales them down so that they add up to 1
     model.add(tf.keras.layers.Dense(units=2, activation=tf.nn.softmax))
 
-    model.compile(optimizer="Adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+    # It didn't like the cross entropy form of loss, changing it to mean squared error worked!
+    model.compile(optimizer="Adam", loss="mean_squared_error", metrics=["accuracy"])
 
-    model.fit(X_train, y_train, epochs=3)
+    model.fit(X_train, y_train, epochs=5)
 
     loss, accuracy = model.evaluate(X_test, y_test)
 
