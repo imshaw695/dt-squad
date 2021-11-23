@@ -63,8 +63,8 @@ def form_data():
         form_package = json.loads(url_arguments['form_package'][0])
         prediction = url_arguments['prediction'][0]
         value = None
-        if prediction[0] > 0.5:
-            value = 1
+        first = float(prediction[3:12])
+        second = float(prediction[12:-2])
 
     # When pages contain a form, we can access the variables in this function
     # if the form was submitted
@@ -115,6 +115,8 @@ def form_data():
         form_package=form_package, 
         url_arguments=url_arguments,
         input_variables=input_variables,
-        prediction=prediction
+        prediction=prediction,
+        first=first,
+        second=second
     )
 

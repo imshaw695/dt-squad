@@ -46,12 +46,32 @@ for line in data_03:
         output_line[flip_index] = 1
         offset = len(unique_variables[column_index]) + offset
     data_04.append(output_line)
-    
-data_05 = np.array(data_04)
 
+even_dataset = []
+unused_nonrecurrence = []
+count = 0
+for observation in data_04:
+    if observation[-2] == 1:
+        even_dataset.append(observation)
+    if observation[-1] == 1 and count < 85:
+        even_dataset.append(observation)
+        count = count + 1
+    if observation[-1] == 1 and count >= 85:
+        unused_nonrecurrence.append(observation)
+
+data_05 = np.array(even_dataset)
+unused_nonrecurrence_np = np.array(unused_nonrecurrence)
+# Before splitting into inputs and outputs, I need to get 85 recurrence and 85 non-recurrence into a new dataset to split into 
+# test and training sets. I then need to add the unused non-recurrence lines to the test set.
+# I know that non-recurrence lines will have the last value as 1
 X = data_05[:, :-2]
 y = data_05[:, -2:]
+X_unused = unused_nonrecurrence_np[:, :-2]
+y_unused = unused_nonrecurrence_np[:, -2:]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
+X_test = np.concatenate((X_train, X_unused))
+y_test = np.concatenate((y_train, y_unused))
 
 model = tf.keras.models.Sequential()
 model.add(Dense(8, input_shape=(43,), activation="relu"))

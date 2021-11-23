@@ -18,7 +18,7 @@
                         <label>{{ input_variable }} </label>
                         <select id="{{ input_variable }}" name="{{ input_variable }}">
                             {% for value in input_variables[input_variable] %}
-                            {% if value in form_package %}
+                            {% if value in form_package[input_variable] %}
                             <option value="{{ value }}" selected>{{ value }}</option>
                             {% else %}
                             <option value="{{ value }}">{{ value }}</option>
@@ -39,11 +39,14 @@
                 <hr>
                 {% for item in form_package %}
                 {{ form_package[item][0] }}
-                {% endfor %}
                 <br>
-                {% for item in prediction %}
-                {{ item[0] }}
                 {% endfor %}
+                {% if first > 0.5 %}
+                <p>With 65% accuracy, there is a likelihood of recurrence.</p>
+                {% endif %}
+                {% if second > 0.5 %}
+                <p>With 65% accuracy, there is a likelihood of no recurrence.</p>
+                {% endif %}
                 {{ prediction }}
             </div>
         </div>
