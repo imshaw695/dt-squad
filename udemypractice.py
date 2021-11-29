@@ -1,9 +1,10 @@
-list = [1,2,3,4,5]
-new_list = []
-for item in list:
-    if item == 1:
-        new_list.append(6)
-    else:
-        new_list.append(item)
+accuracy = 1.2
+loss = 2.2
+model_accuracy = 9.7
+model_loss = 5.5
 
-print(new_list)
+model_metrics = []
+
+model_metrics.append([model_accuracy, model_loss, loss, accuracy])
+
+print(model_metrics)
