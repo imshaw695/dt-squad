@@ -17,6 +17,7 @@ data_02 = data_01.split('\n')
 data_03 = []
 for line_index,line in enumerate(data_02):
     if line_index == 0:
+        headings = line.split(',') 
         continue
     line = line.split(',')
     for index,item in enumerate(line):
@@ -26,7 +27,6 @@ for line_index,line in enumerate(data_02):
     data_03.append(line)
 
 unique_variables = []
-
 for line_index,line in enumerate(data_03):
     for column_index,column in enumerate(line):
         if line_index == 0:
@@ -34,12 +34,22 @@ for line_index,line in enumerate(data_03):
         if not column in unique_variables[column_index]:
             unique_variables[column_index].append(column)
 
+non_categoricals = [0,2,3,5]
+heading_02 = []
+for non_categorical in non_categoricals:
+    new_heading = headings[non_categorical]
+    heading_02.append(new_heading)
+
+for index,attribute in enumerate(unique_variables):
+    for category in attribute:
+        new_heading = f'{headings[index]}-{category}'
+        heading_02.append(new_heading)
+
 number_of_zeros = 0
 for list in unique_variables:
     number_of_zeros = number_of_zeros + len(list)
 
 data_04 = []
-non_categoricals = [0,2,3,5]
 non_categorical_maximums = [0] * len(non_categoricals)
 for line in data_03:
     # create a row with the correct number of zeros
@@ -87,6 +97,14 @@ even_dataset = even_dataset_nonrecurrence + even_dataset_recurrence
 
 data_05 = np.array(even_dataset)
 unused_nonrecurrence_np = np.array(unused_nonrecurrence)
+data_05[:, 31] = data_05[:, -2]
+data_05[:, 32] = data_05[:, -1]
+data_05[:, 33] = 0
+
+unused_nonrecurrence_np[:, 31] = unused_nonrecurrence_np[:, -2]
+unused_nonrecurrence_np[:, 32] = unused_nonrecurrence_np[:, -1]
+unused_nonrecurrence_np[:, 33] = 0
+
 ways = [True,False]
 
 model_metrics_new_way = []
@@ -98,7 +116,7 @@ for way in ways:
         data_05 = data_05[:, len(non_categoricals):]
         unused_nonrecurrence_np = unused_nonrecurrence_np[:, len(non_categoricals):]
 
-    number_of_runs = 100
+    number_of_runs = 1
     for run_index in range(number_of_runs):
         # Before splitting into inputs and outputs, I need to get 85 recurrence and 85 non-recurrence into a new dataset to split into 
         # test and training sets. I then need to add the unused non-recurrence lines to the test set.
@@ -126,12 +144,12 @@ for way in ways:
             model.add(tf.keras.layers.Dense(units=100, activation=tf.nn.relu))
 
             # Finally, you create the output layer. softmax scales them down so that they add up to 1
-            model.add(tf.keras.layers.Dense(units=2, activation=tf.nn.sigmoid))
+            model.add(tf.keras.layers.Dense(units=2, activation=tf.nn.softmax))
 
             # It didn't like the cross entropy form of loss, changing it to mean squared error worked!
             model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
-            history = model.fit(X_train, y_train, epochs=15)
+            history = model.fit(X_train, y_train, epochs=100)
             model_accuracy = history.history['accuracy'][-1]
             model_loss = history.history['loss'][-1]
             print('Now for the test results:')
@@ -145,7 +163,30 @@ for way in ways:
             print()
             print(loss)
             
+            for layer in model.layers:
+                print(layer.output_shape)
+
+            print(model.get_weights())
+            variable_index = 0
+            for index,array in enumerate(model.get_weights()):
+                if index == 0:
+                    for input_node in array:
+                        sum_of_weights = 0  
+                        for weight in input_node:
+                            sum_of_weights = 0  
+                            sum_of_weights = sum_of_weights + abs(weight)
+                        print(f'Variable number {variable_index} - {heading_02[variable_index]} has {data_05[:, variable_index].sum()} has an importance of {sum_of_weights}.')
+                        variable_index = variable_index + 1
+                else:
+                    continue
+
+
             model.save("breast_cancer.model")
+
+for layer in model.layers:
+    print(layer.output_shape)
+
+print()
 
 print(model_metrics_old_way)
 print(model_metrics_new_way)
@@ -185,3 +226,5 @@ print(f'The mean of the model accuracy for the old method is: {model_accuracy_ol
 print(f'The mean of the accuracy for the old method is: {accuracy_old_mean}')
 print(f'The mean of the model accuracy for the new method is: {model_accuracy_new_mean}')
 print(f'The mean of the accuracy for the new method is: {accuracy_new_mean}')
+
+1/0
