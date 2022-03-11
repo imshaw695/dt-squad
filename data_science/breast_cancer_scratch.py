@@ -97,12 +97,16 @@ even_dataset = even_dataset_nonrecurrence + even_dataset_recurrence
 
 data_05 = np.array(even_dataset)
 unused_nonrecurrence_np = np.array(unused_nonrecurrence)
-data_05[:, 31] = data_05[:, -2]
-data_05[:, 32] = data_05[:, -1]
+# data_05[:, 31] = data_05[:, -2]
+data_05[:, 31] = 0
+# data_05[:, 32] = data_05[:, -1]
+data_05[:, 32] = 0
 data_05[:, 33] = 0
 
-unused_nonrecurrence_np[:, 31] = unused_nonrecurrence_np[:, -2]
-unused_nonrecurrence_np[:, 32] = unused_nonrecurrence_np[:, -1]
+# unused_nonrecurrence_np[:, 31] = unused_nonrecurrence_np[:, -2]
+unused_nonrecurrence_np[:, 31] = 0
+# unused_nonrecurrence_np[:, 32] = unused_nonrecurrence_np[:, -1]
+unused_nonrecurrence_np[:, 32] = 0
 unused_nonrecurrence_np[:, 33] = 0
 
 ways = [True,False]
@@ -134,14 +138,14 @@ for way in ways:
         y_test = np.concatenate((y_test, y_unused))
         number_of_input_nodes = X.shape[1]
         model = tf.keras.models.Sequential()
-        model.add(Dense(8, input_shape=(number_of_input_nodes,), activation="relu"))
+        model.add(Dense(20, input_shape=(number_of_input_nodes,), activation="relu"))
 
         
 
         if True:
             
             # This creates a hidden layer and sets the amount of neurons, 30, and the activation function, which is relu
-            model.add(tf.keras.layers.Dense(units=100, activation=tf.nn.relu))
+            # model.add(tf.keras.layers.Dense(units=100, activation=tf.nn.relu))
 
             # Finally, you create the output layer. softmax scales them down so that they add up to 1
             model.add(tf.keras.layers.Dense(units=2, activation=tf.nn.softmax))
@@ -149,7 +153,7 @@ for way in ways:
             # It didn't like the cross entropy form of loss, changing it to mean squared error worked!
             model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
-            history = model.fit(X_train, y_train, epochs=100)
+            history = model.fit(X_train, y_train, epochs=15)
             model_accuracy = history.history['accuracy'][-1]
             model_loss = history.history['loss'][-1]
             print('Now for the test results:')
@@ -168,12 +172,12 @@ for way in ways:
 
             print(model.get_weights())
             variable_index = 0
-            for index,array in enumerate(model.get_weights()):
+            weights = model.get_weights()
+            for index,array in enumerate(weights):
                 if index == 0:
                     for input_node in array:
                         sum_of_weights = 0  
                         for weight in input_node:
-                            sum_of_weights = 0  
                             sum_of_weights = sum_of_weights + abs(weight)
                         print(f'Variable number {variable_index} - {heading_02[variable_index]} has {data_05[:, variable_index].sum()} has an importance of {sum_of_weights}.')
                         variable_index = variable_index + 1
