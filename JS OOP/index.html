@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <script src="Observation.js"></script>
+</head>
+
+<body>
+    <h1>Observation Template</h1>
+    <p id="encoded">Initial</p>
+    <div id="cloudLayer">
+        <form>
+            <input type="text" id="type" value="a">
+            <input type="text" id="height" value="b">
+            <input type="text" id="oktas" value="c">
+            <button type="button" onclick="addCloudLayer()">Save Cloud Layer</button>
+        </form>
+    </div>
+    <div id="cloudLayers"></div>
+    <input type="datetime-local" id="date" onchange="observation.setDate(this.value);updateEncoded()">
+    <script>
+        const observation = new Observation();
+        observation.setDate(new Date());
+        console.log(observation.date);
+        function updateEncoded() {
+            document.getElementById("encoded").innerHTML = observation.encoded;
+        }
+        function addCloudLayer() {
+            const type = document.getElementById("type").value;
+            const height = document.getElementById("height").value;
+            const oktas = document.getElementById("oktas").value;
+            observation.addCloudLayer(type, height, oktas);
+            
+            displayCloudLayers();
+        }
+        
+        function displayCloudLayers() {
+            document.getElementById("cloudLayers").innerHTML = "";
+            const cloudLayers = document.getElementById("cloudLayers")
+            var ul = document.createElement("ul");
+            cloudLayers.appendChild(ul);
+            for (let cloudLayerIndex = 0; cloudLayerIndex < observation.cloudLayers.length; cloudLayerIndex++) {
+                const cloudLayer = observation.cloudLayers[cloudLayerIndex];
+                const li = document.createElement("li");
+                const button = document.createElement("button");
+                button.innerHTML = "Delete";
+                button.type = "button";
+                button.addEventListener('click', function () {
+                    observation.deleteCloudLayer(cloudLayerIndex);
+                    displayCloudLayers();
+                })
+
+                // observation.deleteCloudLayer(${cloudLayerIndex});
+                li.innerHTML = cloudLayer.getFormatted();
+                li.appendChild(button);
+                ul.appendChild(li);
+
+            }
+        }
+    </script>
+</body>
+
+</html>
