@@ -1,0 +1,487 @@
+<html>
+
+<head>
+    <title>Observation</title>
+    <script type="text/javascript">
+        function setForm(value) {
+
+            if (value == 'form1') {
+                document.getElementById('form1').style = 'display:block;';
+                document.getElementById('form2').style = 'display:none;';
+            }
+            else {
+
+                document.getElementById('form2').style = 'display:block;';
+                document.getElementById('form1').style = 'display:none;';
+            }
+
+        }
+    </script>
+    <script src="js/cookieFunctions.js"></script>
+    <script src="js/getCloudDictionary.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</head>
+
+<body style="font-family:Arial;">
+    <a href="formchange.html">Display Observations</a><br>
+    <a href="#" onclick='setForm("form1")'>Observation at sea</a><br>
+    <a href="#" onclick="setForm('form2')">Observation on land</a><br>
+    <h1>OBERVATION AT SEA - FM13</h1>
+    <div id="form1" class="form-row">
+        <form method="post" id="frm1" action="form">
+            <div class="col-md-4 mb-3">
+                <label for="datetime">Date and Time</label>
+                <input type="datetime-local" onchange="dateChanged(event)" class="form-control" id="datetime"
+                    name="datetime" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <hr>
+                <label for="dbulb">Dry Bulb:</label>
+                <input type="text" onchange="drybulbChanged(event)" class="form-control" id="dbulb" name="dbulb"
+                    required>
+                <label for="wbulb">Wet Bulb:</label>
+                <input type="text" class="form-control" id="wbulb" name="wbulb" required>
+                <label for="dpoint">Dewpoint:</label>
+                <input type="text" onchange="dewpointChanged(event)" class="form-control" id="dpoint" name="dpoint"
+                    required>
+                <label for="direction">Wind direction:</label>
+                <input type="text" onchange="directionChanged(event)" class="form-control" id="direction"
+                    name="direction" required>
+                <label for="speed">Wind speed:</label>
+                <input type="text" onchange="speedChanged(event)" class="form-control" id="speed" name="speed" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="cloudtotal">Cloud total:</label>
+                <input type="text" onchange="cloudTotalChanged(event)" class="form-control" id="cloudtotal"
+                    name="cloudtotal" required>
+                <label for="totallow">Total low cloud:</label>
+                <input type="text" onchange="totalLowChanged(event)" class="form-control" id="totallow" name="totallow"
+                    required>
+                <hr>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="cloud1">Cloud type:</label>
+                        <input type="text" onchange="cloudChanged(this)" class="form-control" id="cloud1" name="cloud1"
+                            required>
+                        <label for="okta1">Oktas:</label>
+                        <input type="text" onchange="oktaChanged(this)" class="form-control" id="okta1" name="okta1"
+                            required>
+                        <label for="height1">Height:</label>
+                        <input type="text" onchange="heightChanged(this)" class="form-control" id="height1"
+                            name="height1" required>
+                    </div>
+                </div>
+                <label for="cloud2">Cloud type:</label>
+                <input type="text" onchange="cloudChanged(this)" class="form-control" id="cloud2" name="cloud2"
+                    required>
+                <label for="okta2">Oktas:</label>
+                <input type="text" class="form-control" id="okta2" name="okta2" required>
+                <label for="height2">Height:</label>
+                <input type="text" class="form-control" id="height2" name="height2" required>
+                <label for="cloud3">Cloud type:</label>
+                <input type="text" onchange="cloudChanged(this)" id="cloud3" name="cloud3" required>
+                <label for="okta3">Oktas:</label>
+                <input type="text" id="okta3" name="okta3" required>
+                <label for="height3">Height:</label>
+                <input type="text" id="height3" name="height3" required>
+                <label for="cloud4">Cloud type:</label>
+                <input type="text" onchange="cloudChanged(this)" id="cloud4" name="cloud1" required>
+                <label for="okta4">Oktas:</label>
+                <input type="text" id="okta4" name="okta1" required>
+                <label for="height4">Height:</label>
+                <input type="text" id="height4" name="height4" required>
+                <label for="cloud5">Cloud type:</label>
+                <input type="text" onchange="cloudChanged(this)" id="cloud5" name="cloud5" required>
+                <label for="okta5">Oktas:</label>
+                <input type="text" id="okta5" name="okta5" required>
+                <label for="height5">Height:</label>
+                <input type="text" id="height5" name="height5" required>
+                <label for="cloud6">Cloud type:</label>
+                <input type="text" onchange="cloudChanged(this)" id="cloud6" name="cloud6" required>
+                <label for="okta6">Oktas:</label>
+                <input type="text" id="okta6" name="okta6" required>
+                <label for="height6">Height:</label>
+                <input type="text" id="height6" name="height6" required>
+            </div>
+            <p>Wind waves:</p>
+            <label for="waveper">Period:</label>
+            <input type="text" id="waveper" name="waveper" required>
+            <label for="wavehei">Height:</label>
+            <input type="text" id="wavehei" name="wavehei" required>
+
+            <p>Swell 1:</p>
+            <label for="swelldir1">Direction:</label>
+            <input type="text" id="swelldir1" name="swelldir1" required>
+            <label for="swellper1">Period:</label>
+            <input type="text" id="swellper1" name="swellper1" required>
+            <label for="swellhei1">Height:</label>
+            <input type="text" id="swellhei1" name="swellhei1" required>
+
+            <p>Swell 2:</p>
+            <label for="swelldir2">Direction:</label>
+            <input type="text" id="swelldir1" name="swelldir2">
+            <label for="swellper2">Period:</label>
+            <input type="text" id="swellper1" name="swellper2">
+            <label for="swellhei2">Height:</label>
+            <input type="text" id="swellhei1" name="swellhei2">
+            <br>
+            <label for="initials">Initials:</label>
+            <input type="text" id="initials" name="initials" required>
+
+        </form>
+
+        <p>For now, coded observation will display below.</p>
+
+        <p id="demo"></p>
+        <h1>Encoded Observation</h1>
+        <p id="encodedObservation" style="background-color:rgb(235, 121, 14);font-size:20px;border-style:solid;"></p>
+
+        <script>
+            var cloudDictionary = getCloudDictionary();
+            console.log(cloudDictionary)
+            var cloudImportanceDictionary = getCloudImportanceDictionary();
+            var encodedObservation = "";
+            var dateEncoded = "";
+            var drybulbEncoded = "";
+            var dewpointEncoded = "";
+            var directionEncoded = "";
+            var speedEncoded = "";
+            var cloudTotalEncoded = "";
+            var totalLowEncoded = "";
+            var cloudFields = {};
+            function buildEncodedObservation() {
+                encodedObservation = dateEncoded + " " + cloudTotalEncoded + directionEncoded + speedEncoded + " 10" + drybulbEncoded + " 20" + dewpointEncoded;
+                document.getElementById("encodedObservation").innerHTML = encodedObservation
+            }
+
+            function dateChanged(event) {
+                dateRaw = document.getElementById("datetime").value;
+                day = dateRaw.substr(8, 2);
+                hour = dateRaw.substr(11, 2);
+                dateEncoded += day + hour + 4 + " ";
+                buildEncodedObservation();
+            }
+            function drybulbChanged(event) {
+                drybulbEncoded = document.getElementById("dbulb").value * 10.0;
+                buildEncodedObservation();
+            }
+            function dewpointChanged(event) {
+                dewpointEncoded = document.getElementById("dpoint").value * 10.0;
+                buildEncodedObservation();
+            }
+            function directionChanged(event) {
+                directionEncoded = document.getElementById("direction").value / 10;
+                buildEncodedObservation();
+            }
+            function speedChanged(event) {
+                speedEncoded = document.getElementById("speed").value;
+                buildEncodedObservation();
+            }
+            function cloudTotalChanged(event) {
+                cloudTotalEncoded = document.getElementById("cloudtotal").value;
+                buildEncodedObservation();
+            }
+            function totalLowChanged(event) {
+                totalLowEncoded = document.getElementById("totallow").value;
+                buildEncodedObservation();
+            }
+            function cloudChanged(field) {
+                cloudEncoded = field.value;
+                console.log(field.value)
+                cloudIndex = field.name.charAt(field.name.length - 1)
+                if (cloudEncoded in cloudDictionary) {
+                    field.style.backgroundColor = "lightgreen";
+                    // populate the global variable 
+                    cloudFields[cloudEncoded] = { "cloudType": cloudEncoded, "oktas": null, "height": null }
+
+                    buildEncodedObservation();
+                } else {
+                    field.style.backgroundColor = "indianred";
+                }
+            }
+            function heightChanged(field) {
+                console.log(field.value)
+                // Find out which cloud field we are talking about
+                cloudIndex = field.name.charAt(field.name.length - 1)
+                cloudName = "cloud" + cloudIndex
+                cloudType = document.getElementById(cloudName).value
+                cloudEntry = cloudDictionary[cloudType]
+                console.log(cloudEntry.heightLowest)
+                console.log(cloudEntry.heightHighest)
+                if (field.value >= cloudEntry.heightLowest && field.value < cloudEntry.heightHighest) {
+                    field.style.backgroundColor = "lightgreen";
+                    cloudFields[cloudEncoded].height = field.value
+                    buildEncodedObservation();
+                } else {
+                    field.style.backgroundColor = "indianred";
+                }
+            }
+            function submitObservation() {
+                drybulbEncoded = document.getElementById("dbulb").value
+                dateEncoded = document.getElementById("datetime").value;
+                observations = getObservations();
+                observation = { "date": dateEncoded, "temperature": drybulbEncoded };
+                observations.push(observation);
+                setObservations(observations);
+                console.log(document.cookie);
+                observations = getObservations();
+                console.log(observations);
+                var cookies = document.cookie.split(';');
+                alert("Observation added to cookies")
+            }
+        </script>
+
+        <button class="btn btn-primary" onclick="submitObservation()">Submit Observation</button>
+    </div>
+    <div id="form2" style="display: none">
+        <h1>OBSERVATION ON LAND - FM12</h1>
+        <form method="post" id="frm2" action="form">
+            <label for="datetime">Date and Time</label>
+            <input type="datetime-local" onchange="dateChanged(event)" id="datetime" name="datetime">
+            <br>
+            <br>
+            <br>
+            <label for="dbulb">Dry Bulb:</label>
+            <input type="text" onchange="drybulbChanged(event)" id="dbulb" name="dbulb">
+            <br>
+            <br>
+            <label for="wbulb">Wet Bulb:</label>
+            <input type="text" id="wbulb" name="wbulb">
+            <br>
+            <br>
+            <label for="dpoint">Dewpoint:</label>
+            <input type="text" onchange="dewpointChanged(event)" id="dpoint" name="dpoint">
+            <br>
+            <br>
+            <label for="direction">Wind direction:</label>
+            <input type="text" onchange="directionChanged(event)" id="direction" name="direction">
+            <label for="speed">Wind speed:</label>
+            <input type="text" onchange="speedChanged(event)" id="speed" name="speed">
+            <br>
+            <br>
+            <label for="cloudtotal">Cloud total:</label>
+            <input type="text" onchange="cloudTotalChanged(event)" id="cloudtotal" name="cloudtotal">
+            <label for="totallow">Total low cloud:</label>
+            <input type="text" onchange="totalLowChanged(event)" id="totallow" name="totallow">
+            <br>
+            <br>
+            <label for="cloud1">Cloud type:</label>
+            <input type="text" id="cloud1" name="cloud1">
+            <label for="okta1">Oktas:</label>
+            <input type="text" id="okta1" name="okta1">
+            <label for="height1">Height:</label>
+            <input type="text" id="height1" name="height1">
+            <br>
+            <label for="cloud2">Cloud type:</label>
+            <input type="text" id="cloud2" name="cloud2">
+            <label for="okta2">Oktas:</label>
+            <input type="text" id="okta2" name="okta2">
+            <label for="height2">Height:</label>
+            <input type="text" id="height2" name="height2">
+            <br>
+            <label for="cloud3">Cloud type:</label>
+            <input type="text" id="cloud3" name="cloud3">
+            <label for="okta3">Oktas:</label>
+            <input type="text" id="okta3" name="okta3">
+            <label for="height3">Height:</label>
+            <input type="text" id="height3" name="height3">
+            <br>
+            <label for="cloud4">Cloud type:</label>
+            <input type="text" id="cloud4" name="cloud1">
+            <label for="okta4">Oktas:</label>
+            <input type="text" id="okta4" name="okta1">
+            <label for="height4">Height:</label>
+            <input type="text" id="height4" name="height4">
+            <br>
+            <label for="cloud5">Cloud type:</label>
+            <input type="text" id="cloud5" name="cloud5">
+            <label for="okta5">Oktas:</label>
+            <input type="text" id="okta5" name="okta5">
+            <label for="height5">Height:</label>
+            <input type="text" id="height5" name="height5">
+            <br>
+            <label for="cloud6">Cloud type:</label>
+            <input type="text" id="cloud6" name="cloud6">
+            <label for="okta6">Oktas:</label>
+            <input type="text" id="okta6" name="okta6">
+            <label for="height6">Height:</label>
+            <input type="text" id="height6" name="height6">
+            <br><br><br>
+            <label for="initials">Initials:</label>
+            <input type="text" id="initials" name="initials">
+            <br><br><br>
+            <input type="submit" value="submit">
+        </form>
+
+        <p>For now, coded observation will display below.</p>
+
+        <button class="btn btn-primary" onclick="myFunction()">Submit Observation</button>
+
+        <p id="demo"></p>
+        <h1>Encoded Observation</h1>
+        <p id="encodedObservation" style="background-color:rgb(235, 121, 14);font-size:20px;border-style:solid;"></p>
+
+        <script>
+            var cloudDictionary = getCloudDictionary();
+            console.log(cloudDictionary)
+            var cloudImportanceDictionary = getCloudImportanceDictionary();
+            var encodedObservation = "";
+            var dateEncoded = "";
+            var drybulbEncoded = "";
+            var dewpointEncoded = "";
+            var directionEncoded = "";
+            var speedEncoded = "";
+            var cloudTotalEncoded = "";
+            var totalLowEncoded = "";
+            function buildEncodedObservation() {
+                var encodedCloudGroup = getEncodedCloudGroup();
+                encodedObservation = dateEncoded + " " + cloudTotalEncoded;
+                encodedObservation += directionEncoded + speedEncoded + " 10";
+                encodedObservation += drybulbEncoded + " 20" + dewpointEncoded + encodedCloudGroup;
+                document.getElementById("encodedObservation").innerHTML = encodedObservation
+            }
+
+            function dateChanged(event) {
+                dateRaw = document.getElementById("datetime").value;
+                day = dateRaw.substr(8, 2);
+                hour = dateRaw.substr(11, 2);
+                dateEncoded += day + hour + 4 + " ";
+                buildEncodedObservation();
+            }
+            function drybulbChanged(event) {
+                drybulbEncoded = document.getElementById("dbulb").value * 10.0;
+                buildEncodedObservation();
+            }
+            function dewpointChanged(event) {
+                dewpointEncoded = document.getElementById("dpoint").value * 10.0;
+                buildEncodedObservation();
+            }
+            function directionChanged(event) {
+                directionEncoded = document.getElementById("direction").value / 10;
+                buildEncodedObservation();
+            }
+            function speedChanged(event) {
+                speedEncoded = document.getElementById("speed").value;
+                buildEncodedObservation();
+            }
+            function cloudTotalChanged(event) {
+                cloudTotalEncoded = document.getElementById("cloudtotal").value;
+                buildEncodedObservation();
+            }
+            function totalLowChanged(event) {
+                totalLowEncoded = document.getElementById("totallow").value;
+                buildEncodedObservation();
+            }
+            function getCloudDictionary() {
+                let cloudDictionary = {};
+                let cloud = {};
+                cloud.name = "CU1";
+                cloud.code = 1;
+                cloud.type = "low";
+                cloud.importance = 0;
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "CU2";
+                cloud.code = 2;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "CB3";
+                cloud.code = 3;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "SC4";
+                cloud.code = 4;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "SC5";
+                cloud.code = 5;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "ST6";
+                cloud.code = 6;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "ST7";
+                cloud.code = 7;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "SC8";
+                cloud.code = 8;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+
+                cloud = {};
+                cloud.name = "CB9";
+                cloud.code = 9;
+                cloud.type = "low";
+                cloud.importance = getCloudImportance(cloud.type, cloud.code);
+                cloud.heightLowest = 1500;
+                cloud.heightHighest = 6500;
+                cloudDictionary[cloud.name] = cloud;
+                return cloudDictionary
+            }
+            function getCloudImportanceDictionary() {
+                let cloudImportanceDictionary = {};
+                let cloudType = {};
+                cloudType.name = "low";
+                cloudType.importanceArray = [9, 3, 4, 8, 2, [1, 5, 6, 7]];
+                cloudImportanceDictionary[cloudType.name] = cloudType;
+
+                cloudType.name = "medium";
+                cloudType.importanceArray = [9, 8, '7c', 6, 5, 4, '7c', ['7b', 3], 2, 1];
+                cloudImportanceDictionary[cloudType.name] = cloudType;
+                return cloudImportanceDictionary
+            }
+            function getCloudImportance(cloudType, cloudCode) {
+                /// loop over cloud importance array until it equals the cloud code and 
+                return 0
+            }
+        </script>
+    </div>
+
+</body>
+
+</html>

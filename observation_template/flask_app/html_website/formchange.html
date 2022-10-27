@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test table</title>
+    <script src="js/cookieFunctions.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="flex-container">
+        <div id="displayTable" class="flex-child">
+            List of Observations
+        </div>
+
+        <div id="displayObservation" class="flex-child">
+            Selected Observation
+            <p id="obtag"></p>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function displayObservations() {
+            var dataFields = ["date", "temperature"];
+            //var observations = [{ "date": "2022-04-14T13:46:17.638Z", "temperature": "18 C" }, { "date": "2022-04-14T13:47:09.340Z", "temperature": "18 C" }, { "date": "2022-04-14T13:47:28.200Z", "temperature": "18 C" }, { "date": "2022-04-14T13:47:50.021Z", "temperature": "18 C" }, { "date": "2022-04-14T13:47:52.500Z", "temperature": "18 C" }, { "date": "2022-04-14T13:48:23.438Z", "temperature": "18 C" }, { "date": "2022-04-14T13:54:43.653Z", "temperature": "18 C" }, { "date": "2022-04-18T14:04:05.042Z", "temperature": "18 C" }, { "date": "2022-04-18T14:13:42.333Z", "temperature": "18 C" }, { "date": "2022-04-18T14:13:45.157Z", "temperature": "18 C" }, { "date": "2022-04-18T14:14:01.115Z", "temperature": "18 C" }, { "date": "2022-04-18T14:14:02.141Z", "temperature": "18 C" }, { "date": "2022-04-18T14:16:37.586Z", "temperature": "18 C" }, { "date": "2022-04-18T14:25:13.343Z", "temperature": "18 C" }, { "date": "2022-04-18T14:27:48.913Z", "temperature": "18 C" }, { "date": "2022-04-18T14:28:16.795Z", "temperature": "18 C" }, { "date": "2022-04-18T14:29:02.834Z", "temperature": "18 C" }, { "date": "2022-04-18T14:32:16.541Z", "temperature": "18 C" }, { "date": "2022-04-18T14:35:39.282Z", "temperature": "18 C" }, { "date": "2022-04-18T14:36:24.162Z", "temperature": "18 C" }, { "date": "2022-04-18T14:39:07.362Z", "temperature": "18 C" }, { "date": "2022-04-18T14:42:50.508Z", "temperature": "18 C" }, { "date": "2022-04-18T14:44:12.230Z", "temperature": "18 C" }, { "date": "2022-04-18T14:44:23.441Z", "temperature": "18 C" }, { "date": "2022-04-19T15:27:30.181Z", "temperature": "18 C" }, { "date": "2022-04-19T15:27:47.919Z", "temperature": "18 C" }, { "date": "2022-04-19T15:27:50.901Z", "temperature": "18 C" }, { "date": "2022-04-19T15:27:51.838Z", "temperature": "18 C" }, { "date": "2022-04-19T15:30:49.281Z", "temperature": "18 C" }, { "date": "2022-04-19T15:32:23.202Z", "temperature": "18 C" }, { "date": "2022-04-19T15:32:45.363Z", "temperature": "18 C" }, { "date": "2022-04-19T15:32:53.481Z", "temperature": "18 C" }, { "date": "2022-04-19T15:32:55.263Z", "temperature": "18 C" }, { "date": "2022-04-19T15:34:24.431Z", "temperature": "18 C" }, { "date": "2022-04-19T15:34:29.229Z", "temperature": "18 C" }, { "date": "2022-04-19T15:36:17.662Z", "temperature": "18 C" }, { "date": "2022-04-19T15:37:58.850Z", "temperature": "18 C" }, { "date": "2022-04-20T07:17:45.961Z", "temperature": "18 C" }, { "date": "2022-04-20T07:25:51.111Z", "temperature": "18 C" }, { "date": "2022-04-20T07:32:14.952Z", "temperature": "18 C" }, { "date": "2022-04-20T07:32:15.612Z", "temperature": "18 C" }, { "date": "2022-04-20T07:32:17.800Z", "temperature": "18 C" }, { "date": "2022-04-20T07:33:15.804Z", "temperature": "18 C" }, { "date": "2022-04-20T07:33:18.406Z", "temperature": "18 C" }, { "date": "2022-04-20T07:33:20.394Z", "temperature": "18 C" }, { "date": "2022-04-20T07:35:04.551Z", "temperature": "18 C" }, { "date": "2022-04-20T07:35:35.187Z", "temperature": "18 C" }, { "date": "2022-04-20T07:37:26.474Z", "temperature": "18 C" }, { "date": "2022-04-20T07:37:36.280Z", "temperature": "18 C" }, { "date": "2022-04-20T07:38:10.585Z", "temperature": "18 C" }, { "date": "2022-04-20T07:38:11.554Z", "temperature": "18 C" }, { "date": "2022-04-20T07:39:17.273Z", "temperature": "18 C" }, { "date": "2022-04-20T07:39:53.230Z", "temperature": "18 C" }, { "date": "2022-04-20T07:41:11.939Z", "temperature": "18 C" }, { "date": "2022-04-20T07:41:26.680Z", "temperature": "18 C" }, { "date": "2022-04-20T07:42:41.135Z", "temperature": "18 C" }, { "date": "2022-04-20T08:02:47.069Z", "temperature": "18 C" }, { "date": "2022-04-20T08:03:22.675Z", "temperature": "18 C" }, { "date": "2022-04-20T08:05:33.317Z", "temperature": "18 C" }, { "date": "2022-04-20T08:06:49.595Z", "temperature": "18 C" }, { "date": "2022-04-20T08:06:53.194Z", "temperature": "18 C" }, { "date": "2022-04-20T08:08:12.987Z", "temperature": "18 C" }, { "date": "2022-04-20T08:08:18.342Z", "temperature": "18 C" }]
+            var observations = getObservations()
+            const displayTable = document.getElementById("displayTable");
+            displayTable.innerHTML = "";
+            var myTable = document.createElement("TABLE");
+            displayTable.append(myTable)
+            var row = myTable.insertRow(0);
+            for (var dataFieldIndex = 0; dataFieldIndex < dataFields.length; dataFieldIndex++) {
+                var cell = row.insertCell(dataFieldIndex);
+                cell.innerHTML = dataFields[dataFieldIndex]
+            }
+
+            for (var observationIndex = 0; observationIndex < observations.length; observationIndex++) {
+                var observation = observations[observationIndex]
+                var row = myTable.insertRow(observationIndex + 1);
+                for (var dataFieldIndex = 0; dataFieldIndex < dataFields.length; dataFieldIndex++) {
+                    var cell = row.insertCell(dataFieldIndex);
+                    var dataField = dataFields[dataFieldIndex]
+                    cell.innerHTML = observation[dataField]
+                }
+                var cell = row.insertCell(dataFieldIndex);
+                let btn = document.createElement("button");
+                btn.innerHTML = "Delete Observation";
+                btn.type = "submit";
+                btn.name = "formBtn";
+                btn.observationIndex = observationIndex
+                cell.appendChild(btn);
+                btn.addEventListener("click", function () {
+                    deleteObservation(btn.observationIndex)
+                    displayObservations()
+                });
+                let viewbtn = document.createElement("button");
+                viewbtn.innerHTML = "View Observation";
+                viewbtn.type = "submit"
+                viewbtn.name = "viewbtn"
+                viewbtn.observationIndex = observationIndex
+                cell.appendChild(viewbtn);
+                viewbtn.addEventListener("click", function () {
+                    let observations = getObservations();
+                    let observation = observations[viewbtn.observationIndex]
+                    const displayOb = document.getElementById("obtag");
+                    displayOb.innerHTML = "Date of observation: " + observation["date"] + "<br>" + "Temperature: " + observation["temperature"]
+                });
+            }
+        }
+
+        displayObservations()
+    </script>
+</body>
+
+</html>

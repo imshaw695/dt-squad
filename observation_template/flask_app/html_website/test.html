@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+  <script src="js/getCloudDictionary.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <label for="cloud1">Cloud 1 Test:</label>
+  <input type="text" id="cloud1" onchange="cloudChanged(this)">
+  <br><br>
+  <label for="cloud2">Cloud 2 Test:</label>
+  <input type="text" id="cloud2" onchange="cloudChanged(this)">
+  <script>
+    var cloudDictionary = getCloudDictionary();
+    console.log(cloudDictionary)
+    function cloudChanged(field) {
+      cloudEncoded = field.value;
+      console.log(field.value)
+      if (cloudEncoded in cloudDictionary) {
+        field.style.backgroundColor = "white";
+      } else {
+        field.style.backgroundColor = "red";
+      }
+    }
+  </script>
+  <form>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="validationDefault01">First name</label>
+        <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="Mark" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="validationDefault02">Last name</label>
+        <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="Otto" required>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="validationDefaultUsername">Username</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+          </div>
+          <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Username"
+            aria-describedby="inputGroupPrepend2" required>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="validationDefault03">City</label>
+        <input type="text" class="form-control" id="validationDefault03" placeholder="City" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="validationDefault04">State</label>
+        <input type="text" class="form-control" id="validationDefault04" placeholder="State" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label for="validationDefault05">Zip</label>
+        <input type="text" class="form-control" id="validationDefault05" placeholder="Zip" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+        <label class="form-check-label" for="invalidCheck2">
+          Agree to terms and conditions
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit form</button>
+  </form>
+  <script>
+    cloudDict = { cloud1: { "okta1": 2 } }
+    cloudArray = [{ "name": "CU1", "okta": 2 }]
+    document.createElement()
+  </script>
+</body>
+
+</html>

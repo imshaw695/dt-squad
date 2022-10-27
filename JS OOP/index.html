@@ -7,60 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <script src="Observation.js"></script>
+    <script src="createObservationTemplate.js"></script>
 </head>
 
 <body>
     <h1>Observation Template</h1>
     <p id="encoded">Initial</p>
-    <div id="cloudLayer">
-        <form>
-            <input type="text" id="type" value="a">
-            <input type="text" id="height" value="b">
-            <input type="text" id="oktas" value="c">
-            <button type="button" onclick="addCloudLayer()">Save Cloud Layer</button>
-        </form>
+    <div class="container">
+        <div id="form1">
+
+        </div>
+        <h1>Encoded Observation</h1>
+        <p id="encodedObservation" style="background-color:rgb(235, 121, 14);font-size:20px;border-style:solid;"></p>
+        <script>
+            createObservationTemplate();
+            // Create a break line element
+            var br = document.createElement("br");
+        </script>
     </div>
     <div id="cloudLayers"></div>
-    <input type="datetime-local" id="date" onchange="observation.setDate(this.value);updateEncoded()">
+    <input type="datetime-local" id="date" onchange="observation.setDate(this.value);updateEncoded()"><br>
+    <input type="text" id="latitude" onchange="observation.setLatitude(this.value);updateEncoded()"
+        placeholder="latitude"><br>
+    <input type="text" id="quadrant" onchange="observation.setQuadrant(this.value);updateEncoded()"
+        placeholder="quadrant"><br>
+    <input type="text" id="longitude" onchange="observation.setLongitude(this.value);updateEncoded()"
+        placeholder="longitude"><br>
+
     <script>
         const observation = new Observation();
-        observation.setDate(new Date());
-        console.log(observation.date);
-        function updateEncoded() {
-            document.getElementById("encoded").innerHTML = observation.encoded;
-        }
-        function addCloudLayer() {
-            const type = document.getElementById("type").value;
-            const height = document.getElementById("height").value;
-            const oktas = document.getElementById("oktas").value;
-            observation.addCloudLayer(type, height, oktas);
-            
-            displayCloudLayers();
-        }
-        
-        function displayCloudLayers() {
-            document.getElementById("cloudLayers").innerHTML = "";
-            const cloudLayers = document.getElementById("cloudLayers")
-            var ul = document.createElement("ul");
-            cloudLayers.appendChild(ul);
-            for (let cloudLayerIndex = 0; cloudLayerIndex < observation.cloudLayers.length; cloudLayerIndex++) {
-                const cloudLayer = observation.cloudLayers[cloudLayerIndex];
-                const li = document.createElement("li");
-                const button = document.createElement("button");
-                button.innerHTML = "Delete";
-                button.type = "button";
-                button.addEventListener('click', function () {
-                    observation.deleteCloudLayer(cloudLayerIndex);
-                    displayCloudLayers();
-                })
-
-                // observation.deleteCloudLayer(${cloudLayerIndex});
-                li.innerHTML = cloudLayer.getFormatted();
-                li.appendChild(button);
-                ul.appendChild(li);
-
-            }
-        }
     </script>
 </body>
 

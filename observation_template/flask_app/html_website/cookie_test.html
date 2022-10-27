@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/cookieFunctions.js"></script>
+</head>
+
+<body>
+    <script>
+        observations = getObservations();
+        const observationDate = new Date();
+        observation = { "date": observationDate, "temperature": "18 C" };
+        observations.push(observation);
+        setObservations(observations);
+        console.log(document.cookie);
+        observations = getObservations();
+        console.log(observations);
+        var cookies = document.cookie.split(';');
+    </script>
+    <p id="GFG_UP" style="font-size: 20px; font-weight: bold;"> </p>
+
+    <button onclick="gfg_Run()"> Click Here </button>
+    <p id="GFG_DOWN" style="color:black;
+        font-size: 26px; font-weight: bold;"> </p>
+    <p id="test1"></p>
+    <script>
+        var el_up = document.getElementById("GFG_UP");
+        var el_down = document.getElementById("GFG_DOWN");
+        el_up.innerHTML = "Click on the button to "
+            + "get the stored cookies.";
+        for (let i=0; i<cookies.length;i++){
+            var line = cookies[i]
+            document.write(line);
+
+        }
+
+    </script>
+</body>
+
+</html>
