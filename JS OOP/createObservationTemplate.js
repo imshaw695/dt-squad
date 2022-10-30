@@ -1,4 +1,5 @@
 function createFormItem(labelText, name, element) {
+    // to create the elements on the observation templates
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -25,12 +26,13 @@ function createFormItem(labelText, name, element) {
 }
 
 function updateEncoded() {
+    // updates the orange box with the encoded observation
     const encoded = observation.encodeData();
     document.getElementById("encodedObservation").innerHTML = encoded;
 }
 
 function createCloudFormItem(labelText, name) {
-
+    // creates elements for cloud data
     var label = document.createElement("label");
     label.setAttribute("class", "form-label col mx-0 text-end")
     label.setAttribute("for", `${name}`);
@@ -46,6 +48,7 @@ function createCloudFormItem(labelText, name) {
 }
 
 function createCloudRow(element) {
+    // creates each row of cloud, a bit redundant now that a cloud array has been added
     var name = `type`;
     var labelText = "type";
     var [labelCloud, inputCloud] = createCloudFormItem(labelText, name);
@@ -73,7 +76,7 @@ function createCloudRow(element) {
 
     var cloudButton = document.createElement("button");
     cloudButton.setAttribute("type", "button");
-    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);updateEncoded();displayCloudLayers()");
+    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();updateEncoded();displayCloudLayers()");
     cloudButton.innerHTML = "Save cloud layer"
 
     cloudRow.appendChild(labelOkta);
@@ -85,20 +88,21 @@ function createCloudRow(element) {
 
 }
 
-function addCloud() {
-    const type = document.getElementById("type").value;
-    const height = document.getElementById("height").value;
-    const oktas = document.getElementById("oktas").value;
-    console.log(type, height, oktas)
-    observation.addCloudLayer(type, height, oktas);
-    displayCloudLayers();
-}
+    function addCloud() {
+        const type = document.getElementById("type").value;
+        const height = document.getElementById("height").value;
+        const oktas = document.getElementById("oktas").value;
+        console.log(type, height, oktas)
+        observation.addCloudLayer(type, height, oktas);
+        displayCloudLayers();
+    }
 
-function displayCloudLayers() {
-    document.getElementById("cloudLayers").innerHTML = "";
-    const cloudLayers = document.getElementById("cloudLayers")
-    var ul = document.createElement("ul");
-    cloudLayers.appendChild(ul);
+    function displayCloudLayers() {
+        // displays each item in the cloud layer array with the option to delete each row
+        document.getElementById("cloudLayers").innerHTML = "";
+        const cloudLayers = document.getElementById("cloudLayers")
+        var ul = document.createElement("ul");
+        cloudLayers.appendChild(ul);
     for (let cloudLayerIndex = 0; cloudLayerIndex < observation.cloudLayers.length; cloudLayerIndex++) {
         const cloudLayer = observation.cloudLayers[cloudLayerIndex];
         const li = document.createElement("li");
@@ -151,6 +155,10 @@ function createObservationTemplate() {
     createFormItem("Longitude", "longitude", dataBlock);
     dataField = document.getElementById("longitude");
     dataField.setAttribute("placeholder", "Degrees/minutes decimalised, eg. 004.6");
+
+    createFormItem("Wind direction", "wdirection", dataBlock);
+
+    createFormItem("Wind speed", "wspeed", dataBlock);
     
     createFormItem("Ds", "ds", dataBlock);
     dataField = document.getElementById("ds");
@@ -172,10 +180,22 @@ function createObservationTemplate() {
     createFormItem("Tendency", "tendency", dataBlock);
     createFormItem("Weather (0-99)", "weather", dataBlock);
     createFormItem("Past Weather", "pastweather", dataBlock);
+
+    var distanceMetric = document.createElement("select");
+    distanceMetric.setAttribute("id","distanceMetric");
+    var option1 = document.createElement("option");
+    var option2 = document.createElement("option");
+    option1.text = "KM";
+    option1.setAttribute("value", "km")
+    distanceMetric.appendChild(option1);
+    option2.text = "M";
+    option2.setAttribute("value", "m")
+    distanceMetric.appendChild(option2);
+    dataBlock.appendChild(distanceMetric);
     
     createFormItem("Visibility", "visibility", dataBlock);
     dataField = document.getElementById("visibility");
-    dataField.setAttribute("placeholder", "Write in KM, eg. 100 metres would be 0.1");
+    dataField.setAttribute("onchange", `observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded();console.log("finished  onchange")`);
 
     createFormItem("Sea Surface Temperature", "seatemp", dataBlock);
     createFormItem("1st Swell Direction", "swelldir1", dataBlock);

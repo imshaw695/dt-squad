@@ -294,36 +294,36 @@ function getCloudImportance(cloudCode) {
 
 cloudCodeDict = { "CI": 0, "CC": 1, "CS": 2, "AC": 3, "AS": 4, "NS": 5, "SC": 6, "ST": 7, "CU": 8, "CB": 9 };
 
-function getHeightCode(lowestCloudHeight) {
+function getHeightCode(Height) {
     var heightCode = "";
-    if(lowestCloudHeight >= 0 && lowestCloudHeight < 100){
+    if(Height >= 0 && Height < 100){
         heightCode = 0;
     }
-    if(lowestCloudHeight >= 100 && lowestCloudHeight < 300){
+    if(Height >= 100 && Height < 300){
         heightCode = 1;
     }
-    if(lowestCloudHeight >= 300 && lowestCloudHeight < 600){
+    if(Height >= 300 && Height < 600){
         heightCode = 2;
     }
-    if(lowestCloudHeight >= 600 && lowestCloudHeight < 900){
+    if(Height >= 600 && Height < 900){
         heightCode = 3;
     }
-    if(lowestCloudHeight >= 900 && lowestCloudHeight < 1900){
+    if(Height >= 900 && Height < 1900){
         heightCode = 4;
     }
-    if(lowestCloudHeight >= 1900 && lowestCloudHeight < 3200){
+    if(Height >= 1900 && Height < 3200){
         heightCode = 5;
     }
-    if(lowestCloudHeight >= 3200 && lowestCloudHeight < 4900){
+    if(Height >= 3200 && Height < 4900){
         heightCode = 6;
     }
-    if(lowestCloudHeight >= 4900 && lowestCloudHeight < 6500){
+    if(Height >= 4900 && Height < 6500){
         heightCode = 7;
     }
-    if(lowestCloudHeight >= 6500 && lowestCloudHeight < 8000){
+    if(Height >= 6500 && Height < 8000){
         heightCode = 8;
     }
-    if(lowestCloudHeight >= 8000){
+    if(Height >= 8000){
         heightCode = 9
     }
     return heightCode;
@@ -661,7 +661,7 @@ var dateEncoded = "";
 var latitudeEncoded = "";
 var quadrantEncoded = "";
 var longitudeEncoded = "";
-var lowestCloudEncoded = "";
+var Encoded = "";
 var visibilityEncoded = "";
 var drybulbEncoded = "";
 var dewpointEncoded = "";
@@ -674,7 +674,7 @@ var vsEncoded = "";
 var cloudFields = {};
 
 function buildEncodedObservation() {
-    encodedObservation = callsign + " " + dateEncoded + latitudeEncoded + quadrantEncoded + longitudeEncoded + 41 + lowestCloudEncoded + visibilityEncoded + cloudTotalEncoded + directionEncoded + speedEncoded + " 10" + drybulbEncoded + " 20" + dewpointEncoded + " 222" + dsEncoded + vsEncoded;
+    encodedObservation = callsign + " " + dateEncoded + latitudeEncoded + quadrantEncoded + longitudeEncoded + 41 + Encoded + visibilityEncoded + cloudTotalEncoded + directionEncoded + speedEncoded + " 10" + drybulbEncoded + " 20" + dewpointEncoded + " 222" + dsEncoded + vsEncoded;
     document.getElementById("encodedObservation").innerHTML = encodedObservation
 }
 
@@ -790,7 +790,7 @@ function cloudChanged(field) {
         field.style.backgroundColor = "indianred";
     }
 }
-var lowestCloudHeight = "";
+var Height = "";
 function heightChanged(field) {
     // Find out which cloud field we are talking about
     cloudIndex = field.name.charAt(field.name.length - 1)
@@ -799,12 +799,12 @@ function heightChanged(field) {
     cloudEntry = cloudDictionary[cloudType]
     if (field.value >= cloudEntry.heightLowest && field.value < cloudEntry.heightHighest) {
         field.style.backgroundColor = "lightgreen";
-        if(lowestCloudHeight > field.value || lowestCloudHeight == "") {
-            lowestCloudHeight = field.value;
-            console.log(lowestCloudHeight);
+        if(Height > field.value || Height == "") {
+            Height = field.value;
+            console.log(Height);
         }
         cloudFields[cloudEncoded].height = field.value;
-        lowestCloudEncoded = getHeightCode(lowestCloudHeight);
+        Encoded = getHeightCode(Height);
         buildEncodedObservation();
     } else {
         field.style.backgroundColor = "indianred";

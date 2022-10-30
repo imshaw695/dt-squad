@@ -12,11 +12,8 @@
 
 <body>
     <h1>Observation Template</h1>
-    <p id="encoded">Initial</p>
     <div class="container">
-        <div id="form1">
-
-        </div>
+        <div id="form1"></div>
         <h1>Encoded Observation</h1>
         <p id="encodedObservation" style="background-color:rgb(235, 121, 14);font-size:20px;border-style:solid;"></p>
         <script>
@@ -26,14 +23,6 @@
         </script>
     </div>
     <div id="cloudLayers"></div>
-    <input type="datetime-local" id="date" onchange="observation.setDate(this.value);updateEncoded()"><br>
-    <input type="text" id="latitude" onchange="observation.setLatitude(this.value);updateEncoded()"
-        placeholder="latitude"><br>
-    <input type="text" id="quadrant" onchange="observation.setQuadrant(this.value);updateEncoded()"
-        placeholder="quadrant"><br>
-    <input type="text" id="longitude" onchange="observation.setLongitude(this.value);updateEncoded()"
-        placeholder="longitude"><br>
-
     <script>
         const observation = new Observation();
     </script>

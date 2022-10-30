@@ -4,11 +4,36 @@ class Observation {
         this.encoded = "";
         this.date = "";
         this.latitude = "";
+        this.quadrant = "";
+        this.longitude = "";
+        this.cloudTotal = "";
+        this.lowCloudTotal = "";
+        this.wspeed = "";
+        this.wdirection = "";
+        this.ds = "";
+        this.vs = "";
+        this.dbulb = "";
+        this.dpoint = "";
+        this.pressure = "";
+        this.tendency = "";
+        this.weather = "";
+        this.pastweather = "";
+        this.heightlowest = "";
+        this.visibility = "";
+        this.visibilityEncoded = "";
+        this.seatemp = "";
         this.cloud = "";
         this.cloudLayers = [];
+        this.lowestCloudHeight = 50000;
+        this.lowestCloudHeightEncoded = "";
+        this.swelldir = "";
+        this.windwavehei = "";
+        this.windwaveper = "";
+        this.swellgroup1 = "";
+        this.swellgroup2 = "";
         this.lowest = {"low":{"index":999999, "type":""},"medium":{"index":999999, "type":""},"high":{"index":999999, "type":""}};
     }
-
+    // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime(date) {
         // need to add one to the hour  
         date = date.toString();
@@ -21,13 +46,13 @@ class Observation {
         var latitude10 = latitude * 10;
         var latitudeEncoded = "";
         if (latitude10.toString().length == 1) {
-            latitudeEncoded = "9900" + latitude10 + " ";
+            latitudeEncoded = "9900" + latitude10;
         }
         if (latitude10.toString().length == 2) {
-            latitudeEncoded = "990" + latitude10 + " ";
+            latitudeEncoded = "990" + latitude10;
         }
         if (latitude10.toString().length == 3) {
-            latitudeEncoded = "99" + latitude10 + " ";
+            latitudeEncoded = "99" + latitude10;
         }
         console.log(latitudeEncoded);
         this.latitude = latitudeEncoded;
@@ -38,6 +63,29 @@ class Observation {
     }
     setLongitude(longitude) {
         this.longitude = longitude;
+        var longitude10 = longitude * 10;
+        var longitudeEncoded = "";
+        if (longitude10.toString().length == 1) {
+            longitudeEncoded = "000" + longitude10;
+        }
+        if (longitude10.toString().length == 2) {
+            longitudeEncoded = "00" + longitude10;
+        }
+        if (longitude10.toString().length == 3) {
+            longitudeEncoded = "0" + longitude10;
+        }
+        console.log(longitudeEncoded);
+        this.longitude = longitudeEncoded;
+        console.log("leaving setLongitude")
+    }
+    setHeightLowest(heightlowest) {
+        this.heightlowest = "4" + "1" + heightlowest;
+    }
+    setWdirection(wdirection) {
+        this.wdirection = wdirection / 10;
+    }
+    setWspeed(wspeed) {
+        this.wspeed = wspeed;
     }
     setDs(ds) {
         this.ds = ds;
@@ -46,7 +94,20 @@ class Observation {
         this.vs = vs;
     }
     setDbulb(dbulb) {
-        this.dbulb = dbulb;
+        var sign = "0";
+        var dbulb10 = "";
+        var dbulbString = dbulb.toString();
+        if (dbulbString.charAt(0) == "-") {
+            sign = "1";
+            dbulbString = dbulbString.substr(1);
+            dbulb = parseInt(dbulbString);
+            dbulb10 = dbulb * 10;
+        } else {
+            dbulb = parseInt(dbulbString);
+            dbulb10 = dbulb * 10;
+        }
+        
+        this.dbulb = dbulb10;
     }
     setDpoint(dpoint) {
         this.dpoint = dpoint;
@@ -57,20 +118,38 @@ class Observation {
     setTendency(tendency) {
         this.tendency = tendency;
     }
+    setPressureChange(pressurechange) {
+        this.pressurechange = pressurechange;
+    }
     setWeather(weather) {
         this.weather = weather;
     }
     setPastweather(pastweather) {
         this.pastweather = pastweather;
     }
-    setVisibility(visibility) {
-        this.visibility = visibility;
+    setVisibility(visibility, distanceMetric) {
+        this.visibility = this.encodeVisibility(visibility, distanceMetric);
     }
     setSeatemp(seatemp) {
         this.seatemp = seatemp;
     }
-    setCloudtotal(cloudtotal) {
-        this.cloudtotal = cloudtotal;
+    setWindWavePer(windwaveper) {
+        this.windwaveper = windwaveper;
+    }
+    setWindWaveHei(windwavehei) {
+        this.windwavehei = windwavehei;
+    }
+    setSwellDir(swelldir) {
+        this.swelldir = swelldir;
+    }
+    setSwellGroup1(swellgroup1) {
+        this.swellgroup1 = swellgroup1;
+    }
+    setSwellGroup2(swellgroup2) {
+        this.swellgroup2 = swellgroup2;
+    }
+    setCloudTotal(cloudTotal) {
+        this.cloudTotal = cloudTotal;
     }
     setLowCloudTotal(lowCloudTotal) {
         this.lowCloudTotal = lowCloudTotal;
@@ -86,18 +165,109 @@ class Observation {
 
         const highCode = this.lowest["high"]["type"];
         const highEncoded = highCode.charAt(2);
-
-        this.cloud = "8" + lowEncoded + mediumEncoded + highEncoded;
+        
+        this.cloud = lowEncoded + mediumEncoded + highEncoded;
+    }
+    setLowestCloudHeight() {
+        for(const layerIndex in this.cloudLayers) {
+            var cloudHeight = this.cloudLayers[layerIndex].height
+            if (cloudHeight < parseInt(this.lowestCloudHeight)) {
+                this.lowestCloudHeight = cloudHeight;
+                this.lowestCloudHeightEncoded = this.getHeightCode(this.lowestCloudHeight);
+            }
+        }
     }
     encodeData() {
+        // Creates the coded up observation
         this.encoded = "";
         this.encoded = this.encoded + "BBXX SHIP ";
         this.encoded = this.encoded + this.date + " ";
-        this.encoded = this.encoded + this.latitude;
-        this.encoded = this.encoded + this.cloud;
+        this.encoded = this.encoded + this.latitude + " ";
+        this.encoded = this.encoded + this.quadrant;
+        this.encoded = this.encoded + this.longitude + " ";
+        this.encoded = this.encoded + "41" + this.lowestCloudHeightEncoded + this.visibility + " ";
+        this.encoded = this.encoded + this.cloudTotal + this.wdirection + this.wspeed + " ";
+        this.encoded = this.encoded + "1" + this.dbulb + " ";
+        this.encoded = this.encoded + "8" + this.lowCloudTotal + this.cloud;
+
         return this.encoded;
     }
+    
+    getHeightCode(lowestCloudHeight) {
+        // A function to find the code for lowest cloud height, "h"
+        var heightCode = "";
+        if (lowestCloudHeight >= 0 && lowestCloudHeight < 100) {
+            heightCode = 0;
+        }
+        if (lowestCloudHeight >= 100 && lowestCloudHeight < 300) {
+            heightCode = 1;
+        }
+        if (lowestCloudHeight >= 300 && lowestCloudHeight < 600) {
+            heightCode = 2;
+        }
+        if (lowestCloudHeight >= 600 && lowestCloudHeight < 900) {
+            heightCode = 3;
+        }
+        if (lowestCloudHeight >= 900 && lowestCloudHeight < 1900) {
+            heightCode = 4;
+        }
+        if (lowestCloudHeight >= 1900 && lowestCloudHeight < 3200) {
+            heightCode = 5;
+        }
+        if (lowestCloudHeight >= 3200 && lowestCloudHeight < 4900) {
+            heightCode = 6;
+        }
+        if (lowestCloudHeight >= 4900 && lowestCloudHeight < 6500) {
+            heightCode = 7;
+        }
+        if (lowestCloudHeight >= 6500 && lowestCloudHeight < 8000) {
+            heightCode = 8;
+        }
+        if (lowestCloudHeight >= 8000) {
+            heightCode = 9
+        }
+        return heightCode;
+    };
+    
+    encodeVisibility(visibility, distanceMetric) {
+        if (distanceMetric == "km") {
+            visibility = visibility * 1000;
+        }
+        if (visibility < 50) {
+            this.visibilityEncoded = 90;
+        }
+        if (visibility >= 50 && visibility < 200) {
+            this.visibilityEncoded = 91;
+        }
+        if (visibility >= 200 && visibility < 500) {
+            this.visibilityEncoded = 92;
+        }
+        if (visibility >= 500 && visibility < 1000) {
+            this.visibilityEncoded = 93;
+        }
+        if (visibility >= 1000 && visibility < 2000) {
+            this.visibilityEncoded = 94;
+        }
+        if (visibility >= 2000 && visibility < 4000) {
+            this.visibilityEncoded = 95;
+        }
+        if (visibility >= 4000 && visibility < 10000) {
+            this.visibilityEncoded = 96;
+        }
+        if (visibility >= 10000 && visibility < 20000) {
+            this.visibilityEncoded = 97;
+        }
+        if (visibility >= 20000 && visibility < 50000) {
+            this.visibilityEncoded = 98;
+        }
+        if (visibility > 50000) {
+            this.visibilityEncoded = 99;
+        }
+        return this.visibilityEncoded;
+    }
+
     addCloudLayer(type, height, oktas) {
+        // Adds a cloud layer to the array with all of the cloud layers
         console.log(type);
         console.log(this.lowest)
         const cloudLayer = new CloudLayer(type, height, oktas, this.lowest);
@@ -106,6 +276,7 @@ class Observation {
         console.log(this.cloudLayers)
     }
     deleteCloudLayer(cloudLayerIndex) {
+        // Deletes a selected cloud layer from the cloud layer array
         this.cloudLayers.splice(cloudLayerIndex, 1);
     }
 }
@@ -425,41 +596,6 @@ class CloudLayer {
         }
     };
 
-    getHeightCode() {
-        var heightCode = "";
-        if (lowestCloudHeight >= 0 && lowestCloudHeight < 100) {
-            heightCode = 0;
-        }
-        if (lowestCloudHeight >= 100 && lowestCloudHeight < 300) {
-            heightCode = 1;
-        }
-        if (lowestCloudHeight >= 300 && lowestCloudHeight < 600) {
-            heightCode = 2;
-        }
-        if (lowestCloudHeight >= 600 && lowestCloudHeight < 900) {
-            heightCode = 3;
-        }
-        if (lowestCloudHeight >= 900 && lowestCloudHeight < 1900) {
-            heightCode = 4;
-        }
-        if (lowestCloudHeight >= 1900 && lowestCloudHeight < 3200) {
-            heightCode = 5;
-        }
-        if (lowestCloudHeight >= 3200 && lowestCloudHeight < 4900) {
-            heightCode = 6;
-        }
-        if (lowestCloudHeight >= 4900 && lowestCloudHeight < 6500) {
-            heightCode = 7;
-        }
-        if (lowestCloudHeight >= 6500 && lowestCloudHeight < 8000) {
-            heightCode = 8;
-        }
-        if (lowestCloudHeight >= 8000) {
-            heightCode = 9
-        }
-        return heightCode;
-    };
-
     hshsDict = {
         100: "01",
         200: "02",
@@ -545,7 +681,6 @@ class CloudLayer {
         37000: "87",
         38000: "88"
     };
-
     getFormatted() {
         var formatted = `type: ${this.type}, height: ${this.height}, oktas: ${this.oktas}`;
         return formatted;
