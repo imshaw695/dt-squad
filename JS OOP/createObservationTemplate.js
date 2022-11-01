@@ -76,7 +76,7 @@ function createCloudRow(element) {
 
     var cloudButton = document.createElement("button");
     cloudButton.setAttribute("type", "button");
-    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();updateEncoded();displayCloudLayers()");
+    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();observation.setCloudlayers();updateEncoded();displayCloudLayers()");
     cloudButton.innerHTML = "Save cloud layer"
 
     cloudRow.appendChild(labelOkta);
@@ -90,8 +90,8 @@ function createCloudRow(element) {
 
     function addCloud() {
         const type = document.getElementById("type").value;
-        const height = document.getElementById("height").value;
-        const oktas = document.getElementById("oktas").value;
+        const height = parseInt(document.getElementById("height").value);
+        const oktas = parseInt(document.getElementById("oktas").value);
         console.log(type, height, oktas)
         observation.addCloudLayer(type, height, oktas);
         displayCloudLayers();
@@ -170,14 +170,13 @@ function createObservationTemplate() {
     
     createFormItem("Drybulb Temperature", "dbulb", dataBlock);
     dataField = document.getElementById("dbulb");
-    dataField.setAttribute("placeholder", "Include the decimal, even if 0, eg. 21.0");
     
     createFormItem("Dewpoint Temperature", "dpoint", dataBlock);
     dataField = document.getElementById("dpoint");
-    dataField.setAttribute("placeholder", "Include the decimal, even if 0, eg. 21.0");
     
     createFormItem("Pressure", "pressure", dataBlock);
     createFormItem("Tendency", "tendency", dataBlock);
+    createFormItem("Pressure change", "pressureChange", dataBlock);
     createFormItem("Weather (0-99)", "weather", dataBlock);
     createFormItem("Past Weather", "pastweather", dataBlock);
 
@@ -191,19 +190,48 @@ function createObservationTemplate() {
     option2.text = "M";
     option2.setAttribute("value", "m")
     distanceMetric.appendChild(option2);
-    dataBlock.appendChild(distanceMetric);
     
     createFormItem("Visibility", "visibility", dataBlock);
+    dataBlock.appendChild(distanceMetric);
     dataField = document.getElementById("visibility");
     dataField.setAttribute("onchange", `observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded();console.log("finished  onchange")`);
-
+    
+    var method = document.createElement("select");
+    method.setAttribute("id","method");
+    method.setAttribute("onchange","observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded()");
+    var method1 = document.createElement("option");
+    var method2 = document.createElement("option");
+    var method3 = document.createElement("option");
+    var method4 = document.createElement("option");
+    method1.text = "Intake";
+    method1.setAttribute("value", "intake")
+    method.appendChild(method1);
+    method2.text = "Sea bucket";
+    method2.setAttribute("value", "seabucket")
+    method.appendChild(method2);
+    method3.text = "Sonar 2013";
+    method3.setAttribute("value", "sonar2013")
+    method.appendChild(method3);
+    method4.text = "Other";
+    method4.setAttribute("value", "other")
+    method.appendChild(method4);
+    
     createFormItem("Sea Surface Temperature", "seatemp", dataBlock);
+    dataField = document.getElementById("seatemp");
+    dataField.setAttribute("onchange", `observation.setSeatemp(this.value, document.getElementById("method").value);console.log("running onchange");updateEncoded();console.log("finished  onchange")`);
+    dataBlock.appendChild(method);
+    
+    createFormItem("Sea period", "seaperiod", dataBlock);
+    createFormItem("Sea height", "seaheight", dataBlock);
+    dataField = document.getElementById("seaheight");
+    dataField.setAttribute("placeholder", "In 0.5m increments");
+    
     createFormItem("1st Swell Direction", "swelldir1", dataBlock);
-    createFormItem("1st Swell Period", "swellper1", dataBlock);
-    createFormItem("1st Swell Height", "swellhei1", dataBlock);
+    createFormItem("1st Swell Period", "swellperiod1", dataBlock);
+    createFormItem("1st Swell Height", "swellheight1", dataBlock);
     createFormItem("2nd Swell Direction", "swelldir2", dataBlock);
-    createFormItem("2nd Swell Period", "swellper2", dataBlock);
-    createFormItem("2nd Swell Height", "swellhei2", dataBlock);
+    createFormItem("2nd Swell Period", "swellperiod2", dataBlock);
+    createFormItem("2nd Swell Height", "swellheight2", dataBlock);
 
     createFormItem("Total Cloud", "cloudTotal", dataBlock);
     createFormItem("Total Low Cloud", "lowCloudTotal", dataBlock);

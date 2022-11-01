@@ -16,22 +16,126 @@ class Observation {
         this.dpoint = "";
         this.pressure = "";
         this.tendency = "";
+        this.pressurechange = "";
         this.weather = "";
         this.pastweather = "";
         this.heightlowest = "";
         this.visibility = "";
         this.visibilityEncoded = "";
         this.seatemp = "";
+        this.method = "";
+        this.seatempEncoded = "";
         this.cloud = "";
         this.cloudLayers = [];
+        this.layersEncoded = "";
         this.lowestCloudHeight = 50000;
         this.lowestCloudHeightEncoded = "";
-        this.swelldir = "";
-        this.windwavehei = "";
-        this.windwaveper = "";
-        this.swellgroup1 = "";
-        this.swellgroup2 = "";
-        this.lowest = {"low":{"index":999999, "type":""},"medium":{"index":999999, "type":""},"high":{"index":999999, "type":""}};
+        this.seaheight = "";
+        this.seaperiod = "";
+        this.swelldir1 = "";
+        this.swelldir2 = "";
+        this.swellperiod1 = "";
+        this.swellperiod2 = "";
+        this.swellheight1 = "";
+        this.swellheight2 = "";
+        this.lowest = { "low": { "index": 999999, "type": "" }, "medium": { "index": 999999, "type": "" }, "high": { "index": 999999, "type": "" } };
+        this.cloudCodeDict = {
+            "CI": 0,
+            "CC": 1,
+            "CS": 2,
+            "AC": 3,
+            "AS": 4,
+            "NS": 5,
+            "SC": 6,
+            "ST": 7,
+            "CU": 8,
+            "CB": 9
+        };
+        this.hshsDict = {
+            100: "01",
+            200: "02",
+            300: "03",
+            400: "04",
+            500: "05",
+            600: "06",
+            700: "07",
+            800: "08",
+            900: "09",
+            1000: "10",
+            1100: "11",
+            1200: "12",
+            1300: "13",
+            1400: "14",
+            1500: "15",
+            1600: "16",
+            1700: "17",
+            1800: "18",
+            1900: "19",
+            2000: "20",
+            2100: "21",
+            2200: "22",
+            2300: "23",
+            2400: "24",
+            2500: "25",
+            2600: "26",
+            2700: "27",
+            2800: "28",
+            2900: "29",
+            3000: "30",
+            3100: "31",
+            3200: "32",
+            3300: "33",
+            3400: "34",
+            3500: "35",
+            3600: "36",
+            3700: "37",
+            3800: "38",
+            3900: "39",
+            4000: "40",
+            4100: "41",
+            4200: "42",
+            4300: "43",
+            4400: "44",
+            4500: "45",
+            4600: "46",
+            4700: "47",
+            4800: "48",
+            4900: "49",
+            5000: "50",
+            6000: "56",
+            7000: "57",
+            8000: "58",
+            9000: "59",
+            10000: "60",
+            11000: "61",
+            12000: "62",
+            13000: "63",
+            14000: "64",
+            15000: "65",
+            16000: "66",
+            17000: "67",
+            18000: "68",
+            19000: "69",
+            20000: "70",
+            21000: "71",
+            22000: "72",
+            23000: "73",
+            24000: "74",
+            25000: "75",
+            26000: "76",
+            27000: "77",
+            28000: "78",
+            29000: "79",
+            30000: "80",
+            31000: "81",
+            32000: "82",
+            33000: "83",
+            34000: "84",
+            35000: "85",
+            36000: "86",
+            37000: "87",
+            38000: "88"
+        };
     }
     // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime(date) {
@@ -88,7 +192,7 @@ class Observation {
         this.wspeed = wspeed;
     }
     setDs(ds) {
-        this.ds = ds;
+        this.ds = "222" + ds;
     }
     setVs(vs) {
         this.vs = vs;
@@ -100,29 +204,65 @@ class Observation {
         if (dbulbString.charAt(0) == "-") {
             sign = "1";
             dbulbString = dbulbString.substr(1);
-            dbulb = parseInt(dbulbString);
+            dbulb = parseFloat(dbulbString);
             dbulb10 = dbulb * 10;
         } else {
-            dbulb = parseInt(dbulbString);
+            dbulb = parseFloat(dbulbString);
             dbulb10 = dbulb * 10;
         }
-        
-        this.dbulb = dbulb10;
+        if (dbulb10.toString().length == 1) {
+            dbulb10 = "00" + dbulb10;
+        }
+        if (dbulb10.toString().length == 2) {
+            dbulb10 = "0" + dbulb10;
+        }
+        this.dbulb = "1" + sign + dbulb10;
     }
     setDpoint(dpoint) {
-        this.dpoint = dpoint;
+        var sign = "0";
+        var dpoint10 = "";
+        var dpointstring = dpoint.toString();
+        if (dpointstring.charAt(0) == "-") {
+            sign = "1";
+            dpointstring = dpointstring.substr(1);
+            dpoint = parseFloat(dpointstring);
+            dpoint10 = dpoint * 10;
+        } else {
+            dpoint = parseFloat(dpointstring);
+            dpoint10 = dpoint * 10;
+        }
+        if (dpoint10.toString().length == 1) {
+            dpoint10 = "00" + dpoint10;
+        }
+        if (dpoint10.toString().length == 2) {
+            dpoint10 = "0" + dpoint10;
+        }
+        this.dpoint = "2" + sign + dpoint10;
     }
     setPressure(pressure) {
-        this.pressure = pressure;
+        var pressure10 = pressure * 10;
+        pressure10 = parseInt(pressure10);
+        if (pressure10.toString().length === 5) {
+            pressure10 = pressure10.toString().substr(1);
+        }
+        this.pressure = "4" + pressure10;
     }
     setTendency(tendency) {
-        this.tendency = tendency;
+        // need to change to a dropdown with values for each one eg. rising then falling, etc
+        this.tendency = "5" + tendency;
     }
     setPressureChange(pressurechange) {
-        this.pressurechange = pressurechange;
+        var pressure10 = pressurechange * 10;
+        if (pressure10.toString().length == 1) {
+            pressure10 = "00" + pressure10;
+        }
+        if (pressure10.toString().length == 2) {
+            pressure10 = "0" + pressure10;
+        }
+        this.pressurechange = pressure10;
     }
     setWeather(weather) {
-        this.weather = weather;
+        this.weather = "7" + weather;
     }
     setPastweather(pastweather) {
         this.pastweather = pastweather;
@@ -130,52 +270,145 @@ class Observation {
     setVisibility(visibility, distanceMetric) {
         this.visibility = this.encodeVisibility(visibility, distanceMetric);
     }
-    setSeatemp(seatemp) {
-        this.seatemp = seatemp;
+    setSeatemp(seatemp, method) {
+        console.log("I am in setSeatemp",seatemp, method)
+        this.seatemp = this.encodeSeatemp(seatemp, method);
     }
-    setWindWavePer(windwaveper) {
-        this.windwaveper = windwaveper;
+    setSeaperiod(seaperiod) {
+        if (seaperiod.toString().length == 1) {
+            this.seaperiod = "0" + seaperiod;
+        } else {
+            this.seaperiod = seaperiod;
+        }
     }
-    setWindWaveHei(windwavehei) {
-        this.windwavehei = windwavehei;
+    setSeaheight(seaheight) {
+        seaheight = parseFloat(seaheight);
+        seaheight = seaheight / 0.5;
+        if (seaheight.toString().length == 1) {
+            this.seaheight = "0" + seaheight;
+        } else {
+            this.seaheight = seaheight;
+        }
     }
-    setSwellDir(swelldir) {
-        this.swelldir = swelldir;
+    setSwelldir1(swelldir1) {
+        swelldir1 = swelldir1 / 10;
+        if (swelldir1.toString().length == 1) {
+            this.swelldir1 = "3" + "0" + swelldir1;
+        } else {
+            this.swelldir1 = "3" + swelldir1;
+        }
     }
-    setSwellGroup1(swellgroup1) {
-        this.swellgroup1 = swellgroup1;
+    setSwelldir2(swelldir2) {
+        swelldir2 = swelldir2 / 10;
+        if (swelldir2.toString().length == 1) {
+            this.swelldir2 = "0" + swelldir2;
+        } else {
+            this.swelldir2 = swelldir2;
+        }
     }
-    setSwellGroup2(swellgroup2) {
-        this.swellgroup2 = swellgroup2;
+    setSwellperiod1(swellperiod1) {
+        if (swellperiod1.toString().length == 1) {
+            this.swellperiod1 = "4" + "0" + swellperiod1;
+        } else {
+            this.swellperiod1 = "4" + swellperiod1;
+        }
+    }
+    setSwellperiod2(swellperiod2) {
+        if (swellperiod2.toString().length == 1) {
+            this.swellperiod2 = "5" + "0" + swellperiod2;
+        } else {
+            this.swellperiod2 = "5" + swellperiod2;
+        }
+    }
+    setSwellheight1(swellheight1) {
+        swellheight1 = parseFloat(swellheight1);
+        swellheight1 = swellheight1 / 0.5;
+        if (swellheight1.toString().length == 1) {
+            this.swellheight1 = "0" + swellheight1;
+        } else {
+            this.swellheight1 = swellheight1;
+        }
+    }
+    setSwellheight2(swellheight2) {
+        swellheight2 = parseFloat(swellheight2);
+        swellheight2 = swellheight2 / 0.5;
+        if (swellheight2.toString().length == 1) {
+            this.swellheight2 = "0" + swellheight2;
+        } else {
+            this.swellheight2 = swellheight2;
+        }
     }
     setCloudTotal(cloudTotal) {
         this.cloudTotal = cloudTotal;
     }
     setLowCloudTotal(lowCloudTotal) {
-        this.lowCloudTotal = lowCloudTotal;
+        this.lowCloudTotal = "8" + lowCloudTotal;
     }
     setCloud(lowest) {
         this.lowest = lowest;
         console.log(this.lowest)
         const lowCode = this.lowest["low"]["type"];
         const lowEncoded = lowCode.charAt(2);
-        
+
         const mediumCode = this.lowest["medium"]["type"];
         const mediumEncoded = mediumCode.charAt(2);
 
         const highCode = this.lowest["high"]["type"];
         const highEncoded = highCode.charAt(2);
-        
+
         this.cloud = lowEncoded + mediumEncoded + highEncoded;
     }
     setLowestCloudHeight() {
-        for(const layerIndex in this.cloudLayers) {
+        for (const layerIndex in this.cloudLayers) {
             var cloudHeight = this.cloudLayers[layerIndex].height
             if (cloudHeight < parseInt(this.lowestCloudHeight)) {
                 this.lowestCloudHeight = cloudHeight;
                 this.lowestCloudHeightEncoded = this.getHeightCode(this.lowestCloudHeight);
+                this.lowestCloudHeightEncoded = "41" + this.lowestCloudHeightEncoded;
             }
         }
+    }
+    setCloudlayers() {
+        const cloudArray = [];
+        this.cloudArray = cloudArray;
+        var firstLayer = "";
+        var secondLayer = "";
+        var thirdLayer = "";
+        var fourthLayer = "";
+        for (const layerIndex in this.cloudLayers) {
+            if (firstLayer == "" || this.cloudLayers[layerIndex].height < firstLayer.height) {
+                firstLayer = this.cloudLayers[layerIndex];
+                cloudArray.push(firstLayer);
+            } else {
+                if (this.cloudLayers[layerIndex].oktas >= 3 && (secondLayer == "" || this.cloudLayers[layerIndex].height < secondLayer.height)) {
+                    secondLayer = this.cloudLayers[layerIndex];
+                    cloudArray.push(secondLayer);
+                } else {
+                    if (this.cloudLayers[layerIndex].oktas >= 5 && (thirdLayer == "" || this.cloudLayers[layerIndex].height < thirdLayer.height)) {
+                        thirdLayer = this.cloudLayers[layerIndex];
+                        cloudArray.push(thirdLayer);
+                    } else {
+                        if (this.cloudLayers[layerIndex].type == "CB3" || this.cloudLayers[layerIndex].type == "CB9") {
+                            fourthLayer = this.cloudLayers[layerIndex];
+                            cloudArray.push(thirdLayer);
+                        }
+                    }
+                }
+            }
+        }
+        console.log(firstLayer, secondLayer, thirdLayer, fourthLayer);
+        this.layersEncoded = "";
+        for (const index in this.cloudArray) {
+            const layer = this.cloudArray[index];
+            console.log("====")
+            console.log(layer)
+            const okta = layer.oktas;
+            const cloudCode = this.cloudCodeDict[layer.type.slice(0,2)];
+            const heightCode = this.hshsDict[layer.height];
+            var layerEncoded = "8" + okta + cloudCode + heightCode;
+            this.layersEncoded = this.layersEncoded + layerEncoded + " " 
+        }
+        
     }
     encodeData() {
         // Creates the coded up observation
@@ -185,14 +418,25 @@ class Observation {
         this.encoded = this.encoded + this.latitude + " ";
         this.encoded = this.encoded + this.quadrant;
         this.encoded = this.encoded + this.longitude + " ";
-        this.encoded = this.encoded + "41" + this.lowestCloudHeightEncoded + this.visibility + " ";
+        this.encoded = this.encoded + this.lowestCloudHeightEncoded + this.visibility + " ";
         this.encoded = this.encoded + this.cloudTotal + this.wdirection + this.wspeed + " ";
-        this.encoded = this.encoded + "1" + this.dbulb + " ";
-        this.encoded = this.encoded + "8" + this.lowCloudTotal + this.cloud;
+        this.encoded = this.encoded + this.dbulb + " ";
+        this.encoded = this.encoded + this.dpoint + " ";
+        this.encoded = this.encoded + this.pressure + " ";
+        this.encoded = this.encoded + this.tendency + this.pressurechange + " ";
+        this.encoded = this.encoded + this.weather + this.pastweather + " ";
+        this.encoded = this.encoded + this.lowCloudTotal + this.cloud + " "; // CLOUD UNFINISHED
+        this.encoded = this.encoded + this.ds + this.vs + " ";
+        this.encoded = this.encoded + this.seatemp + " ";
+        this.encoded = this.encoded + "2" + this.seaperiod + this.seaheight + " ";
+        this.encoded = this.encoded + this.swelldir1 + this.swelldir2 + " ";
+        this.encoded = this.encoded + this.swellperiod1 + this.swellheight1 + " ";
+        this.encoded = this.encoded + this.swellperiod2 + this.swellheight2 + " ";
+        this.encoded = this.encoded + this.layersEncoded;
 
         return this.encoded;
     }
-    
+
     getHeightCode(lowestCloudHeight) {
         // A function to find the code for lowest cloud height, "h"
         var heightCode = "";
@@ -228,7 +472,7 @@ class Observation {
         }
         return heightCode;
     };
-    
+
     encodeVisibility(visibility, distanceMetric) {
         if (distanceMetric == "km") {
             visibility = visibility * 1000;
@@ -266,6 +510,54 @@ class Observation {
         return this.visibilityEncoded;
     }
 
+    encodeSeatemp(seatemp, method) {
+        var sign = 0;
+        var seatempString = seatemp.toString();
+
+        if (seatempString.charAt(0) == "-") {
+            sign = 1;
+            seatempString = seatempString.substr(1);
+            seatemp = parseFloat(seatempString);
+            var seatemp10 = seatemp * 10;
+        } else {
+            seatemp = parseFloat(seatempString);
+            var seatemp10 = seatemp * 10;
+        }
+        if (seatemp10.toString().length == 1) {
+            seatemp10 = "00" + seatemp10;
+        }
+        if (seatemp10.toString().length == 2) {
+            seatemp10 = "0" + seatemp10;
+        }
+        if (method == "intake" && sign == 0) {
+            this.method = "0";
+        }
+        if (method == "intake" && sign == 1) {
+            this.method = "1";
+        }
+        if (method == "seabucket" && sign == 0) {
+            this.method = "2";
+        }
+        if (method == "seabucket" && sign == 1) {
+            this.method = "3";
+        }
+        if (method == "sonar2013" && sign == 0) {
+            this.method = "4";
+        }
+        if (method == "sonar2013" && sign == 1) {
+            this.method = "5";
+        }
+        if (method == "other" && sign == 0) {
+            this.method = "6";
+        }
+        if (method == "other" && sign == 1) {
+            this.method = "7";
+        }
+
+        this.seatempEncoded = "0" + this.method + seatemp10;
+        return this.seatempEncoded;
+    }
+
     addCloudLayer(type, height, oktas) {
         // Adds a cloud layer to the array with all of the cloud layers
         console.log(type);
@@ -286,24 +578,10 @@ class CloudLayer {
         this.type = type;
         this.height = height;
         this.oktas = oktas;
-        this.cloudCodeDict = {};
-        this.hshsDict = {};
         this.lowest = lowest
         this.cloudImportance = this.getCloudImportance();
     };
 
-    cloudCodeDict = {
-        "CI": 0,
-        "CC": 1,
-        "CS": 2,
-        "AC": 3,
-        "AS": 4,
-        "NS": 5,
-        "SC": 6,
-        "ST": 7,
-        "CU": 8,
-        "CB": 9
-    };
 
     getCloudDictionary() {
         //calling this function will make an object containing all low, medium, and high cloud groups
@@ -596,91 +874,6 @@ class CloudLayer {
         }
     };
 
-    hshsDict = {
-        100: "01",
-        200: "02",
-        300: "03",
-        400: "04",
-        500: "05",
-        600: "06",
-        700: "07",
-        800: "08",
-        900: "09",
-        1000: "10",
-        1100: "11",
-        1200: "12",
-        1300: "13",
-        1400: "14",
-        1500: "15",
-        1600: "16",
-        1700: "17",
-        1800: "18",
-        1900: "19",
-        2000: "20",
-        2100: "21",
-        2200: "22",
-        2300: "23",
-        2400: "24",
-        2500: "25",
-        2600: "26",
-        2700: "27",
-        2800: "28",
-        2900: "29",
-        3000: "30",
-        3100: "31",
-        3200: "32",
-        3300: "33",
-        3400: "34",
-        3500: "35",
-        3600: "36",
-        3700: "37",
-        3800: "38",
-        3900: "39",
-        4000: "40",
-        4100: "41",
-        4200: "42",
-        4300: "43",
-        4400: "44",
-        4500: "45",
-        4600: "46",
-        4700: "47",
-        4800: "48",
-        4900: "49",
-        5000: "50",
-        6000: "56",
-        7000: "57",
-        8000: "58",
-        9000: "59",
-        10000: "60",
-        11000: "61",
-        12000: "62",
-        13000: "63",
-        14000: "64",
-        15000: "65",
-        16000: "66",
-        17000: "67",
-        18000: "68",
-        19000: "69",
-        20000: "70",
-        21000: "71",
-        22000: "72",
-        23000: "73",
-        24000: "74",
-        25000: "75",
-        26000: "76",
-        27000: "77",
-        28000: "78",
-        29000: "79",
-        30000: "80",
-        31000: "81",
-        32000: "82",
-        33000: "83",
-        34000: "84",
-        35000: "85",
-        36000: "86",
-        37000: "87",
-        38000: "88"
-    };
     getFormatted() {
         var formatted = `type: ${this.type}, height: ${this.height}, oktas: ${this.oktas}`;
         return formatted;
