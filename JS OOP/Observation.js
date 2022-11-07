@@ -38,6 +38,7 @@ class Observation {
         this.swellperiod2 = "";
         this.swellheight1 = "";
         this.swellheight2 = "";
+        this.valid = 0;
         this.lowest = { "low": { "index": 999999, "type": "" }, "medium": { "index": 999999, "type": "" }, "high": { "index": 999999, "type": "" } };
         this.cloudCodeDict = {
             "CI": 0,
@@ -140,6 +141,7 @@ class Observation {
     // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime(date) {
         // need to add one to the hour  
+        this.valid = 0;
         date = date.toString();
         var day = date.substr(8, 2);
         var hour = date.substr(11, 2);
@@ -147,6 +149,10 @@ class Observation {
         this.date = dateEncoded;
     }
     setLatitude(latitude) {
+        this.valid = 0;
+        if (latitude > 90 || latitude < 0 || isNaN(latitude) || latitude == "") {
+            this.valid = 1;
+        }
         var latitude10 = latitude * 10;
         var latitudeEncoded = "";
         if (latitude10.toString().length == 1) {
@@ -163,10 +169,17 @@ class Observation {
         console.log("leaving setLatitude")
     }
     setQuadrant(quadrant) {
+        this.valid = 0;
+        if (quadrant != 1 && quadrant != 3 && quadrant != 5 && quadrant != 7) {
+            this.valid = 1;
+        }
         this.quadrant = quadrant;
     }
     setLongitude(longitude) {
-        this.longitude = longitude;
+        this.valid = 0;
+        if (longitude < 0 || longitude > 180 || isNaN(longitude) || longitude == "") {
+            this.valid = 1;
+        }
         var longitude10 = longitude * 10;
         var longitudeEncoded = "";
         if (longitude10.toString().length == 1) {
@@ -182,22 +195,51 @@ class Observation {
         this.longitude = longitudeEncoded;
         console.log("leaving setLongitude")
     }
-    setHeightLowest(heightlowest) {
-        this.heightlowest = "4" + "1" + heightlowest;
-    }
     setWdirection(wdirection) {
-        this.wdirection = wdirection / 10;
+        this.valid = 0;
+        if (isNaN(wdirection) || wdirection < 1 || wdirection > 360 || wdirection == "" || this.isFloat(wdirection/10)) {
+            this.valid = 1;
+        }
+        wdirection = wdirection / 10;
+        if (wdirection.toString().length == 1) {
+            this.wdirection = "0" + wdirection;
+        } else {
+            this.wdirection = wdirection;
+        }
     }
     setWspeed(wspeed) {
-        this.wspeed = wspeed;
+        this.valid = 0;
+        wspeed = parseInt(wspeed);
+        if (isNaN(wspeed) || wspeed >= 100 || wspeed < 0 || this.isFloat(wspeed)) {
+            this.valid = 1;
+        }
+        if (wspeed.toString().length == 1) {
+            this.wspeed = "0" + wspeed;
+        } else {
+            this.wspeed = wspeed;
+        }
     }
     setDs(ds) {
+        this.valid = 0;
+        ds = parseInt(ds);
+        if (ds < 1 || ds > 8 || isNaN(ds)) {
+            this.valid = 1;
+        }
         this.ds = "222" + ds;
     }
     setVs(vs) {
+        this.valid = 0;
+        vs = parseInt(vs);
+        if (vs < 0 || vs > 9 || isNaN(vs)) {
+            this.valid = 1;
+        }
         this.vs = vs;
     }
     setDbulb(dbulb) {
+        this.valid = 0;
+        if (isNaN(dbulb) || dbulb > 99) {
+            this.valid = 1;
+        }
         var sign = "0";
         var dbulb10 = "";
         var dbulbString = dbulb.toString();
@@ -219,6 +261,10 @@ class Observation {
         this.dbulb = "1" + sign + dbulb10;
     }
     setDpoint(dpoint) {
+        this.valid = 0;
+        if (isNaN(dpoint) || dpoint > 99) {
+            this.valid = 1;
+        }
         var sign = "0";
         var dpoint10 = "";
         var dpointstring = dpoint.toString();
@@ -240,6 +286,10 @@ class Observation {
         this.dpoint = "2" + sign + dpoint10;
     }
     setPressure(pressure) {
+        this.valid = 0;
+        if (isNaN(pressure) || pressure > 1050 || pressure < 900) {
+            this.valid = 1;
+        }
         var pressure10 = pressure * 10;
         pressure10 = parseInt(pressure10);
         if (pressure10.toString().length === 5) {
@@ -249,9 +299,20 @@ class Observation {
     }
     setTendency(tendency) {
         // need to change to a dropdown with values for each one eg. rising then falling, etc
+        this.valid = 0;
         this.tendency = "5" + tendency;
     }
     setPressureChange(pressurechange) {
+        this.valid = 0; 
+        if (pressurechange < 0 && parseInt(this.tendency) < 54) {
+            this.valid = 1;
+        }
+        if (pressurechange >= 0 && parseInt(this.tendency) > 54) {
+            this.valid = 1;
+        }
+        if (isNaN(pressurechange) || pressurechange >= 10 || pressurechange <= -10) {
+            this.valid = 1;
+        }
         var pressure10 = pressurechange * 10;
         if (pressure10.toString().length == 1) {
             pressure10 = "00" + pressure10;
@@ -262,9 +323,23 @@ class Observation {
         this.pressurechange = pressure10;
     }
     setWeather(weather) {
+        this.valid = 0;
+        if (isNaN(weather) || weather < 0 || weather > 99) {
+            this.valid = 1;
+        }
+        if (weather.toString().length == 1) {
+            weather = "0" + weather;
+        }
         this.weather = "7" + weather;
     }
     setPastweather(pastweather) {
+        this.valid = 0;
+        if (isNaN(pastweather) || pastweather < 0 || pastweather > 99) {
+            this.valid = 1;
+        }
+        if (pastweather.toString().length == 1) {
+            pastweather = pastweather + "0";
+        }
         this.pastweather = pastweather;
     }
     setVisibility(visibility, distanceMetric) {
@@ -275,6 +350,10 @@ class Observation {
         this.seatemp = this.encodeSeatemp(seatemp, method);
     }
     setSeaperiod(seaperiod) {
+        this.valid = 0;
+        if (isNaN(seaperiod) || seaperiod < 0 || seaperiod >= 100 || this.isFloat(seaperiod)) {
+            this.valid = 1;
+        }
         if (seaperiod.toString().length == 1) {
             this.seaperiod = "0" + seaperiod;
         } else {
@@ -282,8 +361,15 @@ class Observation {
         }
     }
     setSeaheight(seaheight) {
+        this.valid = 0;
+        if (isNaN(seaheight) || seaheight < 0 || seaheight >= 50) {
+            this.valid = 1;
+        }
         seaheight = parseFloat(seaheight);
         seaheight = seaheight / 0.5;
+        if (this.isFloat(seaheight)) {
+            this.valid = 1;
+        }
         if (seaheight.toString().length == 1) {
             this.seaheight = "0" + seaheight;
         } else {
@@ -291,7 +377,14 @@ class Observation {
         }
     }
     setSwelldir1(swelldir1) {
+        this.valid = 0;
+        if (isNaN(swelldir1) || swelldir1 < 1 || swelldir1 > 360) {
+            this.valid = 1;
+        }
         swelldir1 = swelldir1 / 10;
+        if (this.isFloat(swelldir1)) {
+            this.valid = 1;
+        }
         if (swelldir1.toString().length == 1) {
             this.swelldir1 = "3" + "0" + swelldir1;
         } else {
@@ -299,7 +392,14 @@ class Observation {
         }
     }
     setSwelldir2(swelldir2) {
+        this.valid = 0;
+        if (isNaN(swelldir2) || swelldir2 < 1 || swelldir2 > 360) {
+            this.valid = 1;
+        }
         swelldir2 = swelldir2 / 10;
+        if (this.isFloat(swelldir2)) {
+            this.valid = 1;
+        }
         if (swelldir2.toString().length == 1) {
             this.swelldir2 = "0" + swelldir2;
         } else {
@@ -307,6 +407,10 @@ class Observation {
         }
     }
     setSwellperiod1(swellperiod1) {
+        this.valid = 0;
+        if (isNaN(swellperiod1) || swellperiod1 < 0 || swellperiod1 >= 100 || this.isFloat(swellperiod1)) {
+            this.valid = 1;
+        }
         if (swellperiod1.toString().length == 1) {
             this.swellperiod1 = "4" + "0" + swellperiod1;
         } else {
@@ -314,6 +418,10 @@ class Observation {
         }
     }
     setSwellperiod2(swellperiod2) {
+        this.valid = 0;
+        if (isNaN(swellperiod2) || swellperiod2 < 0 || swellperiod2 >= 100 || this.isFloat(swellperiod2)) {
+            this.valid = 1;
+        }
         if (swellperiod2.toString().length == 1) {
             this.swellperiod2 = "5" + "0" + swellperiod2;
         } else {
@@ -321,8 +429,15 @@ class Observation {
         }
     }
     setSwellheight1(swellheight1) {
+        this.valid = 0;
+        if (isNaN(swellheight1) || swellheight1 < 0 || swellheight1 >= 50) {
+            this.valid = 1;
+        }
         swellheight1 = parseFloat(swellheight1);
         swellheight1 = swellheight1 / 0.5;
+        if (this.isFloat(swellheight1)) {
+            this.valid = 1;
+        }
         if (swellheight1.toString().length == 1) {
             this.swellheight1 = "0" + swellheight1;
         } else {
@@ -330,8 +445,15 @@ class Observation {
         }
     }
     setSwellheight2(swellheight2) {
+        this.valid = 0;
+        if (isNaN(swellheight2) || swellheight2 < 0 || swellheight2 >= 50) {
+            this.valid = 1;
+        }
         swellheight2 = parseFloat(swellheight2);
         swellheight2 = swellheight2 / 0.5;
+        if (this.isFloat(swellheight2)) {
+            this.valid = 1;
+        }
         if (swellheight2.toString().length == 1) {
             this.swellheight2 = "0" + swellheight2;
         } else {
@@ -339,9 +461,19 @@ class Observation {
         }
     }
     setCloudTotal(cloudTotal) {
+        this.valid = 0;
+        cloudTotal = parseFloat(cloudTotal);
+        if (isNaN(cloudTotal) || cloudTotal < 0 || cloudTotal > 9 || this.isFloat(cloudTotal)) {
+            this.valid = 1;
+        }
         this.cloudTotal = cloudTotal;
     }
     setLowCloudTotal(lowCloudTotal) {
+        this.valid = 0;
+        lowCloudTotal = parseFloat(lowCloudTotal);
+        if (isNaN(lowCloudTotal) || lowCloudTotal < 0 || lowCloudTotal > 9 || this.isFloat(lowCloudTotal)) {
+            this.valid = 1;
+        }
         this.lowCloudTotal = "8" + lowCloudTotal;
     }
     setCloud(lowest) {
@@ -474,6 +606,10 @@ class Observation {
     };
 
     encodeVisibility(visibility, distanceMetric) {
+        this.visibility = 0;
+        if (isNaN(visibility) || visibility < 0) {
+            this.valid = 1;
+        }
         if (distanceMetric == "km") {
             visibility = visibility * 1000;
         }
@@ -509,8 +645,11 @@ class Observation {
         }
         return this.visibilityEncoded;
     }
-
     encodeSeatemp(seatemp, method) {
+        this.valid = 0;
+        if (isNaN(seatemp) || seatemp >= 100 || seatemp <= -100 || seatemp == "") {
+            this.valid = 1;
+        }
         var sign = 0;
         var seatempString = seatemp.toString();
 
@@ -571,6 +710,9 @@ class Observation {
         // Deletes a selected cloud layer from the cloud layer array
         this.cloudLayers.splice(cloudLayerIndex, 1);
     }
+    isFloat(n){
+        return Number(n) === n && n % 1 !== 0;
+    }
 }
 
 class CloudLayer {
@@ -590,7 +732,7 @@ class CloudLayer {
         cloud.name = "CU1";
         cloud.code = 1;
         cloud.type = "low";
-        cloud.importance = 0;
+        cloud.importance = getCloudImportance(cloud.type, cloud.code);
         cloud.heightLowest = 1500;
         cloud.heightHighest = 6500;
         cloudDictionary[cloud.name] = cloud;
@@ -848,7 +990,7 @@ class CloudLayer {
         cloudImportanceDictionary[cloudTypeMedium.name] = cloudTypeMedium;
 
         cloudTypeHigh.name = "high";
-        cloudTypeHigh.importanceArray = [['CI1'], ['CI2'], ['AC7c'], ['AC6'], ['AC5'], ['AC4'], ['AC7c'], ['AC7b', 'AC3'], ['AS2'], ['AS1']];
+        cloudTypeHigh.importanceArray = [['CC9'], ['CS7'], ['CS8'], ['CI6'], ['CI5'], ['CI4'], ['CI3'], ['CI2'], ['CI1']];
         cloudImportanceDictionary[cloudTypeHigh.name] = cloudTypeHigh;
         return cloudImportanceDictionary;
     };

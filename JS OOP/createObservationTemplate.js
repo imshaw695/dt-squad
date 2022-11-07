@@ -11,7 +11,7 @@ function createFormItem(labelText, name, element) {
 
     var input = document.createElement("input");
     input.setAttribute("type", "text");
-    input.setAttribute("onchange", `observation.set${capitalised}(this.value);console.log("running onchange");updateEncoded();console.log("finished  onchange")`);
+    input.setAttribute("onchange", `observation.set${capitalised}(this.value);console.log("running onchange");updateEncoded();checkIsvalid(observation.valid,'${name}');console.log("finished  onchange")`);
     input.setAttribute("class", "form-control");
     input.setAttribute("id", `${name}`);
     input.setAttribute("name", `${name}`);
@@ -29,6 +29,17 @@ function updateEncoded() {
     // updates the orange box with the encoded observation
     const encoded = observation.encodeData();
     document.getElementById("encodedObservation").innerHTML = encoded;
+}
+function checkIsvalid(valid, elementId) {
+    console.log("inside validty check")
+    var element = document.getElementById(elementId);
+    if (valid == 0) {
+        element.style.backgroundColor = "green";
+    } else {
+        element.style.backgroundColor = "red";
+        alert("Invalid entry, please format correctly.")
+        element.innerText = "";
+    }
 }
 
 function createCloudFormItem(labelText, name) {
@@ -175,7 +186,60 @@ function createObservationTemplate() {
     dataField = document.getElementById("dpoint");
     
     createFormItem("Pressure", "pressure", dataBlock);
-    createFormItem("Tendency", "tendency", dataBlock);
+
+    var tendency = document.createElement("select");
+    tendency.setAttribute("id","tendency");
+    tendency.setAttribute("onchange","observation.setTendency(this.value);updateEncoded();checkIsvalid(observation.valid,'tendency')");
+
+    var t0 = document.createElement("option");
+    var t1 = document.createElement("option");
+    var t2 = document.createElement("option");
+    var t3 = document.createElement("option");
+    var t4 = document.createElement("option");
+    var t5 = document.createElement("option");
+    var t6 = document.createElement("option");
+    var t7 = document.createElement("option");
+    var t8 = document.createElement("option");
+    
+    t0.text = "0 - Rising then falling, same or higher";
+    t0.setAttribute("value", 0)
+    tendency.appendChild(t0);
+
+    t1.text = "1 - Rising then steady, higher";
+    t1.setAttribute("value", 1)
+    tendency.appendChild(t1);
+
+    t2.text = "2 - Increasing steadily, higher";
+    t2.setAttribute("value", 2)
+    tendency.appendChild(t2);
+
+    t3.text = "3 - Falling or steady, then rising, higher";
+    t3.setAttribute("value", 3)
+    tendency.appendChild(t3);
+
+    t4.text = "4 - Steady, same";
+    t4.setAttribute("value", 4)
+    tendency.appendChild(t4);
+
+    t5.text = "5 - Falling then rising, lower";
+    t5.setAttribute("value", 5)
+    tendency.appendChild(t5);
+
+    t6.text = "6 - Falling then steady, lower";
+    t6.setAttribute("value", 6)
+    tendency.appendChild(t6);
+
+    t7.text = "7 - Falling steadily, lower";
+    t7.setAttribute("value", 7)
+    tendency.appendChild(t7);
+
+    t8.text = "8 - Rising or steady, then falling, lower";
+    t8.setAttribute("value", 8)
+    tendency.appendChild(t8);
+    dataBlock.appendChild(tendency);
+
+    // createFormItem("Tendency", "tendency", dataBlock);
+
     createFormItem("Pressure change", "pressureChange", dataBlock);
     createFormItem("Weather (0-99)", "weather", dataBlock);
     createFormItem("Past Weather", "pastweather", dataBlock);
@@ -194,11 +258,11 @@ function createObservationTemplate() {
     createFormItem("Visibility", "visibility", dataBlock);
     dataBlock.appendChild(distanceMetric);
     dataField = document.getElementById("visibility");
-    dataField.setAttribute("onchange", `observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded();console.log("finished  onchange")`);
+    dataField.setAttribute("onchange", `observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded();checkIsvalid(observation.valid,'visibility');console.log("finished  onchange")`);
     
     var method = document.createElement("select");
     method.setAttribute("id","method");
-    method.setAttribute("onchange","observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded()");
+    method.setAttribute("onchange","observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded();checkIsvalid(observation.valid,'seatemp')");
     var method1 = document.createElement("option");
     var method2 = document.createElement("option");
     var method3 = document.createElement("option");
@@ -218,7 +282,7 @@ function createObservationTemplate() {
     
     createFormItem("Sea Surface Temperature", "seatemp", dataBlock);
     dataField = document.getElementById("seatemp");
-    dataField.setAttribute("onchange", `observation.setSeatemp(this.value, document.getElementById("method").value);console.log("running onchange");updateEncoded();console.log("finished  onchange")`);
+    dataField.setAttribute("onchange", `observation.setSeatemp(this.value, document.getElementById("method").value);console.log("running onchange");updateEncoded();checkIsvalid(observation.valid,'seatemp');console.log("finished  onchange")`);
     dataBlock.appendChild(method);
     
     createFormItem("Sea period", "seaperiod", dataBlock);
