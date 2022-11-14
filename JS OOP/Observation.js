@@ -38,7 +38,6 @@ class Observation {
         this.swellperiod2 = "";
         this.swellheight1 = "";
         this.swellheight2 = "";
-        this.valid = 0;
         this.lowest = { "low": { "index": 999999, "type": "" }, "medium": { "index": 999999, "type": "" }, "high": { "index": 999999, "type": "" } };
         this.cloudCodeDict = {
             "CI": 0,
@@ -141,7 +140,7 @@ class Observation {
     // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime(date) {
         // need to add one to the hour  
-        this.valid = 0;
+        var valid = true;
         date = date.toString();
         var day = date.substr(8, 2);
         var hour = date.substr(11, 2);
@@ -149,9 +148,9 @@ class Observation {
         this.date = dateEncoded;
     }
     setLatitude(latitude) {
-        this.valid = 0;
+        var valid = true;
         if (latitude > 90 || latitude < 0 || isNaN(latitude) || latitude == "") {
-            this.valid = 1;
+            valid = false;
         }
         var latitude10 = latitude * 10;
         var latitudeEncoded = "";
@@ -167,18 +166,22 @@ class Observation {
         console.log(latitudeEncoded);
         this.latitude = latitudeEncoded;
         console.log("leaving setLatitude")
+
+        return valid;
     }
     setQuadrant(quadrant) {
-        this.valid = 0;
+        var valid = true;
         if (quadrant != 1 && quadrant != 3 && quadrant != 5 && quadrant != 7) {
-            this.valid = 1;
+            valid = false;
         }
         this.quadrant = quadrant;
+
+        return valid;
     }
     setLongitude(longitude) {
-        this.valid = 0;
+        var valid = true;
         if (longitude < 0 || longitude > 180 || isNaN(longitude) || longitude == "") {
-            this.valid = 1;
+            valid = false;
         }
         var longitude10 = longitude * 10;
         var longitudeEncoded = "";
@@ -194,11 +197,12 @@ class Observation {
         console.log(longitudeEncoded);
         this.longitude = longitudeEncoded;
         console.log("leaving setLongitude")
+        return valid
     }
     setWdirection(wdirection) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(wdirection) || wdirection < 1 || wdirection > 360 || wdirection == "" || this.isFloat(wdirection/10)) {
-            this.valid = 1;
+            valid = false;
         }
         wdirection = wdirection / 10;
         if (wdirection.toString().length == 1) {
@@ -206,39 +210,43 @@ class Observation {
         } else {
             this.wdirection = wdirection;
         }
+        return valid;
     }
     setWspeed(wspeed) {
-        this.valid = 0;
+        var valid = true;
         wspeed = parseInt(wspeed);
         if (isNaN(wspeed) || wspeed >= 100 || wspeed < 0 || this.isFloat(wspeed)) {
-            this.valid = 1;
+            valid = false;
         }
         if (wspeed.toString().length == 1) {
             this.wspeed = "0" + wspeed;
         } else {
             this.wspeed = wspeed;
         }
+        return valid;
     }
     setDs(ds) {
-        this.valid = 0;
+        var valid = true;
         ds = parseInt(ds);
         if (ds < 1 || ds > 8 || isNaN(ds)) {
-            this.valid = 1;
+            valid = false;
         }
         this.ds = "222" + ds;
+        return valid;
     }
     setVs(vs) {
-        this.valid = 0;
+        var valid = true;
         vs = parseInt(vs);
         if (vs < 0 || vs > 9 || isNaN(vs)) {
-            this.valid = 1;
+            valid = false;
         }
         this.vs = vs;
+        return valid;
     }
     setDbulb(dbulb) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(dbulb) || dbulb > 99) {
-            this.valid = 1;
+            valid = false;
         }
         var sign = "0";
         var dbulb10 = "";
@@ -259,11 +267,12 @@ class Observation {
             dbulb10 = "0" + dbulb10;
         }
         this.dbulb = "1" + sign + dbulb10;
+        return valid;
     }
     setDpoint(dpoint) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(dpoint) || dpoint > 99) {
-            this.valid = 1;
+            valid = false;
         }
         var sign = "0";
         var dpoint10 = "";
@@ -284,11 +293,12 @@ class Observation {
             dpoint10 = "0" + dpoint10;
         }
         this.dpoint = "2" + sign + dpoint10;
+        return valid;
     }
     setPressure(pressure) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(pressure) || pressure > 1050 || pressure < 900) {
-            this.valid = 1;
+            valid = false;
         }
         var pressure10 = pressure * 10;
         pressure10 = parseInt(pressure10);
@@ -296,22 +306,24 @@ class Observation {
             pressure10 = pressure10.toString().substr(1);
         }
         this.pressure = "4" + pressure10;
+        return valid;
     }
     setTendency(tendency) {
         // need to change to a dropdown with values for each one eg. rising then falling, etc
-        this.valid = 0;
+        var valid = true;
         this.tendency = "5" + tendency;
+        return valid;
     }
     setPressureChange(pressurechange) {
-        this.valid = 0; 
+        var valid = true; 
         if (pressurechange < 0 && parseInt(this.tendency) < 54) {
-            this.valid = 1;
+            valid = false;
         }
         if (pressurechange >= 0 && parseInt(this.tendency) > 54) {
-            this.valid = 1;
+            valid = false;
         }
         if (isNaN(pressurechange) || pressurechange >= 10 || pressurechange <= -10) {
-            this.valid = 1;
+            valid = false;
         }
         var pressure10 = pressurechange * 10;
         if (pressure10.toString().length == 1) {
@@ -321,160 +333,179 @@ class Observation {
             pressure10 = "0" + pressure10;
         }
         this.pressurechange = pressure10;
+        return valid;
     }
     setWeather(weather) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(weather) || weather < 0 || weather > 99) {
-            this.valid = 1;
+            valid = false;
         }
         if (weather.toString().length == 1) {
             weather = "0" + weather;
         }
         this.weather = "7" + weather;
+        return valid;
     }
     setPastweather(pastweather) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(pastweather) || pastweather < 0 || pastweather > 99) {
-            this.valid = 1;
+            valid = false;
         }
         if (pastweather.toString().length == 1) {
             pastweather = pastweather + "0";
         }
         this.pastweather = pastweather;
+        return valid;
     }
     setVisibility(visibility, distanceMetric) {
-        this.visibility = this.encodeVisibility(visibility, distanceMetric);
+        var visibilityEncoded = this.encodeVisibility(visibility, distanceMetric);
+        this.visibility = visibilityEncoded[0];
+        var valid = visibilityEncoded[1];
+        return valid;
     }
     setSeatemp(seatemp, method) {
         console.log("I am in setSeatemp",seatemp, method)
-        this.seatemp = this.encodeSeatemp(seatemp, method);
+        var seatempEncoded = this.encodeSeatemp(seatemp, method);
+        this.seatemp = seatempEncoded[0];
+        var valid = seatempEncoded[1];
+        return valid;
     }
     setSeaperiod(seaperiod) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(seaperiod) || seaperiod < 0 || seaperiod >= 100 || this.isFloat(seaperiod)) {
-            this.valid = 1;
+            valid = false;
         }
         if (seaperiod.toString().length == 1) {
             this.seaperiod = "0" + seaperiod;
         } else {
             this.seaperiod = seaperiod;
         }
+        return valid;
     }
     setSeaheight(seaheight) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(seaheight) || seaheight < 0 || seaheight >= 50) {
-            this.valid = 1;
+            valid = false;
         }
         seaheight = parseFloat(seaheight);
         seaheight = seaheight / 0.5;
         if (this.isFloat(seaheight)) {
-            this.valid = 1;
+            valid = false;
         }
         if (seaheight.toString().length == 1) {
             this.seaheight = "0" + seaheight;
         } else {
             this.seaheight = seaheight;
         }
+        return valid;
     }
     setSwelldir1(swelldir1) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(swelldir1) || swelldir1 < 1 || swelldir1 > 360) {
-            this.valid = 1;
+            valid = false;
         }
         swelldir1 = swelldir1 / 10;
         if (this.isFloat(swelldir1)) {
-            this.valid = 1;
+            valid = false;
         }
         if (swelldir1.toString().length == 1) {
             this.swelldir1 = "3" + "0" + swelldir1;
         } else {
             this.swelldir1 = "3" + swelldir1;
         }
+        return valid;
     }
     setSwelldir2(swelldir2) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(swelldir2) || swelldir2 < 1 || swelldir2 > 360) {
-            this.valid = 1;
+            valid = false;
         }
         swelldir2 = swelldir2 / 10;
         if (this.isFloat(swelldir2)) {
-            this.valid = 1;
+            valid = false;
         }
         if (swelldir2.toString().length == 1) {
             this.swelldir2 = "0" + swelldir2;
         } else {
             this.swelldir2 = swelldir2;
         }
+        return valid;
     }
     setSwellperiod1(swellperiod1) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(swellperiod1) || swellperiod1 < 0 || swellperiod1 >= 100 || this.isFloat(swellperiod1)) {
-            this.valid = 1;
+            valid = false;
         }
         if (swellperiod1.toString().length == 1) {
             this.swellperiod1 = "4" + "0" + swellperiod1;
         } else {
             this.swellperiod1 = "4" + swellperiod1;
         }
+        return valid;
     }
     setSwellperiod2(swellperiod2) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(swellperiod2) || swellperiod2 < 0 || swellperiod2 >= 100 || this.isFloat(swellperiod2)) {
-            this.valid = 1;
+            valid = false;
         }
         if (swellperiod2.toString().length == 1) {
             this.swellperiod2 = "5" + "0" + swellperiod2;
         } else {
             this.swellperiod2 = "5" + swellperiod2;
         }
+        return valid;
     }
     setSwellheight1(swellheight1) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(swellheight1) || swellheight1 < 0 || swellheight1 >= 50) {
-            this.valid = 1;
+            valid = false;
         }
         swellheight1 = parseFloat(swellheight1);
         swellheight1 = swellheight1 / 0.5;
         if (this.isFloat(swellheight1)) {
-            this.valid = 1;
+            valid = false;
         }
         if (swellheight1.toString().length == 1) {
             this.swellheight1 = "0" + swellheight1;
         } else {
             this.swellheight1 = swellheight1;
         }
+        return valid;
     }
     setSwellheight2(swellheight2) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(swellheight2) || swellheight2 < 0 || swellheight2 >= 50) {
-            this.valid = 1;
+            valid = false;
         }
         swellheight2 = parseFloat(swellheight2);
         swellheight2 = swellheight2 / 0.5;
         if (this.isFloat(swellheight2)) {
-            this.valid = 1;
+            valid = false;
         }
         if (swellheight2.toString().length == 1) {
             this.swellheight2 = "0" + swellheight2;
         } else {
             this.swellheight2 = swellheight2;
         }
+        return valid;
     }
     setCloudTotal(cloudTotal) {
-        this.valid = 0;
+        var valid = true;
         cloudTotal = parseFloat(cloudTotal);
         if (isNaN(cloudTotal) || cloudTotal < 0 || cloudTotal > 9 || this.isFloat(cloudTotal)) {
-            this.valid = 1;
+            valid = false;
         }
         this.cloudTotal = cloudTotal;
+        return valid;
     }
     setLowCloudTotal(lowCloudTotal) {
-        this.valid = 0;
+        var valid = true;
         lowCloudTotal = parseFloat(lowCloudTotal);
         if (isNaN(lowCloudTotal) || lowCloudTotal < 0 || lowCloudTotal > 9 || this.isFloat(lowCloudTotal)) {
-            this.valid = 1;
+            valid = false;
         }
         this.lowCloudTotal = "8" + lowCloudTotal;
+        return valid;
     }
     setCloud(lowest) {
         this.lowest = lowest;
@@ -606,9 +637,10 @@ class Observation {
     };
 
     encodeVisibility(visibility, distanceMetric) {
+        var valid = true;
         this.visibility = 0;
         if (isNaN(visibility) || visibility < 0) {
-            this.valid = 1;
+            valid = false;
         }
         if (distanceMetric == "km") {
             visibility = visibility * 1000;
@@ -643,12 +675,12 @@ class Observation {
         if (visibility > 50000) {
             this.visibilityEncoded = 99;
         }
-        return this.visibilityEncoded;
+        return [this.visibilityEncoded, valid];
     }
     encodeSeatemp(seatemp, method) {
-        this.valid = 0;
+        var valid = true;
         if (isNaN(seatemp) || seatemp >= 100 || seatemp <= -100 || seatemp == "") {
-            this.valid = 1;
+            valid = false;
         }
         var sign = 0;
         var seatempString = seatemp.toString();
@@ -694,7 +726,23 @@ class Observation {
         }
 
         this.seatempEncoded = "0" + this.method + seatemp10;
-        return this.seatempEncoded;
+        return [this.seatempEncoded, valid];
+    }
+
+    getValidHeights(height) {
+        var validHeights = [];
+        if (isNaN(height)) {
+            validHeights.push("Enter a valid height.")
+        } else {
+            height = parseInt(height);
+        }
+        for (const [heightValue, heightCode] of Object.entries(this.hshsDict)) {
+            var debug = heightValue.toString().substr(0,height.toString().length);
+            if (height == heightValue.toString().substr(0,height.toString().length)) {
+                validHeights.push(heightValue);
+            }
+        }
+        return validHeights;
     }
 
     addCloudLayer(type, height, oktas) {
@@ -710,9 +758,331 @@ class Observation {
         // Deletes a selected cloud layer from the cloud layer array
         this.cloudLayers.splice(cloudLayerIndex, 1);
     }
+    checkCloudLayers() {
+        // need to getCloudDictionary method, do I need it in the CloudLayer class?
+        // where is the best place to do this? here or CloudLayer class?
+        var valid = true;
+        const cloudDictionary = this.getCloudDictionary() // not sure how to do this
+        for (const cloudLayerIndex in this.cloudLayers) {
+            var cloudType = this.cloudLayers[cloudLayerIndex].type;
+            var cloudHeight = this.cloudLayers[cloudLayerIndex].height
+            var cloudOktas = this.cloudLayers[cloudLayerIndex].oktas
+            console.log(cloudDictionary[cloudType])
+            if (!(cloudType in cloudDictionary)) {
+                valid = false;
+                alert(`Invalid cloud layer! Cloud type ${cloudType} does not exist.`)
+                this.cloudLayers.splice(cloudLayerIndex, 1);
+            } else {
+                if (!(cloudHeight <= cloudDictionary[cloudType].heightHighest && cloudHeight >= cloudDictionary[cloudType].heightLowest)) {
+                    valid = false;
+                    alert('Invalid height for this specified cloud type, please check again.');
+                    this.cloudLayers.splice(cloudLayerIndex, 1);
+                } else {
+                    if (!(cloudOktas > 0 && cloudOktas < 9)) {
+                        valid = false;
+                        alert('Invalid oktas, please check again.');
+                        this.cloudLayers.splice(cloudLayerIndex, 1);
+                    }
+                }
+            }
+            //if (this.cloudLayers[cloudLayer].height )
+        }
+        console.log("=====")
+        console.log(valid)
+        return valid;
+    }
     isFloat(n){
         return Number(n) === n && n % 1 !== 0;
     }
+    getCloudDictionary() {
+        //calling this function will make an object containing all low, medium, and high cloud groups
+        let cloudDictionary = {};
+        let cloud = {};
+        cloud.name = "CU1";
+        cloud.code = 1;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CU2";
+        cloud.code = 2;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CB3";
+        cloud.code = 3;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "SC4";
+        cloud.code = 4;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "SC5";
+        cloud.code = 5;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "ST6";
+        cloud.code = 6;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 0;
+        cloud.heightHighest = 1499;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "ST7";
+        cloud.code = 7;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 0;
+        cloud.heightHighest = 1499;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "SC8";
+        cloud.code = 8;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CB9";
+        cloud.code = 9;
+        cloud.type = "low";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 1500;
+        cloud.heightHighest = 6500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AS1";
+        cloud.code = 1;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AS2";
+        cloud.code = 2;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC3";
+        cloud.code = 3;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC4";
+        cloud.code = 4;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC5";
+        cloud.code = 5;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC6";
+        cloud.code = 6;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC7";
+        cloud.code = 7;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC8";
+        cloud.code = 8;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "AC9";
+        cloud.code = 9;
+        cloud.type = "medium";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 6500;
+        cloud.heightHighest = 16500;
+
+        cloud = {};
+        cloud.name = "CI1";
+        cloud.code = 1;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+
+        cloud = {};
+        cloud.name = "CI2";
+        cloud.code = 2;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CI3";
+        cloud.code = 3;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CI4";
+        cloud.code = 4;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CI5";
+        cloud.code = 5;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CI6";
+        cloud.code = 6;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CS7";
+        cloud.code = 7;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CS8";
+        cloud.code = 8;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        cloud = {};
+        cloud.name = "CC9";
+        cloud.code = 9;
+        cloud.type = "high";
+        cloud.importance = this.getCloudImportance(cloud.type, cloud.code);
+        cloud.heightLowest = 16500;
+        cloud.heightHighest = 100000;
+        cloudDictionary[cloud.name] = cloud;
+
+        return cloudDictionary;
+    };
+    getCloudImportanceDictionary() {
+        //this function creates an object with arrays containing cloud importance in the correct order
+        let cloudImportanceDictionary = {};
+        let cloudTypeLow = {};
+        let cloudTypeMedium = {};
+        let cloudTypeHigh = {};
+
+        cloudTypeLow.name = "low";
+        cloudTypeLow.importanceArray = [['CB9'], ['CB3'], ['SC4'], ['SC8'], ['CU2'], ['CU1', 'SC5', 'ST6', 'ST7']];
+        cloudImportanceDictionary[cloudTypeLow.name] = cloudTypeLow;
+
+        cloudTypeMedium.name = "medium";
+        cloudTypeMedium.importanceArray = [['AC9'], ['AC8'], ['AC7'], ['AC6'], ['AC5'], ['AC4'], ['AC3'], ['AS2'], ['AS1']];
+        cloudImportanceDictionary[cloudTypeMedium.name] = cloudTypeMedium;
+
+        cloudTypeHigh.name = "high";
+        cloudTypeHigh.importanceArray = [['CC9'], ['CS7'], ['CS8'], ['CI6'], ['CI5'], ['CI4'], ['CI3'], ['CI2'], ['CI1']];
+        cloudImportanceDictionary[cloudTypeHigh.name] = cloudTypeHigh;
+        return cloudImportanceDictionary;
+    };
+    getCloudImportance() {
+        //cloud importance index, starting at 0 as most important and working down
+        const cloudImportanceDictionary = this.getCloudImportanceDictionary();
+        const cloudHeightGroups = Object.entries(cloudImportanceDictionary);
+        for (const [height, cloud] of cloudHeightGroups) {
+            for (const cloudTypes of cloud.importanceArray) {
+                for (const cloudType of cloudTypes) {
+                    if (this.type == cloudType) {
+                        const cloudImportanceIndex = cloud.importanceArray.indexOf(cloudTypes);
+                        if (cloudImportanceIndex < this.lowest[height].index) {
+                            this.lowest[height].index = cloudImportanceIndex;
+                            this.lowest[height].type = cloudType;
+                        }
+                        console.log(`${this.type} and ${cloudImportanceIndex}`);
+                        return cloudImportanceIndex;
+                    }
+                }
+            }
+        }
+    };  
+
 }
 
 class CloudLayer {

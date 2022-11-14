@@ -11,7 +11,7 @@ function createFormItem(labelText, name, element) {
 
     var input = document.createElement("input");
     input.setAttribute("type", "text");
-    input.setAttribute("onchange", `observation.set${capitalised}(this.value);console.log("running onchange");updateEncoded();checkIsvalid(observation.valid,'${name}');console.log("finished  onchange")`);
+    input.setAttribute("onchange", `const status = observation.set${capitalised}(this.value);updateEncoded(status);checkIsvalid(status,'${name}')`);
     input.setAttribute("class", "form-control");
     input.setAttribute("id", `${name}`);
     input.setAttribute("name", `${name}`);
@@ -25,20 +25,26 @@ function createFormItem(labelText, name, element) {
     return;
 }
 
-function updateEncoded() {
+function updateEncoded(valid) {
     // updates the orange box with the encoded observation
-    const encoded = observation.encodeData();
+    var encoded = "";
+    console.log(valid)
+    if (valid) {
+        encoded = observation.encodeData();
+    } else {
+        encoded = "Please fix input errors."
+    }
     document.getElementById("encodedObservation").innerHTML = encoded;
 }
 function checkIsvalid(valid, elementId) {
-    console.log("inside validty check")
+    console.log("inside validity check")
     var element = document.getElementById(elementId);
-    if (valid == 0) {
+    console.log(valid);
+    if (valid) {
         element.style.backgroundColor = "green";
     } else {
         element.style.backgroundColor = "red";
-        alert("Invalid entry, please format correctly.")
-        element.innerText = "";
+        alert(`Invalid entry, please input valid ${elementId}.`)
     }
 }
 
@@ -74,6 +80,7 @@ function createCloudRow(element) {
     name = `height`;
     labelText = "height";
     var [labelHeight, inputHeight] = createCloudFormItem(labelText, name);
+    inputHeight.setAttribute("onkeyup", "cloudHeightEntered()");
     // inputHeight.setAttribute("onchange", `heightChanged(this)`)
 
     cloudRow.appendChild(labelHeight);
@@ -87,7 +94,7 @@ function createCloudRow(element) {
 
     var cloudButton = document.createElement("button");
     cloudButton.setAttribute("type", "button");
-    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();observation.setCloudlayers();updateEncoded();displayCloudLayers()");
+    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();observation.setCloudlayers();valid=observation.checkCloudLayers();updateEncoded(valid);displayCloudLayers()");
     cloudButton.innerHTML = "Save cloud layer"
 
     cloudRow.appendChild(labelOkta);
@@ -98,6 +105,25 @@ function createCloudRow(element) {
     return;
 
 }
+
+    function changeHeightValue(newValue) {
+        document.getElementById("height").value = newValue;
+    }
+
+    function cloudHeightEntered() {
+        const cloudHeight = document.getElementById("height");
+        const validHeights = observation.getValidHeights(cloudHeight.value);
+        var ul = document.createElement("ul");
+        for (const heightIndex in validHeights) {
+            var li = document.createElement("li");
+            li.innerHTML = validHeights[heightIndex];
+            var newValue = validHeights[heightIndex]
+            li.setAttribute("onclick", `changeHeightValue(${newValue})`);
+            ul.appendChild(li);
+        }
+        document.getElementById("validHeights").innerHTML = "";
+        document.getElementById("validHeights").appendChild(ul);
+    }
 
     function addCloud() {
         const type = document.getElementById("type").value;
@@ -189,7 +215,7 @@ function createObservationTemplate() {
 
     var tendency = document.createElement("select");
     tendency.setAttribute("id","tendency");
-    tendency.setAttribute("onchange","observation.setTendency(this.value);updateEncoded();checkIsvalid(observation.valid,'tendency')");
+    tendency.setAttribute("onchange","const status = observation.setTendency(this.value);updateEncoded(status);checkIsvalid(status,'tendency')");
 
     var t0 = document.createElement("option");
     var t1 = document.createElement("option");
@@ -258,11 +284,11 @@ function createObservationTemplate() {
     createFormItem("Visibility", "visibility", dataBlock);
     dataBlock.appendChild(distanceMetric);
     dataField = document.getElementById("visibility");
-    dataField.setAttribute("onchange", `observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded();checkIsvalid(observation.valid,'visibility');console.log("finished  onchange")`);
+    dataField.setAttribute("onchange", `const status = observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded(status);checkIsvalid(status,'visibility');console.log("finished  onchange")`);
     
     var method = document.createElement("select");
     method.setAttribute("id","method");
-    method.setAttribute("onchange","observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded();checkIsvalid(observation.valid,'seatemp')");
+    method.setAttribute("onchange","const status = observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded(status);checkIsvalid(status,'seatemp')");
     var method1 = document.createElement("option");
     var method2 = document.createElement("option");
     var method3 = document.createElement("option");
@@ -282,7 +308,7 @@ function createObservationTemplate() {
     
     createFormItem("Sea Surface Temperature", "seatemp", dataBlock);
     dataField = document.getElementById("seatemp");
-    dataField.setAttribute("onchange", `observation.setSeatemp(this.value, document.getElementById("method").value);console.log("running onchange");updateEncoded();checkIsvalid(observation.valid,'seatemp');console.log("finished  onchange")`);
+    dataField.setAttribute("onchange", `const status = observation.setSeatemp(this.value, document.getElementById("method").value);console.log("running onchange");updateEncoded(status);checkIsvalid(status,'seatemp');console.log("finished  onchange")`);
     dataBlock.appendChild(method);
     
     createFormItem("Sea period", "seaperiod", dataBlock);
