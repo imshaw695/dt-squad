@@ -1,0 +1,43 @@
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="Observations.js"></script>
+<div id="app">
+    {{ message }}
+    {{ observations }}
+    <div v-for="observation in observations">
+        {{ observation.encodedObservation }}
+    </div>
+</div>
+<script>
+    const observations = new Observations();
+    var base_message = "Hi there, this has been on screen for: "
+    var app = new Vue({
+        el: '#app',
+        data: {
+            observations: observations.observations,
+            message: base_message + 0 + " seconds"
+        }
+    })
+
+    var timeStarted = new Date().getTime();
+
+    var target = 20 * 1000;
+
+    // Update the count down every 1 second
+    var time_taken_timer = setInterval(function () {
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the timeTaken between now and the count down date
+        var timeTaken = now - timeStarted;
+
+        // Time calculations for days, hours, minutes and seconds
+        var seconds = Math.floor((target - timeTaken) / 1000);
+        var time_taken = Math.floor((timeTaken) / 1000);
+
+        // update the bound variable
+        app.message =  base_message + time_taken + " seconds"
+
+    }, 1000);
+
+</script>

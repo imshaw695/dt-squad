@@ -25,14 +25,14 @@ function createFormItem(labelText, name, element) {
     return;
 }
 
-function updateEncoded(valid) {
+function updateEncoded(valid, specificMessage = "") {
     // updates the orange box with the encoded observation
     var encoded = "";
     console.log(valid)
     if (valid) {
         encoded = observation.encodeData();
     } else {
-        encoded = "Please fix input errors."
+        encoded = "Please fix input errors. " + specificMessage
     }
     document.getElementById("encodedObservation").innerHTML = encoded;
 }
@@ -41,9 +41,9 @@ function checkIsvalid(valid, elementId) {
     var element = document.getElementById(elementId);
     console.log(valid);
     if (valid) {
-        element.style.backgroundColor = "green";
+        element.style.backgroundColor = "#99b88c";
     } else {
-        element.style.backgroundColor = "red";
+        element.style.backgroundColor = "#db9874";
         alert(`Invalid entry, please input valid ${elementId}.`)
     }
 }
@@ -69,24 +69,13 @@ function createCloudRow(element) {
     var name = `type`;
     var labelText = "type";
     var [labelCloud, inputCloud] = createCloudFormItem(labelText, name);
+    inputCloud.setAttribute("onkeyup","cloudTypeEntered()");
     // inputCloud.setAttribute("onchange", `cloudChanged(this)`)
-
-    var cloudRow = document.createElement("div");
-    cloudRow.setAttribute("class", "row my-2")
-    cloudRow.appendChild(labelCloud);
-    cloudRow.appendChild(inputCloud);
-    element.appendChild(cloudRow);
-
     name = `height`;
     labelText = "height";
     var [labelHeight, inputHeight] = createCloudFormItem(labelText, name);
     inputHeight.setAttribute("onkeyup", "cloudHeightEntered()");
     // inputHeight.setAttribute("onchange", `heightChanged(this)`)
-
-    cloudRow.appendChild(labelHeight);
-    cloudRow.appendChild(inputHeight);
-    element.appendChild(cloudRow);
-
     name = `oktas`;
     labelText = "oktas";
     var [labelOkta, inputOkta] = createCloudFormItem(labelText, name);
@@ -94,53 +83,156 @@ function createCloudRow(element) {
 
     var cloudButton = document.createElement("button");
     cloudButton.setAttribute("type", "button");
-    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();observation.setCloudlayers();valid=observation.checkCloudLayers();updateEncoded(valid);displayCloudLayers()");
+    cloudButton.setAttribute("onclick", "addCloud();observation.setCloud(observation.lowest);observation.setLowestCloudHeight();observation.setCloudlayers();[valid,specificMessage]=observation.checkCloudLayers();updateEncoded(valid,specificMessage);displayCloudLayers()");
     cloudButton.innerHTML = "Save cloud layer"
 
-    cloudRow.appendChild(labelOkta);
-    cloudRow.appendChild(inputOkta);
-    cloudRow.appendChild(cloudButton);
-    element.appendChild(cloudRow);
+    var cloudRow1 = document.createElement("div");
+    var r1cloudColumn1 = document.createElement("div");
+    var r1cloudColumn2 = document.createElement("div");
+    var r1cloudColumn3 = document.createElement("div");
+    var r1cloudColumn4 = document.createElement("div");
+    r1cloudColumn1.setAttribute("class", "col-3")
+    r1cloudColumn2.setAttribute("class", "col-3")
+    r1cloudColumn3.setAttribute("class", "col-3")
+    r1cloudColumn4.setAttribute("class", "col-3")
+    cloudRow1.setAttribute("class", "row my-2")
+    cloudRow1.appendChild(r1cloudColumn1);
+    cloudRow1.appendChild(r1cloudColumn2);
+    cloudRow1.appendChild(r1cloudColumn3);
+    cloudRow1.appendChild(r1cloudColumn4);
+    r1cloudColumn1.appendChild(labelCloud)
+    r1cloudColumn2.appendChild(labelHeight);
+    r1cloudColumn3.appendChild(labelOkta);
+    
+    var cloudRow2 = document.createElement("div");
+    var r2cloudColumn1 = document.createElement("div");
+    var r2cloudColumn2 = document.createElement("div");
+    var r2cloudColumn3 = document.createElement("div");
+    var r2cloudColumn4 = document.createElement("div");
+    r2cloudColumn1.setAttribute("class", "col-3")
+    r2cloudColumn2.setAttribute("class", "col-3")
+    r2cloudColumn3.setAttribute("class", "col-3")
+    r2cloudColumn4.setAttribute("class", "col-3")
+    cloudRow2.setAttribute("class", "row my-2")
+    cloudRow2.appendChild(r2cloudColumn1);
+    cloudRow2.appendChild(r2cloudColumn2);
+    cloudRow2.appendChild(r2cloudColumn3);
+    cloudRow2.appendChild(r2cloudColumn4);
+    r2cloudColumn1.appendChild(inputCloud);
+    r2cloudColumn2.appendChild(inputHeight);
+    r2cloudColumn3.appendChild(inputOkta);
+    r2cloudColumn4.appendChild(cloudButton);
+
+    var cloudRow3 = document.createElement("div");
+    var r3cloudColumn1 = document.createElement("div");
+    var r3cloudColumn2 = document.createElement("div");
+    var r3cloudColumn3 = document.createElement("div");
+    var r3cloudColumn4 = document.createElement("div");
+    r3cloudColumn1.setAttribute("class", "col-3")
+    r3cloudColumn2.setAttribute("class", "col-3")
+    r3cloudColumn3.setAttribute("class", "col-3")
+    r3cloudColumn4.setAttribute("class", "col-3")
+    cloudRow3.setAttribute("class", "row my-2")
+    cloudRow3.appendChild(r3cloudColumn1);
+    cloudRow3.appendChild(r3cloudColumn2);
+    cloudRow3.appendChild(r3cloudColumn3);
+    cloudRow3.appendChild(r3cloudColumn4);
+    // <div id="validHeights">text</div>
+    var heightList = document.createElement("div")
+    heightList.setAttribute("id", "validHeights")
+    r3cloudColumn2.appendChild(heightList);
+
+    var cloudList = document.createElement("div");
+    cloudList.setAttribute("id", "validClouds");
+    r3cloudColumn1.appendChild(cloudList);
+
+    element.appendChild(cloudRow1);
+    element.appendChild(cloudRow2);
+    element.appendChild(cloudRow3);
 
     return;
-
 }
 
-    function changeHeightValue(newValue) {
-        document.getElementById("height").value = newValue;
-    }
+function changeHeightValue(newValue) {
+    document.getElementById("height").value = newValue;
+}
 
-    function cloudHeightEntered() {
-        const cloudHeight = document.getElementById("height");
-        const validHeights = observation.getValidHeights(cloudHeight.value);
-        var ul = document.createElement("ul");
-        for (const heightIndex in validHeights) {
-            var li = document.createElement("li");
-            li.innerHTML = validHeights[heightIndex];
-            var newValue = validHeights[heightIndex]
-            li.setAttribute("onclick", `changeHeightValue(${newValue})`);
-            ul.appendChild(li);
-        }
-        document.getElementById("validHeights").innerHTML = "";
-        document.getElementById("validHeights").appendChild(ul);
-    }
+function changeCloudValue(newValue) {
+    document.getElementById("type").value = newValue;
+}
 
-    function addCloud() {
-        const type = document.getElementById("type").value;
-        const height = parseInt(document.getElementById("height").value);
-        const oktas = parseInt(document.getElementById("oktas").value);
-        console.log(type, height, oktas)
-        observation.addCloudLayer(type, height, oktas);
-        displayCloudLayers();
+function cloudHeightEntered() {
+    console.log("in cloud height entered")
+    const cloudHeight = document.getElementById("height");
+    var validHeights = observation.getValidHeights(cloudHeight.value);
+    console.log(validHeights)
+    if (!(validHeights.length)) {
+        console.log("no valid heights")
+        const cloudHeightString = cloudHeight.value.toString();
+        console.log("====")
+        console.log(cloudHeightString.substr(0, cloudHeightString.length - 1))
+        cloudHeight.value = cloudHeightString.substr(0, cloudHeightString.length - 1);
+        validHeights = observation.getValidHeights(cloudHeight.value);
+        updateEncoded(false, "No valid heights with that input.")
     }
+    var ul = document.createElement("ul");
+    ul.setAttribute("class", "list-group")
+    ul.setAttribute("id", "cloudHeightUL")
+    for (const heightIndex in validHeights) {
+        var li = document.createElement("li");
+        li.setAttribute("class", "list-group-item")
+        li.innerHTML = validHeights[heightIndex];
+        var newValue = validHeights[heightIndex]
+        li.setAttribute("onclick", `changeHeightValue(${newValue});document.getElementById("cloudHeightUL").innerText=""`);
+        ul.appendChild(li);
+    }
+    document.getElementById("validHeights").innerHTML = "";
+    document.getElementById("validHeights").appendChild(ul);
+}
+function cloudTypeEntered() {
+    console.log("in cloud type entered");
+    var cloudType = document.getElementById("type").value;
+    var validClouds = observation.getValidClouds(cloudType);
+    if (!(validClouds.length)) {
+        console.log("no valid clouds");
+        cloudType = cloudType.substr(0, cloudType.length-1);
+        document.getElementById("type").value = cloudType;
+        validClouds = observation.getValidClouds(cloudType);
+        updateEncoded(false, "No matching cloud types with that input.")
+    }
+    var ul = document.createElement("ul");
+    ul.setAttribute("class", "list-group");
+    ul.setAttribute("id","cloudTypeUL")
+    for (const cloudIndex in validClouds) {
+        console.log("in cloud loop")
+        var li = document.createElement("li");
+        li.setAttribute("class", "list-group-item")
+        li.innerHTML = validClouds[cloudIndex];
+        var newValue = validClouds[cloudIndex];
+        li.setAttribute("onclick", `changeCloudValue('${newValue}');document.getElementById("cloudTypeUL").innerHTML=""`)
+        ul.appendChild(li);
+    }
+    console.log(ul)
+    document.getElementById("validClouds").innerHTML = "";
+    document.getElementById("validClouds").appendChild(ul);
+}
+function addCloud() {
+    const type = document.getElementById("type").value;
+    const height = parseInt(document.getElementById("height").value);
+    const oktas = parseInt(document.getElementById("oktas").value);
+    console.log(type, height, oktas)
+    observation.addCloudLayer(type, height, oktas);
+    displayCloudLayers();
+}
 
-    function displayCloudLayers() {
-        // displays each item in the cloud layer array with the option to delete each row
-        document.getElementById("cloudLayers").innerHTML = "";
-        const cloudLayers = document.getElementById("cloudLayers")
-        var ul = document.createElement("ul");
-        cloudLayers.appendChild(ul);
+function displayCloudLayers() {
+    // displays each item in the cloud layer array with the option to delete each row
+    document.getElementById("cloudLayers").innerHTML = "";
+    const cloudLayers = document.getElementById("cloudLayers")
+    var ul = document.createElement("ul");
+    cloudLayers.appendChild(ul);
     for (let cloudLayerIndex = 0; cloudLayerIndex < observation.cloudLayers.length; cloudLayerIndex++) {
+        var valid = true;
         const cloudLayer = observation.cloudLayers[cloudLayerIndex];
         const li = document.createElement("li");
         const button = document.createElement("button");
@@ -149,9 +241,9 @@ function createCloudRow(element) {
         button.addEventListener('click', function () {
             observation.deleteCloudLayer(cloudLayerIndex);
             displayCloudLayers();
+            observation.setCloudlayers();
+            updateEncoded(valid)
         })
-
-        // observation.deleteCloudLayer(${cloudLayerIndex});
         li.innerHTML = cloudLayer.getFormatted();
         li.appendChild(button);
         ul.appendChild(li);
@@ -180,7 +272,7 @@ function createObservationTemplate() {
     createFormItem("Date", "datetime", dataBlock);
     dateField = document.getElementById("datetime");
     dateField.setAttribute("type", "datetime-local");
-    
+
     createFormItem("Latitude", "latitude", dataBlock);
     dataField = document.getElementById("latitude");
     dataField.setAttribute("placeholder", "Degrees/minutes decimalised, eg. 50.4");
@@ -188,7 +280,7 @@ function createObservationTemplate() {
     createFormItem("Quadrant", "quadrant", dataBlock);
     dataField = document.getElementById("quadrant");
     dataField.setAttribute("placeholder", "1, 3, 5, or 7");
-    
+
     createFormItem("Longitude", "longitude", dataBlock);
     dataField = document.getElementById("longitude");
     dataField.setAttribute("placeholder", "Degrees/minutes decimalised, eg. 004.6");
@@ -196,7 +288,7 @@ function createObservationTemplate() {
     createFormItem("Wind direction", "wdirection", dataBlock);
 
     createFormItem("Wind speed", "wspeed", dataBlock);
-    
+
     createFormItem("Ds", "ds", dataBlock);
     dataField = document.getElementById("ds");
     dataField.setAttribute("placeholder", "1-8");
@@ -204,18 +296,18 @@ function createObservationTemplate() {
     createFormItem("Vs", "vs", dataBlock);
     dataField = document.getElementById("vs");
     dataField.setAttribute("placeholder", "0-9");
-    
+
     createFormItem("Drybulb Temperature", "dbulb", dataBlock);
     dataField = document.getElementById("dbulb");
-    
+
     createFormItem("Dewpoint Temperature", "dpoint", dataBlock);
     dataField = document.getElementById("dpoint");
-    
+
     createFormItem("Pressure", "pressure", dataBlock);
 
     var tendency = document.createElement("select");
-    tendency.setAttribute("id","tendency");
-    tendency.setAttribute("onchange","const status = observation.setTendency(this.value);updateEncoded(status);checkIsvalid(status,'tendency')");
+    tendency.setAttribute("id", "tendency");
+    tendency.setAttribute("onchange", "const status = observation.setTendency(this.value);updateEncoded(status);checkIsvalid(status,'tendency')");
 
     var t0 = document.createElement("option");
     var t1 = document.createElement("option");
@@ -226,7 +318,7 @@ function createObservationTemplate() {
     var t6 = document.createElement("option");
     var t7 = document.createElement("option");
     var t8 = document.createElement("option");
-    
+
     t0.text = "0 - Rising then falling, same or higher";
     t0.setAttribute("value", 0)
     tendency.appendChild(t0);
@@ -271,7 +363,7 @@ function createObservationTemplate() {
     createFormItem("Past Weather", "pastweather", dataBlock);
 
     var distanceMetric = document.createElement("select");
-    distanceMetric.setAttribute("id","distanceMetric");
+    distanceMetric.setAttribute("id", "distanceMetric");
     var option1 = document.createElement("option");
     var option2 = document.createElement("option");
     option1.text = "KM";
@@ -280,15 +372,15 @@ function createObservationTemplate() {
     option2.text = "M";
     option2.setAttribute("value", "m")
     distanceMetric.appendChild(option2);
-    
+
     createFormItem("Visibility", "visibility", dataBlock);
     dataBlock.appendChild(distanceMetric);
     dataField = document.getElementById("visibility");
     dataField.setAttribute("onchange", `const status = observation.setVisibility(this.value, document.getElementById("distanceMetric").value);console.log("running onchange");updateEncoded(status);checkIsvalid(status,'visibility');console.log("finished  onchange")`);
-    
+
     var method = document.createElement("select");
-    method.setAttribute("id","method");
-    method.setAttribute("onchange","const status = observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded(status);checkIsvalid(status,'seatemp')");
+    method.setAttribute("id", "method");
+    method.setAttribute("onchange", "const status = observation.setSeatemp(document.getElementById('seatemp').value, this.value); updateEncoded(status);checkIsvalid(status,'seatemp')");
     var method1 = document.createElement("option");
     var method2 = document.createElement("option");
     var method3 = document.createElement("option");
@@ -305,17 +397,17 @@ function createObservationTemplate() {
     method4.text = "Other";
     method4.setAttribute("value", "other")
     method.appendChild(method4);
-    
+
     createFormItem("Sea Surface Temperature", "seatemp", dataBlock);
     dataField = document.getElementById("seatemp");
     dataField.setAttribute("onchange", `const status = observation.setSeatemp(this.value, document.getElementById("method").value);console.log("running onchange");updateEncoded(status);checkIsvalid(status,'seatemp');console.log("finished  onchange")`);
     dataBlock.appendChild(method);
-    
+
     createFormItem("Sea period", "seaperiod", dataBlock);
     createFormItem("Sea height", "seaheight", dataBlock);
     dataField = document.getElementById("seaheight");
     dataField.setAttribute("placeholder", "In 0.5m increments");
-    
+
     createFormItem("1st Swell Direction", "swelldir1", dataBlock);
     createFormItem("1st Swell Period", "swellperiod1", dataBlock);
     createFormItem("1st Swell Height", "swellheight1", dataBlock);
@@ -325,17 +417,28 @@ function createObservationTemplate() {
 
     createFormItem("Total Cloud", "cloudTotal", dataBlock);
     createFormItem("Total Low Cloud", "lowCloudTotal", dataBlock);
-    
+
     // create cloud rows
     createCloudRow(form1);
 
     // create a submit button
-    var submitButton = document.createElement("input");
-    submitButton.setAttribute("type", "submit");
-    submitButton.setAttribute("value", "Submit");
+    var submitButton = document.createElement("button");
+    submitButton.innerText = " observation";
+    submitButton.setAttribute("onclick", "saveObservation(event)");
 
     form1.appendChild(submitButton);
+    document.getElementById("formAuto").appendChild(form1);
+    
+}
 
-    document.getElementsByTagName("body")[0]
-        .appendChild(form1);
+function saveObservation(event) {
+    event.preventDefault();
+    const date = document.getElementById("datetime").value;
+    const encodedObservation = document.getElementById("encodedObservation").innerHTML
+    console.log(encodedObservation)
+    const observation = {date:date,encodedObservation:encodedObservation};
+    console.log(observation);
+
+    observations.addObservation(observation);
+    console.log(observations.observations);
 }

@@ -51,91 +51,36 @@ class Observation {
             "CU": 8,
             "CB": 9
         };
-        this.hshsDict = {
-            100: "01",
-            200: "02",
-            300: "03",
-            400: "04",
-            500: "05",
-            600: "06",
-            700: "07",
-            800: "08",
-            900: "09",
-            1000: "10",
-            1100: "11",
-            1200: "12",
-            1300: "13",
-            1400: "14",
-            1500: "15",
-            1600: "16",
-            1700: "17",
-            1800: "18",
-            1900: "19",
-            2000: "20",
-            2100: "21",
-            2200: "22",
-            2300: "23",
-            2400: "24",
-            2500: "25",
-            2600: "26",
-            2700: "27",
-            2800: "28",
-            2900: "29",
-            3000: "30",
-            3100: "31",
-            3200: "32",
-            3300: "33",
-            3400: "34",
-            3500: "35",
-            3600: "36",
-            3700: "37",
-            3800: "38",
-            3900: "39",
-            4000: "40",
-            4100: "41",
-            4200: "42",
-            4300: "43",
-            4400: "44",
-            4500: "45",
-            4600: "46",
-            4700: "47",
-            4800: "48",
-            4900: "49",
-            5000: "50",
-            6000: "56",
-            7000: "57",
-            8000: "58",
-            9000: "59",
-            10000: "60",
-            11000: "61",
-            12000: "62",
-            13000: "63",
-            14000: "64",
-            15000: "65",
-            16000: "66",
-            17000: "67",
-            18000: "68",
-            19000: "69",
-            20000: "70",
-            21000: "71",
-            22000: "72",
-            23000: "73",
-            24000: "74",
-            25000: "75",
-            26000: "76",
-            27000: "77",
-            28000: "78",
-            29000: "79",
-            30000: "80",
-            31000: "81",
-            32000: "82",
-            33000: "83",
-            34000: "84",
-            35000: "85",
-            36000: "86",
-            37000: "87",
-            38000: "88"
-        };
+        this.cloudTypeArray = [
+            "CU1",
+            "CU2",
+            "CB3",
+            "SC4",
+            "SC5",
+            "ST6",
+            "ST7",
+            "SC8",
+            "CB9",
+            "AS1",
+            "AS2",
+            "AC3",
+            "AC4",
+            "AC5",
+            "AC6",
+            "AC7",
+            "AC8",
+            "AC9",
+            "CI1",
+            "CI2",
+            "CI3",
+            "CI4",
+            "CS5",
+            "CS6",
+            "CS7",
+            "CS8",
+            "CC9",
+        ]
+        this.hshsDict = this.generatehshsDict();
     }
     // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime(date) {
@@ -146,6 +91,7 @@ class Observation {
         var hour = date.substr(11, 2);
         var dateEncoded = day + hour + 4 + " ";
         this.date = dateEncoded;
+        return valid;
     }
     setLatitude(latitude) {
         var valid = true;
@@ -325,7 +271,11 @@ class Observation {
         if (isNaN(pressurechange) || pressurechange >= 10 || pressurechange <= -10) {
             valid = false;
         }
-        var pressure10 = pressurechange * 10;
+        if (pressurechange > 0) {
+            var pressure10 = pressurechange * 10;
+        } else {
+            var pressure10 = pressurechange * (-10);
+        }
         if (pressure10.toString().length == 1) {
             pressure10 = "00" + pressure10;
         }
@@ -509,17 +459,27 @@ class Observation {
     }
     setCloud(lowest) {
         this.lowest = lowest;
-        console.log(this.lowest)
-        const lowCode = this.lowest["low"]["type"];
-        const lowEncoded = lowCode.charAt(2);
 
-        const mediumCode = this.lowest["medium"]["type"];
-        const mediumEncoded = mediumCode.charAt(2);
-
-        const highCode = this.lowest["high"]["type"];
-        const highEncoded = highCode.charAt(2);
-
+        var lowCode = this.lowest["low"]["type"];
+        var lowEncoded = lowCode.charAt(2);
+        if (lowCode == "") {
+            lowEncoded = "/"
+        }
+        
+        var mediumCode = this.lowest["medium"]["type"];
+        var mediumEncoded = mediumCode.charAt(2);
+        if (mediumCode == "") {
+            mediumEncoded = "/"
+        }
+        
+        var highCode = this.lowest["high"]["type"];
+        var highEncoded = highCode.charAt(2);
+        if (highCode == "") {
+            highEncoded = "/"
+        }
+        
         this.cloud = lowEncoded + mediumEncoded + highEncoded;
+        console.log(this.cloud)
     }
     setLowestCloudHeight() {
         for (const layerIndex in this.cloudLayers) {
@@ -737,12 +697,27 @@ class Observation {
             height = parseInt(height);
         }
         for (const [heightValue, heightCode] of Object.entries(this.hshsDict)) {
-            var debug = heightValue.toString().substr(0,height.toString().length);
             if (height == heightValue.toString().substr(0,height.toString().length)) {
                 validHeights.push(heightValue);
             }
         }
         return validHeights;
+    }
+
+    getValidClouds(cloud) {
+        var validClouds = [];
+        console.log(cloud)
+        if (!(isNaN(cloud))) {
+            validClouds.push("Enter a valid cloud.")
+        }
+        for (const cloudTypeIndex in this.cloudTypeArray) {
+            const cloudType = this.cloudTypeArray[cloudTypeIndex];
+            console.log(cloud)
+            if (cloud == cloudType.substr(0,cloud.length)) {
+                validClouds.push(cloudType);
+            }
+        }
+        return validClouds;
     }
 
     addCloudLayer(type, height, oktas) {
@@ -759,6 +734,7 @@ class Observation {
         this.cloudLayers.splice(cloudLayerIndex, 1);
     }
     checkCloudLayers() {
+        var specificMessage = "";
         // need to getCloudDictionary method, do I need it in the CloudLayer class?
         // where is the best place to do this? here or CloudLayer class?
         var valid = true;
@@ -770,26 +746,24 @@ class Observation {
             console.log(cloudDictionary[cloudType])
             if (!(cloudType in cloudDictionary)) {
                 valid = false;
-                alert(`Invalid cloud layer! Cloud type ${cloudType} does not exist.`)
+                specificMessage = "Cloud type entered does not exist, please enter valid cloud type."
                 this.cloudLayers.splice(cloudLayerIndex, 1);
             } else {
                 if (!(cloudHeight <= cloudDictionary[cloudType].heightHighest && cloudHeight >= cloudDictionary[cloudType].heightLowest)) {
                     valid = false;
-                    alert('Invalid height for this specified cloud type, please check again.');
+                    specificMessage = 'Invalid height for this specified cloud type, please check again.';
                     this.cloudLayers.splice(cloudLayerIndex, 1);
                 } else {
                     if (!(cloudOktas > 0 && cloudOktas < 9)) {
                         valid = false;
-                        alert('Invalid oktas, please check again.');
+                        specificMessage = 'Invalid oktas, please check again.';
                         this.cloudLayers.splice(cloudLayerIndex, 1);
                     }
                 }
             }
             //if (this.cloudLayers[cloudLayer].height )
         }
-        console.log("=====")
-        console.log(valid)
-        return valid;
+        return [valid,specificMessage];
     }
     isFloat(n){
         return Number(n) === n && n % 1 !== 0;
@@ -1083,6 +1057,94 @@ class Observation {
         }
     };  
 
+    generatehshsDict() {
+        var hshsDict = {
+            100: "01",
+            200: "02",
+            300: "03",
+            400: "04",
+            500: "05",
+            600: "06",
+            700: "07",
+            800: "08",
+            900: "09",
+            1000: "10",
+            1100: "11",
+            1200: "12",
+            1300: "13",
+            1400: "14",
+            1500: "15",
+            1600: "16",
+            1700: "17",
+            1800: "18",
+            1900: "19",
+            2000: "20",
+            2100: "21",
+            2200: "22",
+            2300: "23",
+            2400: "24",
+            2500: "25",
+            2600: "26",
+            2700: "27",
+            2800: "28",
+            2900: "29",
+            3000: "30",
+            3100: "31",
+            3200: "32",
+            3300: "33",
+            3400: "34",
+            3500: "35",
+            3600: "36",
+            3700: "37",
+            3800: "38",
+            3900: "39",
+            4000: "40",
+            4100: "41",
+            4200: "42",
+            4300: "43",
+            4400: "44",
+            4500: "45",
+            4600: "46",
+            4700: "47",
+            4800: "48",
+            4900: "49",
+            5000: "50",
+            6000: "56",
+            7000: "57",
+            8000: "58",
+            9000: "59",
+            10000: "60",
+            11000: "61",
+            12000: "62",
+            13000: "63",
+            14000: "64",
+            15000: "65",
+            16000: "66",
+            17000: "67",
+            18000: "68",
+            19000: "69",
+            20000: "70",
+            21000: "71",
+            22000: "72",
+            23000: "73",
+            24000: "74",
+            25000: "75",
+            26000: "76",
+            27000: "77",
+            28000: "78",
+            29000: "79",
+            30000: "80",
+            31000: "81",
+            32000: "82",
+            33000: "83",
+            34000: "84",
+            35000: "85",
+            36000: "86",
+            37000: "87",
+            38000: "88"
+        };
+        return hshsDict;
+    }
 }
 
 class CloudLayer {

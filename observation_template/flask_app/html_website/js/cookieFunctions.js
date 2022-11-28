@@ -9,15 +9,15 @@ function setObservations(observations) {
 function getObservations() {
     let name = "observations" + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    console.log(ca)
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+    let cookieArray = decodedCookie.split(';');
+    console.log(cookieArray)
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i];
+        while (cookie.charAt(0) == ' ') {
+            cookie = cookie.substring(1);
         }
-        if (c.indexOf(name) == 0) {
-            let observationsAsJson = c.substring(name.length, c.length);
+        if (cookie.indexOf(name) == 0) {
+            let observationsAsJson = cookie.substring(name.length, cookie.length);
             let observations = JSON.parse(observationsAsJson)
             return observations;
         }
