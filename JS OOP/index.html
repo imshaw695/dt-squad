@@ -20,7 +20,7 @@
         </div>
         <div v-for="observation in encodedObservations">
             {{ observation.date }} - {{ observation.encodedObservation }}
-            <button @click="observations.deleteObservation(encodedObservations.indexOf(observation))">Delete Observation</button>
+            <button @click="deleteObservation(encodedObservations.indexOf(observation))">Delete Observation</button>
         </div>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
