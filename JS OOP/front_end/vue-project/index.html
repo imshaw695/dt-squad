@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
+    <title>Index</title>
+    <script src="Observations.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
+<body>
+    <script>
+        const observations = new Observations();
+        console.log(observations.observations)
+    </script>
+    <div id="app2">
+       <h1>{{ test }}</h1> 
+    </div>
+    <div id="app">
+        <div id="display_observations" v-for="(value, key) in encodedObservation">
+            {{ key }} - {{ value }}
+        </div>
+        <div v-for="observation in encodedObservations">
+            {{ observation.date }} - {{ observation.encodedObservation }}
+            <button @click="deleteObservation(encodedObservations.indexOf(observation))">Delete Observation</button>
+        </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
-  </body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+
 </html>
