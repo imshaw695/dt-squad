@@ -5,19 +5,22 @@
     <router-link to="/createobservation">Create Observation</router-link>
   </nav>
   <div class="container">
-    <router-view :observation="observation"/>
+    <router-view :observation="observation" :observations="observations"/>
   </div>
 </template>
 
 <script>
 import {Observation} from '../Observation.js';
+import {Observations} from '../Observations.js';
 import ObservationTest from './components/ObservationTest.vue'
 const observation = new Observation();
+const observations = new Observations();
 
 export default {
   data() {
     return {
-      observation:observation
+      observation:observation,
+      observations:observations,
     }
   },
   components: {

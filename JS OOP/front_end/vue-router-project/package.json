@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "bootstrap": "^5.2.3"
-  }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.28.1"
+  },
+  "scripts": {}
 }

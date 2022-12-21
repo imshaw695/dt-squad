@@ -16,7 +16,7 @@
               class="form-control"
               id="datetime"
               name="datetime"
-              v-on:change="observation.setDatetime()"
+              v-on:change="this.observation.setDatetime()"
               v-model="observation.date"
             />
           </div>
