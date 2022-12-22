@@ -7,7 +7,12 @@ const router = createRouter({
     path: '/observationtemplate',
     name: 'ObservationTemplate',
     component: ObservationTemplate
-  }
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: ObservationTemplate
+  },
   ]
 })
 
