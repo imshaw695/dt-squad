@@ -3,13 +3,13 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <nav style="">
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/createobservation">Create Observation</RouterLink>
-  </nav>
-
+  
   <div class="container">
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/createobservation">Create Observation</RouterLink>
+    </nav>
     <RouterView :observation="observation" :observations="observations" />
   </div>
 </template>
@@ -30,11 +30,6 @@ export default {
   },
   components: {
     ObservationTest,
-  },
-  methods: {
-    clickTest() {
-      console.log(observation.generatehshsDict());
-    },
   },
 };
 </script>

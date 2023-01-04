@@ -468,6 +468,7 @@
                 this.observation.setCloud(this.observation.lowest);
                 this.observation.setLowestCloudHeight();
                 this.observation.setCloudlayers();
+                this.observation.checkCloudLayers(); 
               "
             >
               Save cloud layer
@@ -541,6 +542,17 @@ export default {
     return {
       latitudeClass: "",
       quadrantClass: "",
+      longitudeClass: "",
+      seaheightClass: "",
+      swelldir1Class: "",
+      swellperiod1Class: "",
+      swellheight1Class: "",
+      swelldir2Class: "",
+      swellperiod2Class: "",
+      swellheight2Class: "",
+      cloudTypeClass: "",
+      cloudHeightClass: "",
+      cloudOktasClass: "",
       wdirectionClass: "",
       wspeedClass: "",
       dsClass: "",

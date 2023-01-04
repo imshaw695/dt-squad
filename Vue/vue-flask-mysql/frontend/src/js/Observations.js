@@ -1,9 +1,10 @@
-export class Observations {
-    constructor() {
+export default class Observations {
+    constructor(user) {
         console.log("Observations has been instantiated.")
         this.observations = [];
         this.getObservations();
         console.log(this.observations)
+        this.user = user;
     }
     setObservations() {
         const observationsAsJson = JSON.stringify(this.observations);

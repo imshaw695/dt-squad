@@ -4,8 +4,37 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <RouterView />
+  <div class="container">
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/observations">Observations</RouterLink>
+      <RouterLink to="/createobservation">Create Observation</RouterLink>
+    </nav>
+    <RouterView :user="user" :observation="observation" :observations="observations" :messages="messages" />
+  </div>
 </template>
+
+<script>
+import User from '@/js/User.js';
+const user = new User();
+import Observations from '@/js/Observations.js';
+const observations = new Observations(user);
+import Observation from '@/js/Observation.js';
+const observation = new Observation();
+import Messages from '@/js/Messages.js';
+const messages = new Messages(user);
+
+export default {
+  data() {
+    return {
+      user: user,
+      observation: observation,
+      observations: observations,
+      messages: messages,
+    }
+  }
+}
+</script>
 
 <style scoped>
 header {

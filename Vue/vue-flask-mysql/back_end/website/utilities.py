@@ -27,9 +27,9 @@ def get_db_connection():
  
     # test the connection works
     cursor = db_connection.cursor()
-    cursor.execute("select * from roles where id <0 limit 1;")
-    for role in cursor:
-        print(role)
+    cursor.execute("select * from logs where id <0 limit 1;")
+    for log in cursor:
+        pass
  
     return db_connection
  

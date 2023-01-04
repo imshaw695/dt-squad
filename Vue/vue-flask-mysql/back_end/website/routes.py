@@ -292,9 +292,24 @@ def get_logged_in_package(user):
 def api_get_user():
 
     # todo: Throttling if it fails
-    user = get_user_from_request(request)
+    try:
+        user = get_user_from_request(request)
+        return dict(
+        rc=0,
+        message=f"The API call worked successfully.",
+        user=user
+    )
+    except Exception as err:
+        return dict(
+            rc=16,
+            message=f"The API failed.",
+            user=dict(
+                logged_in = False,
+                email = "",
+                role_name= ""
+            )
+        )
 
-    return user
 
 
 @app.route("/api_get_sql", methods=["POST"])
