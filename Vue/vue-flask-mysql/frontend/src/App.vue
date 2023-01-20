@@ -7,22 +7,29 @@ import { RouterLink, RouterView } from 'vue-router'
   <div class="container">
     <nav>
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/observations">Observations</RouterLink>
+      <RouterLink to="/viewobservations">View Observations</RouterLink>
       <RouterLink to="/createobservation">Create Observation</RouterLink>
+      <RouterLink to="/createuser">Create Account</RouterLink>
+      <RouterLink to="/login">Login</RouterLink>
     </nav>
     <RouterView :user="user" :observation="observation" :observations="observations" :messages="messages" />
   </div>
 </template>
 
 <script>
+import { reactive } from 'vue'
+
+import Messages from '@/js/Messages.js';
+const message_array = reactive([])
+const messages = new Messages(message_array);
 import User from '@/js/User.js';
-const user = new User();
+const user_details = rective({})
+const user = new User(messages, user_details);
 import Observations from '@/js/Observations.js';
 const observations = new Observations(user);
 import Observation from '@/js/Observation.js';
 const observation = new Observation();
-import Messages from '@/js/Messages.js';
-const messages = new Messages(user);
+user.messages = messages;
 
 export default {
   data() {

@@ -1197,7 +1197,21 @@ export class Observation {
             38000: "88"
         };
         return hshsDict;
-    }
+    };
+    create_data_dict() {
+        this.persistable_fields = ["date","latitude","quadrant","longitude",]
+        this.data_dict = {}
+        for(let i=0;i<this.persistable_fields.length;i++) {
+          const key = this.persistable_fields[i];
+          this.data_dict[key] = this[key]
+        }
+        return this.data_dict;
+    };
+    populate_data_from_dictionary(observation_data) {
+        for(const [key, value] of Object.entries(observation_data)) {
+          this[key] = value;
+        }
+      }
 }
 
 class CloudLayer {

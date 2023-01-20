@@ -3,6 +3,7 @@ export class Observations {
         console.log("Observations has been instantiated.")
         this.observations = [];
         this.getObservations();
+        this.edit_observation_index = "";
         console.log(this.observations)
     }
     setObservations() {
@@ -12,6 +13,7 @@ export class Observations {
         expiryDate.setTime(expiryDate.getTime() + (10000 * 24 * 60 * 60 * 1000));
         let expires = "expires=" + expiryDate.toUTCString();
         document.cookie = cookieName + "=" + observationsAsJson + ";" + expires + ";path=/";
+        return document.cookie;
     }
     getObservations() {
         let name = "observations=";
@@ -36,6 +38,7 @@ export class Observations {
     deleteObservation(observationIndex) {
         this.observations.splice(observationIndex, 1);
         this.setObservations(this.observations);
+        return this.observations;
     }
     addObservation(observation) {
         this.observations.push(observation);
@@ -43,5 +46,6 @@ export class Observations {
             return b.date - a.date
         });
         this.setObservations(this.observations);
+        return this.observations;
     }
 }

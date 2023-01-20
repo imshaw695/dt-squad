@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ObservationTemplate from '../components/ObservationTemplate.vue'
-import CreateUser from '../components/CreateUser.vue'
+import Login from '../components/Login.vue'
+import ViewObservations from '../components/ViewObservations.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -10,14 +12,19 @@ const router = createRouter({
     component: ObservationTemplate
   },
   {
-    path: '/createuser',
-    name: 'CreateUser',
-    component: CreateUser
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/',
     name: 'Home',
     component: ObservationTemplate
+  },
+  {
+    path: '/viewobservations',
+    name: 'ViewObservations',
+    component: ViewObservations
   },
   ]
 })

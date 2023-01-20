@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1 style="text-align: center">New Observation</h1>
+    <h1 style="text-align: center">Edit Observation</h1>
+    <p>{{ this.observation_data }}</p>
     <div class="card" style="padding: 5px">
       <div class="card fixed" id="encodedData">
         {{ this.encoded_observation }}
@@ -580,7 +581,7 @@ export default {
       validHeights: "",
       validClouds: "",
       is_valid: true,
-      data_dict: {}
+      observation_data: {},
     };
   },
   methods: {
@@ -843,7 +844,12 @@ export default {
       }
     },
     create_data_dict() {
+      this.persistable_fields = ["date","latitude","quadrant","longitude",]
       this.data_dict = {}
+      for(let i=0;i<this.persistable_fields.length;i++) {
+        const key = this.persistable_fields[i];
+        this.data_dict[key] = this[key]
+      }
       this.data_dict.date = this.observation.date;
       this.data_dict.latitude = this.observation.latitude;
       this.data_dict.quadrant = this.observation.quadrant;
@@ -884,6 +890,7 @@ export default {
           encodedObservation: encodedObservation,
           data: data
         };
+        this.observations.deleteObservation(this.observations.edit_observation_index);
         this.observations.addObservation(observation);
         console.log(this.observations.observations);
         alert("Observation committed to cookies, please view on 'View Observations' page")
@@ -891,6 +898,11 @@ export default {
         alert("Please fix input errors before submitting observation.")
       }
     },
+    set_observation_data() {
+      const observation_data = this.observations.observations[this.observations.edit_observation_index].data;
+      this.observation.populate_data_from_dictionary(observation_data);
+    },
+
   },
 
   computed: {
@@ -906,6 +918,9 @@ export default {
     },
   },
   props: ["observation", "observations"],
+  created() {
+    this.set_observation_data();
+  },
 };
 </script>
 
