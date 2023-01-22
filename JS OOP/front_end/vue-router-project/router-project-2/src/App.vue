@@ -6,6 +6,9 @@ import { RouterLink, RouterView } from "vue-router";
   <div class="container">
     <nav class="navbar navbar-expand bg-light">
       <ul class="navbar-nav">
+        <a href="#" class="navbar-brand">
+          <img id="navy_img" src="@/assets/Logo_of_the_Royal_navy.svg.png"/>
+        </a>
         <li class="nav-item">
           <RouterLink to="/" class="nav-link px-2">Home</RouterLink>
         </li>

@@ -107,6 +107,7 @@ export class Observation {
             "CC9",
         ]
         this.hshsDict = this.generatehshsDict();
+        this.persistable_fields = ["date","latitude","quadrant","longitude",]
     }
     // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime() {
@@ -1199,7 +1200,6 @@ export class Observation {
         return hshsDict;
     };
     create_data_dict() {
-        this.persistable_fields = ["date","latitude","quadrant","longitude",]
         this.data_dict = {}
         for(let i=0;i<this.persistable_fields.length;i++) {
           const key = this.persistable_fields[i];

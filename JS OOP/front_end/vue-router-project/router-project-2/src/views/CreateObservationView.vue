@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <h1 style="text-align: center">New Observation</h1>
+    <h1 class="display-3" style="text-align: center">New Observation</h1>
     <div class="card" style="padding: 5px">
-      <div class="card fixed" id="encodedData">
+      <div class="card fixed fw-bold px-3 bg-dark text-light mt-2" id="encodedData">
         {{ this.encoded_observation }}
       </div>
       <div class="card-body">
@@ -533,7 +533,9 @@
         </div>
       </div>
       <div class="row px-4">
-        <button v-on:click="this.saveObservation()" class="btn btn-primary">Submit Observation</button>
+        <button v-on:click="this.saveObservation()" class="btn btn-primary">
+          Submit Observation
+        </button>
       </div>
     </div>
   </div>
@@ -580,7 +582,7 @@ export default {
       validHeights: "",
       validClouds: "",
       is_valid: true,
-      data_dict: {}
+      data_dict: {},
     };
   },
   methods: {
@@ -843,7 +845,8 @@ export default {
       }
     },
     create_data_dict() {
-      this.data_dict = {}
+      this.data_dict = {};
+      this.data_dict.encoded = this.observation.encoded;
       this.data_dict.date = this.observation.date;
       this.data_dict.latitude = this.observation.latitude;
       this.data_dict.quadrant = this.observation.quadrant;
@@ -851,8 +854,8 @@ export default {
       this.data_dict.wdirection = this.observation.wdirection;
       this.data_dict.wspeed = this.observation.wspeed;
       this.data_dict.ds = this.observation.ds;
-      this.data_dict.vs = this.observation.ds;
-      this.data_dict.dbulb = this.observation.dulb;
+      this.data_dict.vs = this.observation.vs;
+      this.data_dict.dbulb = this.observation.dbulb;
       this.data_dict.dpoint = this.observation.dpoint;
       this.data_dict.pressure = this.observation.pressure;
       this.data_dict.tendency = this.observation.tendency;
@@ -879,16 +882,14 @@ export default {
         const date = this.observation.date;
         const encodedObservation = this.observation.encoded;
         const data = this.data_dict;
-        const observation = {
-          date: date,
-          encodedObservation: encodedObservation,
-          data: data
-        };
+        const observation = data;
         this.observations.addObservation(observation);
         console.log(this.observations.observations);
-        alert("Observation committed to cookies, please view on 'View Observations' page")
+        alert(
+          "Observation committed to cookies, please view on 'View Observations' page"
+        );
       } else {
-        alert("Please fix input errors before submitting observation.")
+        alert("Please fix input errors before submitting observation.");
       }
     },
   },

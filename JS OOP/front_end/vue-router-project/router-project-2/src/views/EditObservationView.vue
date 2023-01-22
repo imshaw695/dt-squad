@@ -582,6 +582,7 @@ export default {
       validClouds: "",
       is_valid: true,
       observation_data: {},
+      persistable_fields: ["date","latitude","quadrant","longitude",]
     };
   },
   methods: {
@@ -844,12 +845,12 @@ export default {
       }
     },
     create_data_dict() {
-      this.persistable_fields = ["date","latitude","quadrant","longitude",]
       this.data_dict = {}
       for(let i=0;i<this.persistable_fields.length;i++) {
         const key = this.persistable_fields[i];
         this.data_dict[key] = this[key]
       }
+      this.data_dict.encoded = this.observation.encoded;
       this.data_dict.date = this.observation.date;
       this.data_dict.latitude = this.observation.latitude;
       this.data_dict.quadrant = this.observation.quadrant;
@@ -857,8 +858,8 @@ export default {
       this.data_dict.wdirection = this.observation.wdirection;
       this.data_dict.wspeed = this.observation.wspeed;
       this.data_dict.ds = this.observation.ds;
-      this.data_dict.vs = this.observation.ds;
-      this.data_dict.dbulb = this.observation.dulb;
+      this.data_dict.vs = this.observation.vs;
+      this.data_dict.dbulb = this.observation.dbulb;
       this.data_dict.dpoint = this.observation.dpoint;
       this.data_dict.pressure = this.observation.pressure;
       this.data_dict.tendency = this.observation.tendency;
@@ -885,11 +886,7 @@ export default {
         const date = this.observation.date;
         const encodedObservation = this.observation.encoded;
         const data = this.data_dict;
-        const observation = {
-          date: date,
-          encodedObservation: encodedObservation,
-          data: data
-        };
+        const observation = data;
         this.observations.deleteObservation(this.observations.edit_observation_index);
         this.observations.addObservation(observation);
         console.log(this.observations.observations);
@@ -899,7 +896,7 @@ export default {
       }
     },
     set_observation_data() {
-      const observation_data = this.observations.observations[this.observations.edit_observation_index].data;
+      const observation_data = this.observations.observations[this.observations.edit_observation_index];
       this.observation.populate_data_from_dictionary(observation_data);
     },
 

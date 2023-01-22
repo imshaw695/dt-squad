@@ -1,9 +1,9 @@
 <template>
   <div class="card mt-0">
-    <h1 class="py-2" style="text-align:center">Observations</h1>
+    <h1 class="py-2 display-3" style="text-align:center">Observations</h1>
     <ul class="list-group">
       <li v-for="observation in observations.observations" :key="observation.date" class="list-group-item text-center">
-        {{ observation.date }} - {{ observation.encodedObservation }} - {{ observation.data }}
+        {{ observation.date }} - {{ observation.encoded }} - {{ observation }}
         <button v-on:click="this.delete(this.observations.observations.indexOf(observation));this.getObservations()" class="btn btn-danger">Delete</button>
         <button @click="this.set_index(this.observations.observations.indexOf(observation))" class="btn btn-primary">Edit</button>
       </li>
