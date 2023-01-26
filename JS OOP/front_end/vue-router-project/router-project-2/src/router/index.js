@@ -4,6 +4,9 @@ import CreateObservationView from '../views/CreateObservationView.vue'
 import CrudView from '../views/CrudView.vue'
 import EditObservationView from '../views/EditObservationView.vue'
 import DataView from '../views/DataView.vue'
+import LoginView from '../views/LoginView.vue'
+import CreateUserView from '../views/CreateUserView.vue'
+import ChartTestView from '../views/ChartTestView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,7 +38,22 @@ const router = createRouter({
       path: '/data',
       name: 'data',
       component: DataView
-    }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
+      path: '/createuser',
+      name: 'createuser',
+      component: CreateUserView
+    },
+    {
+      path: '/testchart',
+      name: 'testchart',
+      component: ChartTestView
+    },
   ]
 })
 

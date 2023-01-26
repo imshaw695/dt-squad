@@ -1,9 +1,10 @@
 export class Observations {
-    constructor() {
+    constructor(user) {
         console.log("Observations has been instantiated.")
         this.observations = [];
         this.getObservations();
         this.edit_observation_index = "";
+        this.user = user;
         console.log(this.observations)
     }
     setObservations() {

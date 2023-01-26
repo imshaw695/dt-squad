@@ -906,7 +906,7 @@ export default {
       }
     },
   },
-  props: ["observation", "observations"],
+  props: ["user","observation", "observations"],
 };
 </script>
 

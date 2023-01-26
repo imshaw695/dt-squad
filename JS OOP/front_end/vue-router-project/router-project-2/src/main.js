@@ -1,12 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import VueCryptojs from 'vue-cryptojs'
 
 import './assets/main.css'
 
 const app = createApp(App)
 
-app.use(router)
+app.use(router,VueCryptojs)
 
 app.mount('#app')
 

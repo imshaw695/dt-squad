@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 style="text-align: center">Edit Observation</h1>
+    <h1 style="text-align: center" class="display-3">Edit Observation</h1>
     <p>{{ this.observation_data }}</p>
     <div class="card" style="padding: 5px">
       <div class="card fixed" id="encodedData">
@@ -914,7 +914,7 @@ export default {
       }
     },
   },
-  props: ["observation", "observations"],
+  props: ["user","observation", "observations"],
   created() {
     this.set_observation_data();
   },

@@ -11,7 +11,12 @@
   "dependencies": {
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.0",
+    "chartjs-adapter-moment": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "moment": "^2.29.4",
+    "requirejs": "^2.3.6",
     "vue": "^3.2.45",
+    "vue-cryptojs": "^2.3.1",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

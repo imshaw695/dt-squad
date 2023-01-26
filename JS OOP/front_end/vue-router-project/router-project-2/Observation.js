@@ -1,6 +1,7 @@
 export class Observation {
-    constructor() {
+    constructor(user) {
         console.log("Observation has been instantiated.")
+        this.user = user;
         this.encoded = "";
         this.date = "";
         this.dateEncoded = "";

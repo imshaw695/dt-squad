@@ -1,35 +1,50 @@
 // this first dictionary below is purely as a test!
+import { Chart } from 'chart.js';
+import 'chartjs-adapter-moment';
 
-export const temperature_chart_data = {
-    type: "line",
-    data: {
-        labels: ["0600 Jan 04", "0700 Jan 04", "0800 Jan 04", "0900 Jan 04", "1000 Jan 04", "1100 Jan 04", "1200 Jan 04"],
-        datasets: [
-            {
-                label: "Air Temperature",
-                data: [12, 13, 14, 15, 16, 17, 18],
-                backgroundColor: "rgba(54,73,93,.5)",
-                borderColor: "#36495d",
-                borderWidth: 3
-            }
-        ]
-    },
-    options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
+const temperature_chart_data = {
+    datasets: [{
+        label: 'Scatter Dataset',
+        data: [{
+            x: "2018-03-10 15:50",
+            y: "0"
+        }, {
+            x: "2018-03-10 16:50",
+            y: "10"
+        }, {
+            x: "2018-03-10 17:50",
+            y: "5"
+        }, {
+            x: "2018-03-10 18:50",
+            y: "5.5"
+        }],
+        backgroundColor: 'rgb(255, 99, 132)'
+    }],
 }
 
-export default temperature_chart_data;
+export const config = {
+    type: 'scatter',
+    data: temperature_chart_data,
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'hour'
+                }
+            }
+        }
+    }
+};
+export default config;
 
 export class Temperature_data {
     constructor(observations) {
+        this.date_filter = ""
+        this.date_filter_options = []
         this.observations = observations;
         this.test = "";
-        this.type = "line";
+        this.type = "scatter";
         this.data_type = "";
         this.labels = [];
         this.label = "";
@@ -41,16 +56,18 @@ export class Temperature_data {
             label: this.label,
             data: this.datasets_data,
         }];
-        this.data = {
-            labels: this.labels,
-            datasets: this.datasets
-        };
+        this.data = []
         this.options = {
             scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'hour'
+                    }
+                },
+                y: {}
+            },
+            showLine: true,
         };
         this.data_structure = {};
         console.log('temperature_data instantiated');
@@ -61,7 +78,7 @@ export class Temperature_data {
 
     //this method just takes this.data_type and sets the label with it.
     set_label() {
-        switch(this.data_type) {
+        switch (this.data_type) {
             case "wspeed":
                 this.label = "Wind Speed"
                 break;
@@ -90,22 +107,22 @@ export class Temperature_data {
                 this.label = "Sea Height"
                 break;
             case "swellheight1":
-                this.label = "Swell Height 1" 
+                this.label = "Swell Height 1"
                 break;
             case "swellheight2":
-                this.label = "Swell Height 2" 
+                this.label = "Swell Height 2"
                 break;
             case "swellperiod1":
-                this.label = "Swell Period 1" 
+                this.label = "Swell Period 1"
                 break;
             case "swellperiod2":
-                this.label = "Swell Period 2" 
+                this.label = "Swell Period 2"
                 break;
             case "cloudTotal":
-                this.label = "Total Cloud" 
+                this.label = "Total Cloud"
                 break;
             case "lowCloudTotal":
-                this.label = "Total Low Cloud" 
+                this.label = "Total Low Cloud"
                 break;
         }
 
@@ -115,7 +132,7 @@ export class Temperature_data {
     // this function takes the data_type selected from the drop down and gathers data from observations.
     // set_datasets_data() {
     //     this.datasets_data = [];
-        
+
 
     // }
 
@@ -123,15 +140,25 @@ export class Temperature_data {
     set_dynamic_params() {
         // Here I will need a function that returns the dates from individual observations by looping
         // over this.observations.observations.
+        this.date_filter_options = []
         this.datasets_data = []
-        this.labels = []
         let key = `${this.data_type}`
+        var y_data = [];
+        console.log(this.observations.observations)
         for (const [index, observation] of Object.entries(this.observations.observations)) {
-            this.labels.push(observation.date);
-            this.datasets_data.push(observation[key])
-
+            let data_point = {};
+            data_point.x = observation.date;
+            data_point.y = observation[key]
+            y_data.push(observation[key]);
+            this.datasets_data.push(data_point)
+            let date_option = observation.date.substr(0,10);
+            if (!(this.date_filter_options.includes(date_option))) {
+                this.date_filter_options.push(date_option)
+            }
         }
-        return [this.datasets_data, this.labels]
+        this.options.scales.y.max = Math.max(...y_data) + 1
+        this.options.scales.y.min = Math.min(...y_data) - 1
+        return this.datasets_data
     }
 
     create_data_structure() {
@@ -145,8 +172,9 @@ export class Temperature_data {
             labels: this.labels,
             datasets: this.datasets
         };
-        this.data_structure.type = this.type,
-        this.data_structure.data = this.data,
-        this.data_structure.options = this.options
+        this.data_structure.type = this.type;
+        this.data_structure.data = this.data;
+        this.data_structure.options = this.options;
+        this.data_structure.showLine = true;
     }
 }

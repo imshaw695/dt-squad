@@ -5,9 +5,12 @@
     and display them in charts using charts.js
   </p>
   <p>{{ this.temperature_data.datasets[0].data }}</p>
-  <p>{{ this.temperature_data.date_filter_options }}</p>
   <div>
-    <select class="form-control" v-model="this.temperature_data.data_type">
+    <select
+      class="form-control"
+      v-model="this.temperature_data.data_type"
+      v-on:change="this.update_chart()"
+    >
       <option value="dbulb">Dry bulb temperature</option>
       <option value="dpoint">Dewpoint temperature</option>
       <option value="pressure">Pressure</option>
@@ -26,71 +29,52 @@
       <option value="lowCloudTotal">Total Low Cloud</option>
     </select>
   </div>
-  <div>
-    <select
-      class="form-control mt-2"
-      v-model="this.temperature_data.date_filter"
-      v-on:change="this.update_chart()"
-    >
-      <option v-for="option in this.temperature_data.date_filter_options">
-        {{ option }}
-      </option>
-    </select>
-  </div>
   <canvas id="temperature_chart"></canvas>
   <div>
     <canvas id="myChart"></canvas>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { onMounted } from "@vue/runtime-core";
 import Chart from "chart.js/auto";
 import "chartjs-adapter-moment";
-
 export default {
-  props: [
-    "users",
-    "user",
-    "observations",
-    "observation",
-    "config",
-    "temperature_data",
-  ],
+  props: ["user", "observations", "observation", "config", "temperature_data"],
   methods: {
     update_chart() {
-      console.log("inside update_chart");
-      this.temperature_data.set_dynamic_params();
-      this.temperature_data.create_data_structure();
-      if (this.temperature_chart) {
-        this.temperature_chart.destroy();
-      }
+      //   console.log("inside update_chart")
+      //   this.temperature_data.set_dynamic_params();
+      //   this.temperature_data.create_data_structure();
+      //   if (this.temperature_chart) {
+      //     this.temperature_chart.destroy();
+      //   }
+      //   const canvas = document.getElementById("temperature_chart")
+      //   this.temperature_chart = new Chart(
+      //   canvas,
+      //   this.temperature_data.data_structure
+      // );
+      console.log("creating chart test");
       const canvas = document.getElementById("temperature_chart");
-      this.temperature_chart = new Chart(
-        canvas,
-        this.temperature_data.data_structure
-      );
-      // console.log("creating chart test");
-      // const canvas = document.getElementById("temperature_chart");
-      // console.log("created canvas");
-      // console.log(canvas);
-      // console.log(this.config);
-      // const animations = {
-      //   tension: {
-      //     duration: 1000,
-      //     easing: "linear",
-      //     from: 1,
-      //     to: 0,
-      //     loop: true,
-      //   },
-      // };
+      console.log("created canvas");
+      console.log(canvas);
+      console.log(this.config);
+      const animations = {
+        tension: {
+          duration: 1000,
+          easing: "linear",
+          from: 1,
+          to: 0,
+          loop: true,
+        },
+      };
       // this.config.options.animations = animations;
-      // this.config.options.showLine = true;
-      // const chart = new Chart(canvas, {
-      //   type: this.config.type,
-      //   data: this.config.data,
-      //   options: this.config.options,
-      // });
+      this.config.options.showLine = true;
+      const chart = new Chart(canvas, {
+        type: this.config.type,
+        data: this.config.data,
+        options: this.config.options,
+      });
     },
   },
   mounted() {
