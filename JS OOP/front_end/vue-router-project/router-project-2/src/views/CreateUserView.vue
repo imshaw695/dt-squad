@@ -86,12 +86,22 @@ export default {
       const encrypted_password = this.encrypt_password();
       this.users.set_user(encrypted_password);
     },
+    check_admin() {
+      if (this.user.checking == true) {
+        if (this.users.current_user != "Ivan") {
+            this.$router.push({ name: 'home' });
+            alert("You do not have access to this page.")
+        }
+      }
+      setTimeout(this.check_admin,5000)
+    }
   },
   created() {
-    // if (this.user.name != "Ivan") {
-    //     this.$router.push({ name: 'home' });
-    //     alert("You do not have access to this page.")
-    // }
+    this.user.checking = true;
+    this.check_admin();
   },
+  unmounted() {
+    this.user.checking = false;
+  }
 };
 </script>

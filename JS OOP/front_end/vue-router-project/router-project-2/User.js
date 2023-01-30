@@ -7,6 +7,7 @@ export class User {
         this.user_name = "";
         this.user_password = "";
         this.user = {};
+        this.checking = false;
     }
     // this method will search the cookies and look for the username, and if it finds the username it will
     // fetch the encrypted password before decrypting it and comparing it to the one entered.
@@ -83,9 +84,6 @@ export class User {
                 this.users.current_user = "";
             }
             // setTimeout(this.check_logged_in, 5000);
-        }
-        if (!this.users.logged_in) {
-            console.log("not logged in")
         }
     }
 }

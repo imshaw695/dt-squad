@@ -8,7 +8,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-3 text-start">
-            <label class="form-label mt-2" for="datetime">Date</label>
+            <label class="form-label mt-2" for="datetime">Date (Choose hour but leave minutes to 00.)</label>
           </div>
           <div class="col-9">
             <input
@@ -405,7 +405,7 @@
               class="form-control"
               :class="this.cloudTotalClass"
               v-on:change="setCloudTotal()"
-              v-model="observation.cloudTotal"
+              v-model="this.observation.cloudTotal"
             />
           </div>
         </div>
@@ -582,7 +582,6 @@ export default {
       validHeights: "",
       validClouds: "",
       is_valid: true,
-      data_dict: {},
     };
   },
   methods: {
@@ -844,44 +843,9 @@ export default {
         alert(`Invalid entry, please input valid ${elementId}.`);
       }
     },
-    create_data_dict() {
-      this.data_dict = {};
-      this.data_dict.encoded = this.observation.encoded;
-      this.data_dict.date = this.observation.date;
-      this.data_dict.latitude = this.observation.latitude;
-      this.data_dict.quadrant = this.observation.quadrant;
-      this.data_dict.longitude = this.observation.longitude;
-      this.data_dict.wdirection = this.observation.wdirection;
-      this.data_dict.wspeed = this.observation.wspeed;
-      this.data_dict.ds = this.observation.ds;
-      this.data_dict.vs = this.observation.vs;
-      this.data_dict.dbulb = this.observation.dbulb;
-      this.data_dict.dpoint = this.observation.dpoint;
-      this.data_dict.pressure = this.observation.pressure;
-      this.data_dict.tendency = this.observation.tendency;
-      this.data_dict.pressurechange = this.observation.pressurechange;
-      this.data_dict.weather = this.observation.weather;
-      this.data_dict.pastweather = this.observation.pastweather;
-      this.data_dict.visibility = this.observation.visibility;
-      this.data_dict.seatemp = this.observation.seatemp;
-      this.data_dict.seaperiod = this.observation.seaperiod;
-      this.data_dict.seaheight = this.observation.seaheight;
-      this.data_dict.swelldir1 = this.observation.swelldir1;
-      this.data_dict.swellheight1 = this.observation.swellheight1;
-      this.data_dict.swellperiod1 = this.observation.swellperiod1;
-      this.data_dict.swelldir2 = this.observation.swelldir2;
-      this.data_dict.swellheight2 = this.observation.swellheight2;
-      this.data_dict.swellperiod2 = this.observation.swellperiod2;
-      this.data_dict.cloudTotal = this.observation.cloudTotal;
-      this.data_dict.lowCloudTotal = this.observation.lowCloudTotal;
-      this.data_dict.cloudLayers = this.observation.cloudLayers;
-    },
     saveObservation() {
       if (this.is_valid == true) {
-        this.create_data_dict();
-        const date = this.observation.date;
-        const encodedObservation = this.observation.encoded;
-        const data = this.data_dict;
+        const data = this.observation.create_data_dict();
         const observation = data;
         this.observations.addObservation(observation);
         console.log(this.observations.observations);

@@ -90,6 +90,9 @@ export default {
   methods: {
     check_logged_in() {
       this.user.check_logged_in();
+      if (!this.users.logged_in) {
+            console.log("not logged in")
+        }
       setTimeout(this.check_logged_in, 5000);
     },
   },

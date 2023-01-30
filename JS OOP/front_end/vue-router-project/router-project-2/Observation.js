@@ -108,7 +108,37 @@ export class Observation {
             "CC9",
         ]
         this.hshsDict = this.generatehshsDict();
-        this.persistable_fields = ["date","latitude","quadrant","longitude",]
+        this.persistable_fields = [
+            "encoded",
+            "date",
+            "latitude",
+            "quadrant",
+            "longitude",
+            "wdirection",
+            "wspeed",
+            "ds",
+            "vs",
+            "dbulb",
+            "dpoint",
+            "pressure",
+            "tendency",
+            "pressurechange",
+            "weather",
+            "pastweater",
+            "visibility",
+            "seatemp",
+            "seaperiod",
+            "seaheight",
+            "swelldir1",
+            "swellheight1",
+            "swellperiod1",
+            "swelldir2",
+            "swellheight2",
+            "swellperiod2",
+            "cloudTotal",
+            "lowCloudTotal",
+            "cloudLayers"
+        ];
     }
     // all of the "sets" to follow are encoding the raw data put into the fields of the observation template
     setDatetime() {
@@ -489,7 +519,7 @@ export class Observation {
     }
     setCloudTotal() {
         var valid = true;
-        var cloudTotal = this.couldTotal
+        var cloudTotal = this.cloudTotal
         cloudTotal = parseFloat(cloudTotal);
         if (isNaN(cloudTotal) || cloudTotal < 0 || cloudTotal > 9 || this.isFloat(cloudTotal)) {
             valid = false;
@@ -501,6 +531,7 @@ export class Observation {
     setLowCloudTotal() {
         var valid = true;
         var lowCloudTotal = this.lowCloudTotal;
+        console.log(lowCloudTotal)
         lowCloudTotal = parseFloat(lowCloudTotal);
         if (isNaN(lowCloudTotal) || lowCloudTotal < 0 || lowCloudTotal > 9 || this.isFloat(lowCloudTotal)) {
             valid = false;
