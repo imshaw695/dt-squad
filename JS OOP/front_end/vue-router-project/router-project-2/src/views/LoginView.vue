@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <p>{{ this.users.current_user }}</p>
     <h1 class="display-3">Login</h1>
     <form action="">
       <div class="row mb-2">

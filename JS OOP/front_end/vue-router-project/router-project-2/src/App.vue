@@ -90,7 +90,6 @@ export default {
   methods: {
     check_logged_in() {
       this.user.check_logged_in();
-      console.log("inside check_logged_in on vue page");
       setTimeout(this.check_logged_in, 5000);
     },
   },

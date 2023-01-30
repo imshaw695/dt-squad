@@ -36,10 +36,9 @@ export class Users {
         }
     }
     get_user(user_name, user_password) {
-        console.log(user_name + user_password)
+        let key = "123456";
         let decodedCookie = decodeURIComponent(document.cookie);
         let cookieArray = decodedCookie.split(';');
-        console.log(cookieArray)
         // this.cookie_array = cookieArray;
         for (let i = 0; i < cookieArray.length; i++) {
             let cookie = cookieArray[i];
@@ -50,12 +49,8 @@ export class Users {
             if (split_cookie_array.indexOf(user_name) == 0) {
                 console.log("found correct cookie")
                 let userAsJson = cookie.substring(user_name.length + 1, cookie.length);
-                console.log(userAsJson)
                 let user = JSON.parse(userAsJson);
-                console.log(user.password)
-                const decrypted_password = CryptoJS.AES.decrypt(user.password, "key", { mode: CryptoJS.mode.ECB }).toString(CryptoJS.enc.Utf8)
-                console.log(decrypted_password)
-                console.log(user_password)
+                const decrypted_password = CryptoJS.AES.decrypt(user.password, key).toString(CryptoJS.enc.Utf8)
                 if (user_password != decrypted_password) {
                     this.logged_in = false;
                     this.current_user = "";

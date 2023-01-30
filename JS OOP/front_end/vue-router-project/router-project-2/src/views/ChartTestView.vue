@@ -1,5 +1,7 @@
 <template>
   <h1 class="display-3">Data View</h1>
+  <p>{{ this.encrypted }}</p>
+  <p>{{ this.decrypted }}</p>
   <p>
     This page will collate data from previous observations saved to the cookies
     and display them in charts using charts.js
@@ -33,13 +35,21 @@
   <div>
     <canvas id="myChart"></canvas>
   </div>
+  <button @click="this.encrypt_test()">Encrypt</button>
 </template>
   
   <script>
+import CryptoJS from "crypto-js";
 import { onMounted } from "@vue/runtime-core";
 import Chart from "chart.js/auto";
 import "chartjs-adapter-moment";
 export default {
+  data() {
+    return {
+      encypted: "",
+      decrypted: "",
+    };
+  },
   props: ["user", "observations", "observation", "config", "temperature_data"],
   methods: {
     update_chart() {
@@ -75,6 +85,19 @@ export default {
         data: this.config.data,
         options: this.config.options,
       });
+    },
+    encrypt_test() {
+      const string = "password";
+      const key = "123456";
+      const encryptedText = CryptoJS.AES.encrypt(string, key).toString();
+      console.log(encryptedText);
+      const decryptedText = CryptoJS.AES.decrypt(
+        encryptedText,
+        key
+      ).toString(CryptoJS.enc.Utf8);
+      console.log(decryptedText);
+      this.encrypted = encryptedText;
+      this.decrypted = decryptedText;
     },
   },
   mounted() {

@@ -12,8 +12,7 @@ export class User {
     // fetch the encrypted password before decrypting it and comparing it to the one entered.
     // If correct, the user will be logged_in and the jwt will be created
     login() {
-        const decrypted_test_pass = CryptoJS.AES.decrypt("password", "key", { mode: CryptoJS.mode.ECB }).toString(CryptoJS.enc.Utf8)
-        console.log(decrypted_test_pass)
+        let key = "123456";
         console.log("inside login method")
         this.user = this.users.get_user(this.user_name, this.user_password);
         this.user_password = "";
@@ -64,7 +63,6 @@ export class User {
     };
 
     check_logged_in() {
-        console.log("checking logged in status")
         let decodedCookie = decodeURIComponent(document.cookie);
         let cookieArray = decodedCookie.split(';');
         // this.cookie_array = cookieArray;
@@ -74,10 +72,12 @@ export class User {
                 cookie = cookie.substring(1);
             }
             let split_cookie_array = cookie.split("=");
-            console.log(split_cookie_array.includes("logged_in"))
             if (split_cookie_array.includes("logged_in")) {
                 console.log("still logged in");
+                let loginAsJson = cookie.substring(10, cookie.length);
+                let login = JSON.parse(loginAsJson);
                 this.users.logged_in = true;
+                this.users.current_user = login.name;
             } else {
                 this.user.logged_in = false;
                 this.users.current_user = "";
